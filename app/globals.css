@@ -101,19 +101,20 @@ main nav {
 /* button styles */
 button {
   @apply
-  px-3 py-2
-  rounded-sm
+  px-3 py-3
+  rounded-full
+  uppercase
   flex justify-between items-center gap-2
-  text-sm;
+  text-primary
+  text-base
+  font-bold
+  tracking-wider
+  bg-main_background
+  border-primary
+  border-4;
 }
 button:hover {
-  @apply bg-opacity-90;
-}
-.btn-primary {
-  @apply bg-primary text-white;
-}
-.btn-secondary {
-  @apply bg-gray-200 text-gray-900;
+  @apply bg-primary text-secondary transition ease-out duration-500;
 }
 
 /* form styles */
