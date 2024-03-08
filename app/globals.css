@@ -10,7 +10,7 @@ h1, h2 {
   @apply font-bold text-primary text-lg;
 }
 main {
-  @apply max-w-5xl my-12 mx-auto px-8;
+  @apply max-w-5xl my-5 mx-auto px-8;
 }
 main > h2 {
   @apply mb-4 pb-2 text-base ;
@@ -162,11 +162,9 @@ form button {
   bg-card
   shadow-sm
   rounded-md
-  py-3 px-4 my-4
   relative
   overflow-hidden
-  text-center
-  ;
+  text-center;
 }
 .card h3 {
   @apply
@@ -183,15 +181,6 @@ form button {
   py-1 px-2 mt-3
   inline-block
   text-xs font-semibold;
-}
-.pill.high {
-  @apply bg-red-300 text-red-600;
-}
-.pill.medium {
-  @apply bg-blue-300 text-blue-600;
-}
-.pill.low {
-  @apply bg-emerald-300 text-emerald-600;
 }
 .card .pill {
   @apply
