@@ -6,12 +6,14 @@ function NavBar() {
     return (
         <div className={"w-full bg-navbar"}>
             <nav>
-                <div className={"flex items-center gap-5"}>
+                <Link href={"/"}><div className={"flex items-center gap-5"}>
                     <Image src={Logo} alt={"NovelApp logo"} width={70} quality={100}/>
-                    <h1 className={"text-2xl h1_outline"}>NovelApp</h1>
-                </div>
+                <h1 className={"text-3xl h1_outline"}>NovelApp</h1>
+                </div></Link>
+                <div className={"flex items-center gap-24"}>
                 <Link href={"/"}>Home</Link>
                 <Link href={"/about"}>About</Link>
+                </div>
             </nav>
         </div>
     );
