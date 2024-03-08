@@ -82,8 +82,7 @@ p > a {
 nav {
   @apply
   p-4
-  border-b-2 border-gray-200
-  flex items-center gap-5
+  flex items-center gap-32 justify-center
   my-0 mx-auto
   max-w-5xl
   bg-navbar
