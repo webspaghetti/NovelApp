@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Home() {
   return (
     <main>
@@ -11,7 +13,20 @@ export default function Home() {
             </button>
         </div>
 
+        <div className={"grid grid-cols-3 gap-10"}> {/*Cards layout*/}
 
+            <div className={"card"}>
+                <Image src={"/stew.jpg"} alt={"NovelApp logo"} width={1000} height={1000} quality={100} className={"w-full h-72 sm:h48 object-cover"}/>
+                <div className="m-4">
+                    <span className="text-secondary font-bold text-lg">Veg Noodles</span>
+                    <span className="block text-gray-400 text-sm">Recipe by Mario</span>
+                </div>
+                <div className="badge Complete">
+                    <span>25 mins</span>
+                </div>
+            </div>
+
+        </div>
 
     </main>
   );
