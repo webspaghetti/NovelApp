@@ -86,13 +86,15 @@ nav {
   flex items-center gap-5
   my-0 mx-auto
   max-w-5xl
-  bg-navbar;
+  bg-navbar
+  font-bold;
 }
 nav a, nav span {
-  @apply text-secondary;
+  @apply text-secondary
+  text-xl;
 }
 nav a:hover {
-  @apply text-black;
+  @apply link_outline;
 }
 main nav {
   @apply border-0;
