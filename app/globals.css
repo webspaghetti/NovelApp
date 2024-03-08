@@ -188,3 +188,18 @@ form button {
   absolute bottom-0 right-0
   rounded-tl-md;
 }
+
+/* badge styles */
+.badge{
+  @apply bg-gray-50 text-secondary text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2;
+}
+
+.badge.Hiatus {
+  @apply bg-red-300 text-red-600;
+}
+.badge.OnGoing {
+  @apply bg-yellow-300 text-yellow-600;
+}
+.badge.Completed {
+  @apply bg-emerald-300 text-emerald-600;
+}
