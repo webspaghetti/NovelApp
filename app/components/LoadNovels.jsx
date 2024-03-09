@@ -1,7 +1,7 @@
 import Image from "next/image";
 import executeQuery from "@/app/database/db";
 import Link from "next/link";
-import DateFormater from "@/app/components/DateFormater";
+import DateFormatter from "@/app/components/DateFormatter";
 
 async function LoadNovels() {
 
