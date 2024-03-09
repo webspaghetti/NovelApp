@@ -204,7 +204,7 @@ form button {
 
 /* badge styles */
 .badge{
-  @apply bg-gray-50 text-secondary text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2 border-3 border-primary;
+  @apply bg-gray-50 text-secondary text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2;
 }
 
 .badge.Hiatus {
