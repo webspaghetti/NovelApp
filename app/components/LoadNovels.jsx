@@ -23,6 +23,7 @@ async function LoadNovels() {
                     </div>
                 </Link>
             </div>
+
         ))
     );
 }
