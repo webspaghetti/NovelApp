@@ -111,7 +111,8 @@ button {
   font-bold
   tracking-wider
   border-primary
-  border-4;
+  border-4
+  select-none;
 }
 button:hover {
   @apply bg-primary text-secondary transition ease-out duration-500;
@@ -189,7 +190,7 @@ form button {
   @apply scale-100 ease-out duration-500;
 }
 
-/* pill styles */
+/* pill styles *//*
 .pill {
   @apply
   py-1 px-2 mt-3
@@ -200,7 +201,7 @@ form button {
   @apply
   absolute bottom-0 right-0
   rounded-tl-md;
-}
+}*/
 
 /* badge styles */
 .badge{
