@@ -21,8 +21,8 @@ p > a {
 
 /* nav styles */
 
-.link_outline{
-  text-shadow: -2px -2px 1px #5e42fc,
+.link_outline:hover {
+  text-shadow: -2px -2px 1px #5e42fc, /* Shadow color */
   -2px -1px 1px #5e42fc,
   -2px 0 1px #5e42fc,
   -2px 1px 1px #5e42fc,
@@ -46,8 +46,7 @@ p > a {
   2px -1px 1px #5e42fc,
   2px 0 1px #5e42fc,
   2px 1px 1px #5e42fc,
-  2px 2px 1px #5e42fc
-;}
+  2px 2px 1px #5e42fc;}
 
 .h1_outline{
   text-shadow: -2px -2px 1px #FAFAFA,
@@ -74,9 +73,8 @@ p > a {
   2px -1px 1px #FAFAFA,
   2px 0 1px #FAFAFA,
   2px 1px 1px #FAFAFA,
-  2px 2px 1px #FAFAFA
-;
-;}
+  2px 2px 1px #FAFAFA;}
+
 
 nav {
   @apply
@@ -89,10 +87,11 @@ nav {
 }
 nav a, nav span {
   @apply text-secondary
-  text-lg;
+  text-lg
+  link_outline;
 }
 nav a:hover {
-  @apply link_outline;
+  @apply ease-out duration-100;
 }
 main nav {
   @apply border-0;
