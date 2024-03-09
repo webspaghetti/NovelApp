@@ -83,6 +83,7 @@ nav {
   my-0 mx-auto
   max-w-5xl
   bg-navbar
+  tracking-widest
   font-bold;
 }
 nav a, nav span {
