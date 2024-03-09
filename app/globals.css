@@ -162,9 +162,10 @@ form button {
   @apply
   bg-card
   shadow-sm
-  rounded-md
+  rounded-3xl
   relative
   overflow-hidden
+  border-primary border-4
   text-center;
 }
 .card h3 {
