@@ -13,7 +13,7 @@ function PopupForm(props) {
           <form className={"bg-main_background p-4 rounded-lg shadow-md w-full"}>
               <div className="flex items-center border-b-2 border-primary py-2">
                   <input className="appearance-none bg-transparent border-none w-full text-secondary mr-3 px-2 leading-tight focus:outline-none select-none" type="text" placeholder="Link" aria-label="Link" />
-                  <button className="flex-shrink-0 text-sm border-4 text-primary py-3 px-3 rounded-lg mb-2" type="submit">
+                  <button className="flex-shrink-0 text-sm border-4 text-secondary py-3 px-3 rounded-lg mb-2" type="submit">
                       Submit
                   </button>
               </div>
