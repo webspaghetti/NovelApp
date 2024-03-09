@@ -1,13 +1,13 @@
 function PopupForm(props) {
 
-    const handleClickOutside = (event) => {
-        if (event.target.classList.contains('bg-opacity-20')) {
+    const handleClosing = (event) => {
+        if (event.target.classList.contains('backdrop-blur-sm')) { /* The popup gets closed when blurred part is clicked */
             props.setTrigger(false);
         }
     };
 
   return (props.trigger) ? (
-    <div className="fixed top-0 left-0 w-full h-full flex bg-navbar bg-opacity-20 justify-center items-center z-10 backdrop-blur-sm" onClick={handleClickOutside}>
+    <div className="fixed top-0 left-0 w-full h-full flex bg-navbar bg-opacity-20 justify-center items-center z-10 backdrop-blur-sm" onClick={handleClosing}>
       <div className="relative p-8 w-full max-w-xl bg-navbar border-primary border-4 rounded-3xl">
 
           <form className={"bg-main_background p-4 rounded-lg shadow-md w-full"}>
