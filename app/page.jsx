@@ -1,4 +1,5 @@
 import LoadNovels from "@/app/components/LoadNovels";
+import AddNovel from "@/app/components/AddNovel";
 
 export default function Home() {
 
@@ -12,6 +13,7 @@ export default function Home() {
                 </svg>
                 Add novel
             </button>
+            <AddNovel />
         </div>
 
         <div className={"grid grid-cols-3 gap-10"}> {/*Cards layout*/}
