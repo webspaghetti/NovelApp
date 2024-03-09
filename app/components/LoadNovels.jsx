@@ -16,7 +16,7 @@ async function LoadNovels() {
                     <div className="m-4">
                         <span className="text-secondary font-bold text-lg">{novel.name}</span>
                         <span className="block text-gray-400 text-sm">Chapters: {novel.chapter_count}</span>
-                        <span className={"block text-gray-400 text-sm"}>Last updated: <DateFormater dateString={novel.latest_update} /></span>
+                        <span className={"block text-gray-400 text-sm"}>Last updated: <DateFormatter dateString={novel.latest_update} /></span>
                     </div>
                     <div className={`badge ${novel.status} select-none`}>
                         <span>{novel.status}</span>
