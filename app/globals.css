@@ -118,7 +118,7 @@ button:hover {
 }
 
 button:not(:hover) {
-  @apply bg-main_background text-primary transition ease-out duration-500;
+  @apply bg-main_background transition ease-out duration-500;
 }
 
 /* form styles */
