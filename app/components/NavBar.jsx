@@ -4,7 +4,7 @@ import Logo from './logo.png';
 
 function NavBar() {
     return (
-        <div className={"w-full bg-navbar"}>
+        <div className={"w-full bg-navbar fixed top-0 z-10"}>
             <nav>
                 <Link href={"/"}><div className={"flex items-center gap-5"}>
                     <Image src={Logo} alt={"NovelApp logo"} width={60} quality={100}/>
