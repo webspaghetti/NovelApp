@@ -1,6 +1,5 @@
 function PopupForm(props) {
 
-
   return (props.trigger) ? (
     <div className="fixed top-0 left-0 w-full h-full bg-navbar bg-opacity-60 flex justify-center items-center z-10">
       <div className="relative p-8 w-full max-w-xl bg-navbar border-primary border-4 rounded-3xl">
