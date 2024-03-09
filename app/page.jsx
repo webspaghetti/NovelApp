@@ -15,9 +15,7 @@ export default function Home() {
         </div>
 
         <div className={"grid grid-cols-3 gap-10"}> {/*Cards layout*/}
-
             <LoadNovels />
-
         </div>
 
     </main>
