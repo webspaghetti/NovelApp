@@ -21,8 +21,8 @@ p > a {
 
 /* nav styles */
 
-.link_outline:hover {
-  text-shadow: -2px -2px 1px #5e42fc, /* Shadow color */
+.link_outline {
+  text-shadow: -2px -2px 1px #5e42fc,
   -2px -1px 1px #5e42fc,
   -2px 0 1px #5e42fc,
   -2px 1px 1px #5e42fc,
@@ -87,11 +87,13 @@ nav {
 }
 nav a, nav span {
   @apply text-secondary
-  text-lg
-  link_outline;
+  text-lg;
 }
 nav a:hover {
-  @apply ease-out duration-100;
+  @apply link_outline ease-out duration-100;
+}
+nav a:not(:hover) {
+  @apply ease-out duration-1000;
 }
 main nav {
   @apply border-0;
@@ -104,16 +106,18 @@ button {
   rounded-full
   uppercase
   flex justify-between items-center gap-2
-  text-primary
   text-base
   font-bold
   tracking-wider
-  bg-main_background
   border-primary
   border-4;
 }
 button:hover {
   @apply bg-primary text-secondary transition ease-out duration-500;
+}
+
+button:not(:hover) {
+  @apply bg-main_background text-primary transition ease-out duration-500;
 }
 
 /* form styles */
@@ -178,6 +182,10 @@ form button {
 
 .card:hover {
   @apply scale-105 ease-out duration-500;
+}
+
+.card:not(:hover) {
+  @apply scale-100 ease-out duration-500;
 }
 
 /* pill styles */
