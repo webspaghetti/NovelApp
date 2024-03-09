@@ -176,6 +176,10 @@ form button {
   @apply my-4 leading-6 text-secondary text-lg;
 }
 
+.card:hover {
+  @apply scale-105 ease-out duration-500;
+}
+
 /* pill styles */
 .pill {
   @apply
