@@ -1,5 +1,5 @@
 import executeQuery from "@/app/database/db";
-import DateFormatter from "@/app/components/DateFormatter";
+import DateFormatter from "@/app/components/functions/DateFormatter";
 import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
 import Link from "next/link";
 import Image from "next/image";
@@ -33,6 +33,10 @@ async function getUserInfo(n_id){
     }
 }
 
+function isValidDate(dateString) {
+    return !isNaN(Date.parse(dateString));
+}
+
 async function Page({params}) {
     const novels = await getNovel(params.formatted_name);
     const novel = novels[0]; // Access the first novel in the array
@@ -53,7 +57,12 @@ async function Page({params}) {
                     </div>
                     <h1 className="text-3xl font-bold mb-2">{novel.name}</h1>
                     <p className="text-lg mb-2">Chapters: {novel.chapter_count}</p>
-                    <p className="text-lg mb-4">Last updated: <DateFormatter dateString={novel.latest_update} /></p>
+                    <p className={"block text-gray-400 text-sm"}> Last updated: {isValidDate(novel.latest_update) ? (
+                        <DateFormatter dateString={novel.latest_update} />
+                    ) : (
+                        novel.latest_update
+                    )}
+                    </p>
                     <button className="bg-primary text-secondary py-2 px-6 rounded-lg shadow-md hover:bg-primary-dark transition-colors duration-300">
                         {user?.current_chapter === undefined
                             ? <Link href={"/"}>Start reading</Link>

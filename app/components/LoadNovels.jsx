@@ -1,9 +1,12 @@
 import Image from "next/image";
 import executeQuery from "@/app/database/db";
 import Link from "next/link";
-import DateFormatter from "@/app/components/DateFormatter";
+import DateFormatter from "@/app/components/functions/DateFormatter";
 
 async function LoadNovels() {
+    function isValidDate(dateString) {
+        return !isNaN(Date.parse(dateString));
+    }
 
     const novels = await executeQuery("select * from novel_table;");
 
@@ -16,7 +19,12 @@ async function LoadNovels() {
                     <div className="m-4">
                         <span className="text-secondary font-bold text-lg">{novel.name}</span>
                         <span className="block text-gray-400 text-sm">Chapters: {novel.chapter_count}</span>
-                        <span className={"block text-gray-400 text-sm"}>Last updated: <DateFormatter dateString={novel.latest_update} /></span>
+                        <span className={"block text-gray-400 text-sm"}> Last updated: {isValidDate(novel.latest_update) ? (
+                            <DateFormatter dateString={novel.latest_update} />
+                        ) : (
+                            novel.latest_update
+                        )}
+                        </span>
                     </div>
                     <div className={`badge ${novel.status} select-none`}>
                         <span>{novel.status}</span>
