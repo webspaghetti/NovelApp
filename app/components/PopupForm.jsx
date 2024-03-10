@@ -43,6 +43,7 @@ function PopupForm(props) {
                 const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
                 const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
+                const imageUrl = doc.querySelector('.pic img').getAttribute('src'); //TBI
 
                 await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update) VALUES ('${novelTitle}', '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}')`).then(() => {
                     location.reload()
