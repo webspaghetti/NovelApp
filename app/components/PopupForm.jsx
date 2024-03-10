@@ -45,7 +45,7 @@ function PopupForm(props) {
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
                 const imageUrl = doc.querySelector('.pic img').getAttribute('src'); //TBI
 
-                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update) VALUES ('${novelTitle}', '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}')`).then(() => {
+                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate},', '${imageUrl}')`).then(() => {
                     location.reload()
                 }).catch(error => {
                     console.error("Error executing query:", error);
