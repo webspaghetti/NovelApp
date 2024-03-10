@@ -63,7 +63,7 @@ async function Page({params}) {
                         novel.latest_update
                     )}
                     </p>
-                    <button className="bg-primary text-secondary py-2 px-6 rounded-lg shadow-md hover:bg-primary-dark transition-colors duration-300">
+                    <button className="bg-primary text-secondary my-2 py-2 px-6 rounded-lg shadow-md hover:bg-primary-dark transition-colors duration-300">
                         {user?.current_chapter === undefined
                             ? <Link href={"/"}>Start reading</Link>
                             : <Link href={"/about"}>Continue reading - Chapter: {user.current_chapter} </Link>}
