@@ -1,5 +1,5 @@
-"use client"
 import { useState } from "react";
+import executeQuery from "@/app/database/db";
 
 function PopupForm(props) {
     const [link, setLink] = useState('');
@@ -44,14 +44,7 @@ function PopupForm(props) {
                 const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
 
-                const requestBody = {
-                    title: novelTitle,
-                    status: novelStatus,
-                    lastUpdate: lastUpdate,
-                    chapterCount: chapterCount,
-                    formattedName: formattedName
-                };
-
+                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update) VALUES ('${novelTitle}', '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}')`);
 
                 console.log('Novel Title:', novelTitle);
                 console.log('Novel Status:', novelStatus);
