@@ -1,6 +1,8 @@
 import executeQuery from "@/app/database/db";
 import Image from "next/image";
 import DateFormatter from "@/app/components/DateFormatter";
+import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
+import Link from "next/link";
 
 export const dynamicParams = true;
 
@@ -60,6 +62,9 @@ async function Page({params}) {
                 </div>
 
             </div>
+
+            <ChapterButtons novel={novel} user={user}/> {/* We can just pass the novel object into client side rendering component */}
+
         </main>
 
     );
