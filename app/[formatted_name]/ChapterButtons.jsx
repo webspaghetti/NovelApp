@@ -26,9 +26,9 @@ function ChapterButtons({ novel, user }) {
                         <button
                             key={chapterNumber}
                             className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center ${
-                                user?.novel_chapter > chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
+                                user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
                             } ${
-                                user?.novel_chapter === chapterNumber ? 'border-green-500 hover:bg-green-500' : ''
+                                user?.current_chapter === chapterNumber ? 'border-green-500 hover:bg-green-500' : ''
                             }`}
                         >
                             Chapter {chapterNumber}
