@@ -44,13 +44,12 @@ function PopupForm(props) {
                 const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
 
-                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update) VALUES ('${novelTitle}', '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}')`);
+                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update) VALUES ('${novelTitle}', '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}')`).then(() => {
+                    location.reload()
+                }).catch(error => {
+                    console.error("Error executing query:", error);
+                });
 
-                console.log('Novel Title:', novelTitle);
-                console.log('Novel Status:', novelStatus);
-                console.log('Last Update:', lastUpdate);
-                console.log('Chapter Amount:', chapterCount);
-                console.log('Formatted Name:', formattedName);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
