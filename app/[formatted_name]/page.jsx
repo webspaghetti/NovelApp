@@ -55,9 +55,9 @@ async function Page({params}) {
                     <p className="text-lg mb-2">Chapters: {novel.chapter_count}</p>
                     <p className="text-lg mb-4">Last updated: <DateFormatter dateString={novel.latest_update} /></p>
                     <button className="bg-primary text-secondary py-2 px-6 rounded-lg shadow-md hover:bg-primary-dark transition-colors duration-300">
-                        {user?.novel_chapter === undefined
+                        {user?.current_chapter === undefined
                             ? <Link href={"/"}>Start reading</Link>
-                            : <Link href={"/about"}>Continue reading - Chapter: {user.novel_chapter} </Link>}
+                            : <Link href={"/about"}>Continue reading - Chapter: {user.current_chapter} </Link>}
                     </button>
                 </div>
 
