@@ -1,8 +1,8 @@
 import executeQuery from "@/app/database/db";
-import Image from "next/image";
 import DateFormatter from "@/app/components/DateFormatter";
 import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
 import Link from "next/link";
+import Image from "next/image";
 
 export const dynamicParams = true;
 
