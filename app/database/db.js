@@ -2,22 +2,27 @@
 import mysql from "mysql2/promise";
 
 async function executeQuery(query) {
-    try{
-        const dbconnection= await mysql.createConnection({
+    try {
+        const dbconnection = await mysql.createConnection({
             host: 'localhost',
             port: 3306,
             database: 'novel_app',
             user: 'root',
-            password: ''
-        })
+            password: '',
+        });
 
-        const [result] = await dbconnection.execute(query);
+        const [rows] = await dbconnection.execute(query);
         await dbconnection.end();
+
+        const result = rows.map(row => ({ ...row }));
+
         console.log(result);
+
         return result;
-    }catch (e){
+    } catch (e){
         console.error(e);
-        return new Error(e);
+        // Returning just the message or a serializable object instead of the Error
+        return { error: true, message: e.message };
     }
 }
 
