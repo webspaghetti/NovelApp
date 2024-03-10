@@ -10,9 +10,9 @@ async function LoadNovels() {
     return (
         novels.map((novel) => (
 
-            <div key={novel.id} className={"card"}>
+            <div key={novel.id} className={"card glassy-animation"}>
                 <Link href={`/${novel.formatted_name}`}>
-                    <Image src={`/thumbnails/${novel.formatted_name}.jpg`} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-96 sm:h48 object-cover select-none"}/>
+                    <Image src={`/thumbnails/${novel.formatted_name}.jpg`} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-96 sm:h48 object-cover select-none img"}/>
                     <div className="m-4">
                         <span className="text-secondary font-bold text-lg">{novel.name}</span>
                         <span className="block text-gray-400 text-sm">Chapters: {novel.chapter_count}</span>
