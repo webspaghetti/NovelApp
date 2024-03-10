@@ -10,7 +10,7 @@ h1, h2 {
   @apply font-bold text-primary text-lg;
 }
 main {
-  @apply max-w-5xl my-5 mx-auto px-8;
+  @apply max-w-5xl my-5 mx-auto px-8 text-secondary;
 }
 main > h2 {
   @apply mb-4 pb-2 text-base ;
