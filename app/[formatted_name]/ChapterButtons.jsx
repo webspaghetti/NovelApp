@@ -16,7 +16,7 @@ function ChapterButtons({ novel, user }) {
                         <h1 key={`breakPoint${chapterNumber/100}`} className="col-span-full text-2xl font-bold text-center my-4 text-secondary link_outline select-none">
                                 Chapters {chapterNumber - 99} - {chapterNumber}
                             </h1>
-                            <button key={chapterNumber} className="normal-case px-4 py-2 rounded-md text-lg text-secondary flex justify-center items-center">
+                            <button key={`chapter-${chapterNumber}`} className="normal-case px-4 py-2 rounded-md text-lg text-secondary flex justify-center items-center">
                                 Chapter {chapterNumber}
                             </button>
                         </React.Fragment>
@@ -24,7 +24,7 @@ function ChapterButtons({ novel, user }) {
                 } else {
                     return (
                         <button
-                            key={chapterNumber}
+                            key={`chapter-${chapterNumber}`}
                             className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center ${
                                 user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
                             } ${
