@@ -31,7 +31,7 @@ function ChapterButtons({ novel, user }) {
                                 user?.current_chapter === chapterNumber ? 'border-green-500 hover:bg-green-500' : ''
                             }`}
                         >
-                            Chapter {chapterNumber}
+                            <Link href={`/${novel.formatted_name}/${chapterNumber}`}> Chapter {chapterNumber} </Link>
                         </button>
                     );
                 }
