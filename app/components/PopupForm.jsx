@@ -39,7 +39,7 @@ function PopupForm(props) {
                 const doc = parser.parseFromString(html, 'text/html');
 
                 const novelTitle = doc.querySelector('.tit').textContent.trim();
-                const novelStatus = doc.querySelector('.s1.s2').textContent.trim();
+                const novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
                 const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
                 const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
