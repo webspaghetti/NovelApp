@@ -3,7 +3,7 @@ import {useEffect, useMemo, useState} from "react";
 
 function removeClutter(text) {
     // Define a regular expression pattern to match variations of 'freewebnovel'
-    const pattern = /f[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*[^\w\n]*l[^\w\n]*\b|[.\W\n]*c[.\W\n]*o[.\W\n]*m*\b(?<!\n)/gi;
+    const pattern = /f[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*.[^\w\n]*l[^\w\n]*(?<!<\/)\b|[.\W\n]*c[.\W\n]*o[.\W\n]*m*\b(?<!\n)/gi;
 
     // Replace matched patterns with empty string
     let cleanText = text.replace(pattern, '');
