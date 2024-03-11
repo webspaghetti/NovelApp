@@ -9,7 +9,7 @@ export default function Home() {
             <AddNovel />
         </div>
 
-        <div className={"grid grid-cols-3 gap-10 relative top-20"}> {/*Cards layout*/}
+        <div className={"grid grid-cols-3 gap-10 relative top-20 pb-9"}> {/*Cards layout*/}
             <LoadNovels />
         </div>
 
