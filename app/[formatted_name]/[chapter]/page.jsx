@@ -2,13 +2,13 @@
 import {useEffect, useMemo, useState} from "react";
 
 function removeClutter(text) {
-    // Define a regular expression pattern to match variations of 'freewebnovel'
-    const pattern = /f[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*.[^\w\n]*l[^\w\n]*(?<!<\/)\b|[.\W\n]*c[.\W\n]*o[.\W\n]*m*\b(?<!\n)/gi;
+    // Regex for detecting clutter patterns
+    const pattern = /[^."]*[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*.[^\w\n]*l[^\w\n]*(?<!<\/)\b|[.\W\n]*c[.\W\n]*o[.\W\n]*m*\b(?<!\n)/gi;
 
     // Replace matched patterns with empty string
     let cleanText = text.replace(pattern, '');
 
-    // Define Unicode ranges for characters you want to keep
+    // Unicode ranges for non-weird characters
     const validRanges = [
         [0x0041, 0x005A],  // Uppercase Latin letters
         [0x0061, 0x007A],  // Lowercase Latin letters
