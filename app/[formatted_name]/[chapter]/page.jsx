@@ -21,12 +21,31 @@ function removeClutter(text) {
     ];
 
     // Filter out characters not in the valid ranges
-    cleanText = cleanText.split('').filter(char =>
-        validRanges.some(([start, end]) => start <= char.charCodeAt(0) && char.charCodeAt(0) <= end)
-    ).join('');
+    let insideInvalidRange = false;
+    cleanText = cleanText
+        .split('')
+        .filter(char => {
+            const charCode = char.charCodeAt(0);
+            const isValid = validRanges.some(([start, end]) => start <= charCode && charCode <= end);
+
+            if (!isValid) {
+                // Check if the character is a period and it's surrounded by invalid characters
+                if (char === '.' && insideInvalidRange) {
+                    insideInvalidRange = false; // Reset the flag
+                    return true; // Include the period
+                } else {
+                    insideInvalidRange = true; // Mark that we're inside an invalid range
+                    return false; // Exclude the character
+                }
+            } else {
+                insideInvalidRange = false; // Reset the flag
+                return true; // Include the character
+            }
+        })
+        .join('');
 
     // Remove extra period following an invalid character
-    cleanText = cleanText.replace(new RegExp(`([${String.fromCharCode(...validRanges.flat().map((charCode) => Array.from({ length: charCode[1] - charCode[0] + 1 }, (_, i) => charCode[0] + i)).flat())}])\\..`, 'g'), '$1.');
+    cleanText = cleanText.replace(/(.)\.(?=[^\w\s]|$)/g, '$1');
 
     return cleanText;
 }
@@ -49,16 +68,13 @@ function useFetchChapter(link) {
 
                 chapterContent = chapterContent.substring(0, chapterContent.lastIndexOf('<p>'));
 
-                let clutter = chapterContent;
-
                 chapterContent = removeClutter(chapterContent)
 
-                setChapter({ chapterTitle, chapterContent, clutter });
+                setChapter({ chapterTitle, chapterContent});
             } catch (error) {
                 console.error(error);
             }
         }
-
         fetchChapter();
     }, [link]);
 
@@ -72,9 +88,22 @@ function Page({ params }) {
     return (
         <main className={'relative top-20'}>
             <div>
-                <h1 className={'border-b-gray-400 border-b-2'}>{chapter.chapterTitle}</h1>
-                <div dangerouslySetInnerHTML={{ __html: chapter.clutter }} className={'text-secondary'}/>
-                <div dangerouslySetInnerHTML={{ __html: chapter.chapterContent }} className={'text-secondary'}/>
+                <h1 className="border-b-gray-400 border-b-2 text-center text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
+                <div className="text-secondary text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent }} />
+                <div className="flex justify-around py-4">
+                    <button className="pr-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                        Previous chapter
+                    </button>
+                    <button className="pl-10">
+                        Next chapter
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+                </div>
             </div>
         </main>
     );
