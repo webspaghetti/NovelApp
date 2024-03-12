@@ -1,6 +1,7 @@
 "use client"
 import {useEffect, useMemo, useState} from "react";
 import Link from "next/link";
+import GetNovel from "@/app/components/functions/GetNovel";
 
 function removeClutter(text) {
     // Regex for detecting clutter patterns
@@ -98,12 +99,14 @@ function Page({ params }) {
                 <h1 className="border-b-gray-400 border-b-2 text-center text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
                 <div className="text-secondary text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent }} />
                 <div className="flex justify-around py-4">
+                    {currentChapter > 1 &&(
                     <button className="pr-10">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>
                         <Link href={`/${params.formatted_name}/${prevChapter}`}>Previous chapter</Link>
                     </button>)}
+                    {currentChapter > GetNovel(params.formatted_name) &&(
                     <button className="pl-10">
                         <Link href={`/${params.formatted_name}/${nextChapter}`}>Next chapter</Link>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
