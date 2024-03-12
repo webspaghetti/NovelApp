@@ -25,6 +25,10 @@ function PopupForm(props) {
         const match = chapterText.match(/\d+/);
         return match ? match[0] : '';
     }
+    async function getNovelID(formattedName){
+        const novels = await executeQuery(`select id from novel_table where formatted_name = '${formattedName}';`);
+        return novels[0].id;
+    }
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -45,8 +49,12 @@ function PopupForm(props) {
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
                 const imageUrl = doc.querySelector('.pic img').getAttribute('src'); //TBI
 
-                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`).then(() => {
-                    location.reload()
+                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`).then(async () => {
+                    await executeQuery(`INSERT INTO user_progress (user_id, novel_id, read_chapters) VALUES (1, ${await getNovelID(formattedName)}, '[]')`).then(() => { //Just me :)
+                        location.reload();
+                    }).catch(error => {
+                        console.error("Error executing query:", error);
+                    });
                 }).catch(error => {
                     console.error("Error executing query:", error);
                 });
