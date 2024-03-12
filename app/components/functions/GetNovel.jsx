@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import executeQuery from "@/app/database/db";
 
-export default function GetChapterCount({ formattedName }) {
+export default function GetNovel({ formattedName }) {
     const [chapterCount, setChapterCount] = useState(0);
 
     useEffect(() => {
