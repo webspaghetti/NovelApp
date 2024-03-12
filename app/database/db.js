@@ -14,11 +14,7 @@ async function executeQuery(query) {
         const [rows] = await dbconnection.execute(query);
         await dbconnection.end();
 
-        const result = rows.map(row => ({ ...row }));
-
-        console.log(result);
-
-        return result;
+        return rows.map(row => ({...row}));
     } catch (e){
         console.error(e);
         // Returning just the message or a serializable object instead of the Error
