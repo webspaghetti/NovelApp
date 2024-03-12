@@ -15,7 +15,7 @@ function ChapterButtons({ novel, user }) {
                     return (
                         <React.Fragment key={`fragment${chapterNumber/100}`}>
                         <h1 key={`breakPoint${chapterNumber/100}`} className="col-span-full text-2xl font-bold text-center my-4 text-secondary link_outline select-none">
-                                Chapters {chapterNumber - 99} - {chapterNumber}
+                                Chapters {chapterNumber} - {chapterNumber - 99}
                             </h1>
                             <button key={`chapter-${chapterNumber}`} className="normal-case px-4 py-2 rounded-md text-lg text-secondary flex justify-center items-center">
                                 Chapter {chapterNumber}
