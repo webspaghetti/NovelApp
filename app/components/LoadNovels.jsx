@@ -17,8 +17,8 @@ async function LoadNovels() {
                 <Link href={`/${novel.formatted_name}`}>
                     <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-96 sm:h48 object-cover select-none img"} draggable="false"/>
                     <div className="m-4">
-                        <span className="text-secondary font-bold text-lg">{novel.name}</span>
-                        <span className="block text-gray-400 text-sm">Chapters: {novel.chapter_count}</span>
+                        <div className={"text-secondary font-bold text-lg max-w-30 truncate"}>{novel.name}</div>
+                        <span className={"block text-gray-400 text-sm"}>Chapters: {novel.chapter_count}</span>
                         <span className={"block text-gray-400 text-sm"}> Last updated: {isValidDate(novel.latest_update) ? (
                             <DateFormatter dateString={novel.latest_update} />
                         ) : (
