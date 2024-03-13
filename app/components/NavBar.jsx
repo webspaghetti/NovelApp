@@ -2,9 +2,12 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from './logo.png';
 
-function NavBar() {
+function NavBar({fixedPosition}) {
+
+    const navbarStyles = fixedPosition ? "fixed top-0 z-10" : "relative";
+
     return (
-        <div className={"w-full bg-navbar fixed top-0 z-10 select-none"}>
+        <div className={"w-full bg-navbar select-none " + navbarStyles}>
             <nav>
                 <Link href={"/"}><div className={"flex items-center gap-5"}>
                     <Image src={Logo} alt={"NovelApp logo"} width={60} quality={100}/>
