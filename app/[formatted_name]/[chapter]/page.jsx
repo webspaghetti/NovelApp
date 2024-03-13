@@ -93,6 +93,8 @@ function Page({ params }) {
 
     const nextChapter = currentChapter + 1;
 
+    const chapterCount = GetNovel({ formattedName: params.formatted_name }).chapter_count; // Fetch on the server
+
     return (
         <main className={'relative top-20'}>
             <div>
@@ -106,7 +108,7 @@ function Page({ params }) {
                         </svg>
                         <Link href={`/${params.formatted_name}/${prevChapter}`}>Previous chapter</Link>
                     </button>)}
-                    {currentChapter > GetNovel(params.formatted_name) &&(
+                    {currentChapter < chapterCount &&(
                     <button className="pl-10">
                         <Link href={`/${params.formatted_name}/${nextChapter}`}>Next chapter</Link>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
