@@ -1,5 +1,6 @@
 import { useState } from "react";
 import executeQuery from "@/app/database/db";
+import {error} from "next/dist/build/output/log";
 
 function PopupForm(props) {
     const [link, setLink] = useState('');
@@ -18,7 +19,7 @@ function PopupForm(props) {
     }
 
     function formatLastUpdate(lastUpdateText) {
-        return lastUpdateText.replace(/Updated |\[|\]/g, '').trim();
+        return lastUpdateText.replace(/Updated |\[|]/g, '').trim();
     }
 
     function extractChapterNumber(chapterText) {
@@ -34,8 +35,7 @@ function PopupForm(props) {
         event.preventDefault();
         const regex = /^https:\/\/freewebnovel\.com\/[a-z]+(?:-[a-z]+)*\.html$/;
 
-        if (regex.test(link)) {
-            try {
+            if (regex.test(link)) {
                 const response = await fetch(link);
                 const html = await response.text();
 
@@ -49,23 +49,25 @@ function PopupForm(props) {
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
                 const imageUrl = doc.querySelector('.pic img').getAttribute('src'); //TBI
 
-                await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`).then(async () => {
-                    await executeQuery(`INSERT INTO user_progress (user_id, novel_id, read_chapters) VALUES (1, ${await getNovelID(formattedName)}, '[]')`).then(() => { //Just me :)
-                        location.reload();
-                    }).catch(error => {
-                        console.error("Error executing query:", error);
-                    });
-                }).catch(error => {
+                try {
+                    await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
+
+                    // Only proceed if the first query succeeded
+                    if (!error) { // Check if there's no error
+                        const novelID = await getNovelID(formattedName);
+                        await executeQuery(`INSERT INTO user_progress (user_id, novel_id, read_chapters)
+                                            VALUES (1, ${novelID}, '[]')`).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        setErrorMessage('Novel is already present.');
+                    }
+                } catch (error) {
                     console.error("Error executing query:", error);
-                });
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
+                }
+            } else {
+                setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
             }
-
-        } else {
-            setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
-        }
     }
 
     return (props.trigger) ? (
