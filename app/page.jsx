@@ -5,6 +5,7 @@ export default function Home() {
 
   return (
     <main>
+
         <div className={"flex justify-center lg:justify-start w-full mb-5 relative top-20"}> {/*Add novel button*/}
             <AddNovel />
         </div>
