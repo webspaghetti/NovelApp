@@ -1,10 +1,25 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
 import Logo from './logo.png';
+import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react';
 
-function NavBar({fixedPosition}) {
 
-    const navbarStyles = fixedPosition ? "fixed top-0 z-10" : "relative";
+function NavBar() {
+
+    const [isSpecificPage, setIsSpecificPage] = useState(false);
+    const pathname = usePathname();
+
+    useEffect(() => {
+        // Extract the last section of the pathname
+        const lastSection = pathname.split('/').pop();
+
+        // Check if the last section is a number (using isNaN)
+        setIsSpecificPage(!isNaN(parseInt(lastSection)));
+    }, [pathname]);
+
+    const navbarStyles = isSpecificPage ? "relative" : "fixed top-0 z-10";
 
     return (
         <div className={"w-full bg-navbar select-none " + navbarStyles}>
