@@ -96,7 +96,7 @@ function Page({ params }) {
     const chapterCount = GetNovel({ formattedName: params.formatted_name }).chapter_count; // Fetch on the server
 
     return (
-        <main className={'relative top-20'}>
+        <main className={'relative top-10'}>
             <div>
                 <h1 className="border-b-gray-400 border-b-2 text-center text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
                 <div className="text-secondary text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent }} />
