@@ -66,7 +66,7 @@ function PopupForm(props) {
                     console.error("Error executing query:", error);
                 }
             } else {
-                setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
+                setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html.');
             }
     }
 
