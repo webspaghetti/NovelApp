@@ -1,6 +1,5 @@
 import { useState } from "react";
 import executeQuery from "@/app/database/db";
-import {error} from "next/dist/build/output/log";
 
 function PopupForm(props) {
     const [link, setLink] = useState('');
@@ -50,13 +49,21 @@ function PopupForm(props) {
                 const imageUrl = doc.querySelector('.pic img').getAttribute('src'); //TBI
 
                 try {
-                    await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
+                    const queryResult1 = await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
 
                     // Only proceed if the first query succeeded
-                    if (!error) { // Check if there's no error
+
+                    if (queryResult1.error) {
+                        console.log(queryResult1.message);
+                    }
+
+                    const errorMessage = queryResult1.message;
+
+                    console.log(errorMessage.startsWith('Duplicate'))
+
+                    if (!errorMessage.startsWith('Duplicate')) { // Check if there's no error
                         const novelID = await getNovelID(formattedName);
-                        await executeQuery(`INSERT INTO user_progress (user_id, novel_id, read_chapters)
-                                            VALUES (1, ${novelID}, '[]')`).then(() => {
+                        await executeQuery(`INSERT INTO user_progress (user_id, novel_id, read_chapters) VALUES (1, ${novelID}, '[]')`).then(() => {
                             location.reload();
                         });
                     } else {
@@ -66,7 +73,7 @@ function PopupForm(props) {
                     console.error("Error executing query:", error);
                 }
             } else {
-                setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html.');
+                setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
             }
     }
 
