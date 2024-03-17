@@ -5,6 +5,7 @@ import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from 'react';
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const dynamicParams = true;
 
@@ -63,8 +64,8 @@ function Page({params}) {
     return (
         <main className="relative top-20">
             {isLoading || !user ? (
-                <div className="flex justify-center items-center h-full">
-
+                <div className="relative flex justify-center items-center top-60">
+                    <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
                 </div>
             ) : error ? (
                 <div className="flex justify-center items-center h-full">

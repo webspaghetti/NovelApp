@@ -3,6 +3,7 @@ import {useEffect, useMemo, useState} from "react";
 import Link from "next/link";
 import GetNovel from "@/app/components/functions/GetNovel";
 import SetUserProgress from "@/app/components/functions/SetUserProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function removeClutter(text) {
     // Regex for detecting clutter patterns
@@ -148,9 +149,10 @@ function Page({ params }) {
 
     return (
         <main className={'relative top-5'}>
-            {loading ? ( // Display skeleton loader while content is loading
-                //<SkeletonLoader />
-                <></>
+            {loading ? (
+                <div className="relative flex justify-center items-center h-full top-60">
+                    <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
+                </div>
             ) : (
             <div>
                 <button className="mb-5">
