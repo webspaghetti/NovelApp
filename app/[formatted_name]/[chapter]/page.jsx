@@ -4,6 +4,7 @@ import Link from "next/link";
 import GetNovel from "@/app/components/functions/GetNovel";
 import SetUserProgress from "@/app/components/functions/SetUserProgress";
 import CircularProgress from "@mui/material/CircularProgress";
+import {notFound} from "next/navigation";
 
 function removeClutter(text) {
     // Regex for detecting clutter patterns
@@ -95,6 +96,10 @@ function Page({ params }) {
     const getNovel = GetNovel ({ formattedName: params.formatted_name });
 
     const chapterCount = getNovel.chapter_count; // Fetch on the server
+
+    if (currentChapter > chapterCount || currentChapter < 1){
+        notFound();
+    }
 
     SetUserProgress({userID: 1, novelID: getNovel.id, currentChapter: currentChapter});
 
