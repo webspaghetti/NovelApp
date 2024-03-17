@@ -59,54 +59,6 @@ function removeClutter(text) {
 
     return cleanText;
 }
-
-function useFetchChapter(link) {
-    const [chapter, setChapter] = useState({});
-
-    useEffect(() => {
-        async function fetchChapter() {
-            try {
-                const res = await fetch(link);
-
-                const html = await res.text();
-                const parser = new DOMParser();
-
-                const doc = parser.parseFromString(html, 'text/html');
-
-                const chapterTitle = doc.querySelector('.chapter').textContent.trim();
-                let chapterContent = doc.querySelector('#article').innerHTML.trim();
-
-                chapterContent = chapterContent.substring(0, chapterContent.lastIndexOf('<p>'));
-
-                chapterContent = removeClutter(chapterContent)
-
-                setChapter({ chapterTitle, chapterContent});
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        fetchChapter();
-    }, [link]);
-
-    return chapter;
-}
-
-const SkeletonLoader = () => (
-    <div>
-        <div className="border-b-gray-400 border-b-2 text-center text-3xl mb-4 pb-6">Loading...</div>
-        <div className="text-secondary text-lg pb-4 border-b-gray-400 border-b-2">
-            {/* Placeholder for content */}
-            <p>Loading...</p>
-            <p>Loading...</p>
-            <p>Loading...</p>
-        </div>
-        <div className="flex justify-around py-4">
-            <button disabled>Loading...</button>
-            <button disabled>Loading...</button>
-        </div>
-    </div>
-);
-
 function Page({ params }) {
     const link = useMemo(() => `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`, [params]);
     const [loading, setLoading] = useState(true);
