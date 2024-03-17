@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function removeClutter(text) {
     // Regex for detecting clutter patterns
-    const pattern = /[^.">]*[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*.[^\w\n]*l[^\w\n]*(?<!<\/)\b|[.\W\n]*c[.\W\n]*o[.\W\n]*m*\b(?<!\n)/gi;
+    const pattern = /[^.">]*[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*.[^\w\n]*l[^\w\n]*(?<!<\/)\b|[.\W\n]*c[.\W\n]*o[.\W\n]*m*(\))?(?<!<\/)/gi;
     const chapterPattern = /<p>\s*<\/p><h4>Chapter \d+:.*?<\/h4>\s*<p>\s*<\/p>/gi;
     const translatorPattern = /<p>\s*(<strong>)?Translator: (<\/strong>)?.*?<\/p>/gi;
 
