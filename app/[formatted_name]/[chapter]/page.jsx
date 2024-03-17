@@ -75,7 +75,6 @@ function Page({ params }) {
                 const chapterTitle = doc.querySelector('.chapter').textContent.trim();
                 let chapterContent = doc.querySelector('#article').innerHTML.trim();
                 chapterContent = chapterContent.substring(0, chapterContent.lastIndexOf('<p>'));
-                console.log(chapterContent)
                 chapterContent = removeClutter(chapterContent);
 
                 setChapter({ chapterTitle, chapterContent });
