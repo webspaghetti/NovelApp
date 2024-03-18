@@ -28,38 +28,33 @@ function removeClutter(text) {
         [0x003A, 0x0040],
         [0x005B, 0x0060],
         [0x007B, 0x007E],
-        [0x000A, 0x000A]   // New line character
+        [0x000A, 0x000A],   // New line character
+        [0x201C, 0x201D],  // The characters “”
+        [0x2019, 0x2019] // The character ’
     ];
 
     // Filter out characters not in the valid ranges
-    let insideInvalidRange = false;
+
     cleanText = cleanText
         .split('')
-        .filter(char => {
+        .filter((char, index, array) => {
             const charCode = char.charCodeAt(0);
             const isValid = validRanges.some(([start, end]) => start <= charCode && charCode <= end);
 
             if (!isValid) {
-                // Check if the character is a period and it's surrounded by invalid characters
-                if (char === '.' && insideInvalidRange) {
-                    insideInvalidRange = false; // Reset the flag
-                    return true; // Include the period
-                } else {
-                    insideInvalidRange = true; // Mark that we're inside an invalid range
-                    return false; // Exclude the character
-                }
-            } else {
-                insideInvalidRange = false; // Reset the flag
-                return true; // Include the character
-            }
+                return false;
+            } else return !(char === '.' && (index === 0 || index === array.length - 1 || !isValidCharacter(array[index - 1]) && !isValidCharacter(array[index + 1])));
         })
         .join('');
 
-    // Remove extra period following an invalid character
-    cleanText = cleanText.replace(/(.)\.(?=[^\w\s]|$)/g, '$1');
+    function isValidCharacter(character) {
+        const charCode = character.charCodeAt(0);
+        return validRanges.some(([start, end]) => start <= charCode && charCode <= end);
+    }
 
     return cleanText;
 }
+
 function Page({ params }) {
     const link = useMemo(() => `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`, [params]);
     const [isLoading, setIsLoading] = useState(true);
@@ -75,9 +70,11 @@ function Page({ params }) {
 
                 const chapterTitle = doc.querySelector('.chapter').textContent.trim();
                 let chapterContent = doc.querySelector('#article').innerHTML.trim();
+                console.log(chapterContent);
                 chapterContent = chapterContent.substring(0, chapterContent.lastIndexOf('<p>'));
                 chapterContent = removeClutter(chapterContent);
 
+                console.log(chapterContent);
                 setChapter({ chapterTitle, chapterContent });
                 setIsLoading(false); // Mark loading as complete
             } catch (error) {
@@ -104,19 +101,22 @@ function Page({ params }) {
     SetUserProgress({userID: 1, novelID: getNovel.id, currentChapter: currentChapter});
 
     return (
-        <main className={'relative top-5'}>
+        <main className={'relative'}>
             {isLoading ? (
                 <div className="relative flex justify-center items-center h-full top-60">
                     <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
                 </div>
             ) : (
             <div>
-                <button className="mb-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
-                    </svg>
-                    <Link href={`/${params.formatted_name}`}>Gallery</Link>
-                </button>
+                <div className="flex justify-start mb-5">
+                    <button>
+                        <Link href={`/${params.formatted_name}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                            </svg>
+                        </Link>
+                    </button>
+                </div>
                 <h1 className="border-b-gray-400 border-b-2 text-center text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
                 <div className="text-secondary text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent }} />
                 <div className="flex justify-around py-4">
