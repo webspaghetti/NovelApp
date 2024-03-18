@@ -16,9 +16,11 @@ async function executeQuery(query) {
 
         return rows.map(row => ({...row}));
     } catch (e){
-        console.error(e);
-        // Returning just the message or a serializable object instead of the Error
-        return { error: true, message: e.message };
+        if (e.code !== 'ER_DUP_ENTRY') {
+            console.error(e);
+            // Returning just the message or a serializable object instead of the Error
+            return {error: true, message: e.message};
+        }
     }
 }
 
