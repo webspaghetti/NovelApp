@@ -62,7 +62,7 @@ function removeClutter(text) {
 }
 function Page({ params }) {
     const link = useMemo(() => `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`, [params]);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [chapter, setChapter] = useState({});
 
     useEffect(() => {
@@ -79,7 +79,7 @@ function Page({ params }) {
                 chapterContent = removeClutter(chapterContent);
 
                 setChapter({ chapterTitle, chapterContent });
-                setLoading(false); // Mark loading as complete
+                setIsLoading(false); // Mark loading as complete
             } catch (error) {
                 console.error(error);
             }
@@ -105,7 +105,7 @@ function Page({ params }) {
 
     return (
         <main className={'relative top-5'}>
-            {loading ? (
+            {isLoading ? (
                 <div className="relative flex justify-center items-center h-full top-60">
                     <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
                 </div>
@@ -121,7 +121,7 @@ function Page({ params }) {
                 <div className="text-secondary text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent }} />
                 <div className="flex justify-around py-4">
                     {currentChapter > 1 &&(
-                    <button className="pr-10" disabled={loading}>
+                    <button className="pr-10">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>
