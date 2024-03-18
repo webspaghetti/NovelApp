@@ -30,7 +30,7 @@ function removeClutter(text) {
         [0x007B, 0x007E],
         [0x000A, 0x000A],   // New line character
         [0x201C, 0x201D],  // The characters “”
-        [0x2019, 0x2019] // The character ’
+        [0x2018, 0x2019] // The character ‘’
     ];
 
     // Filter out characters not in the valid ranges
