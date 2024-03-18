@@ -55,7 +55,6 @@ function PopupForm(props) {
                     const novelQuery = await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
 
                     // Only proceed if the first query succeeded
-
                     const errorMessage = novelQuery.message;
 
                     if (!errorMessage.startsWith('Duplicate')) { // Check if there's no error
