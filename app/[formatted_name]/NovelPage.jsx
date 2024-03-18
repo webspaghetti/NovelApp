@@ -9,10 +9,10 @@ function isValidDate(dateString) {
 
 function NovelPage({novel, user}) {
     return (
-            <div className={'flex flex-col md:flex-row justify-center items-center gap-8 border-b-3 border-b-gray-400 pb-4'}>
+            <div className={'flex flex-row justify-center items-center gap-8 border-b-3 border-b-gray-400 pb-4'}>
 
-                <div className="w-full md:w-1/3">
-                    <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className="select-none rounded-lg shadow-lg" draggable="false" />
+                <div className="w-1/2 md:w-1/3">
+                    <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-lg"} draggable="false" />
                 </div>
                 <div className="flex flex-col justify-center items-start md:w-1/3">
                     <div className={`badge ${novel.status} select-none relative top-20 mb-4`}>
