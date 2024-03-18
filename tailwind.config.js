@@ -25,6 +25,13 @@ module.exports = {
       },
       maxWidth:{
         '30': '30rem',
+      },
+      height:{
+        '100': '20rem',
+        '101': '27rem',
+      },
+      width:{
+        '100': '35rem',
       }
     },
   },
