@@ -34,7 +34,6 @@ function removeClutter(text) {
     ];
 
     // Filter out characters not in the valid ranges
-
     cleanText = cleanText
         .split('')
         .filter((char, index, array) => {
