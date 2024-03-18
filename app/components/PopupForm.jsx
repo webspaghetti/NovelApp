@@ -1,12 +1,14 @@
 import { useState } from "react";
 import executeQuery from "@/app/database/db";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function PopupForm(props) {
     const [link, setLink] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false)
 
     function handleClosing(event) {
-        if (event.target.classList.contains('backdrop-blur-sm')) {
+        if (event.target.classList.contains('backdrop-blur-sm') && !isLoading) {
             props.setTrigger(false);
         }
     }
@@ -31,6 +33,7 @@ function PopupForm(props) {
     }
 
     async function handleSubmit(event) {
+        setIsLoading(true)
         event.preventDefault();
         const regex = /^https:\/\/freewebnovel\.com\/[a-z]+(?:-[a-z]+)*\.html$/;
 
@@ -68,12 +71,15 @@ function PopupForm(props) {
                         });
                     } else {
                         setErrorMessage('Novel is already present.');
+                        setIsLoading(false)
                     }
                 } catch (error) {
                     console.error("Error executing query:", error);
+                    setIsLoading(false)
                 }
             } else {
                 setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
+                setIsLoading(false)
             }
     }
 
@@ -88,11 +94,18 @@ function PopupForm(props) {
                                onChange={handleChange}
                                placeholder="Link"
                                aria-label="Link" />
-                        <button className="flex-shrink-0 text-sm border-4 text-secondary py-3 px-3 rounded-lg mb-2" type="submit">
-                            Submit
-                        </button>
+
+                        {!isLoading ?(
+                            <button className="flex-shrink-0 text-sm border-4 text-secondary py-3 px-3 rounded-lg mb-2" type="submit">
+                                Submit
+                            </button>
+                        ) : (
+                            <button disabled={true} className={"flex-shrink-0 text-sm border-4 text-secondary py-3 px-8 rounded-lg mb-2"}>
+                                <CircularProgress sx={{color: "#FAFAFA"}} size={20}/>
+                            </button>
+                        )}
+
                     </div>
-                    {/* Display error message */}
                     {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
                 </form>
             </div>
