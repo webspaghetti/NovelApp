@@ -27,7 +27,7 @@ function NovelPage({novel, user}) {
                     )}
                     </p>
                     <button className="bg-primary text-secondary my-2 py-2 px-6 rounded-lg shadow-md hover:bg-primary-dark transition-colors duration-300">
-                        {user?.current_chapter === undefined
+                        {user?.current_chapter === null
                             ? <Link href={`/${novel.formatted_name}/1`}>Start reading</Link>
                             : <Link href={`/${novel.formatted_name}/${user.current_chapter}`}>Continue reading - Chapter: {user.current_chapter} </Link>}
                     </button>
