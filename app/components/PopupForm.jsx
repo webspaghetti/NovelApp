@@ -52,17 +52,11 @@ function PopupForm(props) {
                 const imageUrl = doc.querySelector('.pic img').getAttribute('src'); //TBI
 
                 try {
-                    const queryResult1 = await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
+                    const novelQuery = await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
 
                     // Only proceed if the first query succeeded
 
-                    if (queryResult1.error) {
-                        console.log(queryResult1.message);
-                    }
-
-                    const errorMessage = queryResult1.message;
-
-                    console.log(errorMessage.startsWith('Duplicate'))
+                    const errorMessage = novelQuery.message;
 
                     if (!errorMessage.startsWith('Duplicate')) { // Check if there's no error
                         const novelID = await getNovelID(formattedName);

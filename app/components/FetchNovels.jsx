@@ -66,7 +66,7 @@ function FetchNovels() {
                 await executeQuery(`UPDATE novel_table SET chapter_count=${chapterCount}, status='${novelStatus}', latest_update='${lastUpdate}' WHERE formatted_name='${formattedName}';`);
             }
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 

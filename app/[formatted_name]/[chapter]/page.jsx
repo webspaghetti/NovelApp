@@ -70,11 +70,9 @@ function Page({ params }) {
 
                 const chapterTitle = doc.querySelector('.chapter').textContent.trim();
                 let chapterContent = doc.querySelector('#article').innerHTML.trim();
-                console.log(chapterContent);
                 chapterContent = chapterContent.substring(0, chapterContent.lastIndexOf('<p>'));
                 chapterContent = removeClutter(chapterContent);
 
-                console.log(chapterContent);
                 setChapter({ chapterTitle, chapterContent });
                 setIsLoading(false); // Mark loading as complete
             } catch (error) {
