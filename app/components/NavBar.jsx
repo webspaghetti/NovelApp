@@ -1,7 +1,6 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
-import Logo from './logo.png';
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react';
 
@@ -25,7 +24,7 @@ function NavBar() {
         <div className={"w-full bg-navbar select-none " + navbarStyles}>
             <nav className={"max-md:mx-5"}>
                 <Link href={"/"}><div className={"flex items-center gap-5"}>
-                    <Image src={Logo} alt={"NovelApp logo"} width={60} quality={100}/>
+                    <Image src={"/logo.png"} alt={"NovelApp logo"} width={60} height={60} quality={100}/>
                 <h1 className={"text-2xl link_outline text-secondary"}>NovelApp</h1>
                 </div></Link>
                 <div className={"flex items-center gap-16"}>
