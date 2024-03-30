@@ -6,8 +6,6 @@ import SetUserProgress from "@/app/components/functions/SetUserProgress";
 import CircularProgress from "@mui/material/CircularProgress";
 import {notFound} from "next/navigation";
 
-export const dynamic = 'force-dynamic';
-
 function removeClutter(text) {
     // Regex for detecting clutter patterns
     const pattern = /[^.">]*[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*.[^\w\n]*l[^\w\n]*(?<!<\/)\b|[\W\n]*c[.\W\n]*o[.\W\n]*m*(?!\w)(\))?(?<!<\/)/gi;
@@ -64,7 +62,7 @@ function Page({ params }) {
     useEffect(() => {
         async function fetchChapter() {
             try {
-                const res = await fetch(link, { next: { revalidate: 1 } });
+                const res = await fetch(link);
                 const html = await res.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
