@@ -99,7 +99,7 @@ function PopupForm(props) {
                         )}
 
                     </div>
-                    {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+                    {errorMessage && <p className="text-red-500 text-center max-sm:text-sm">{errorMessage}</p>}
                 </form>
             </div>
         </div>

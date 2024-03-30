@@ -22,14 +22,14 @@ function NavBar() {
 
     return (
         <div className={"w-full bg-navbar select-none " + navbarStyles}>
-            <nav className={"max-md:mx-5"}>
-                <Link href={"/"}><div className={"flex items-center gap-5"}>
+            <nav>
+                <Link href={"/"}><div className={"flex items-center max-sm:gap-2 gap-5"}>
                     <Image src={"/logo.png"} alt={"NovelApp logo"} width={60} height={60} quality={100}/>
-                <h1 className={"text-2xl link_outline text-secondary"}>NovelApp</h1>
+                <h1 className={"max-sm:text-xl text-2xl link_outline text-secondary"}>NovelApp</h1>
                 </div></Link>
-                <div className={"flex items-center gap-16"}>
-                <Link href={"/"}>Home</Link>
-                <Link href={"/about"}>About</Link>
+                <div className={"flex items-center max-sm:gap-6 gap-16"}>
+                <Link href={"/"}><p className={'max-sm:text-base'}>Home</p></Link>
+                <Link href={"/about"}><p className={'max-sm:text-base'}>About</p></Link>
                 </div>
             </nav>
         </div>

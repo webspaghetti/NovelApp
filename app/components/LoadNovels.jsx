@@ -13,11 +13,11 @@ async function LoadNovels() {
     return (
         novels.map((novel) => (
 
-            <div key={novel.id} className={"card glassy-animation max-md:h-101"}>
+            <div key={novel.id} className={"card glassy-animation max-md:h-101 max-sm:h-75"}>
                 <Link href={`/${novel.formatted_name}`}>
-                    <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-100 md:h-96 object-cover select-none img"} draggable="false"/>
+                    <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-100 md:h-96 max-sm:h-52 object-cover select-none img"} draggable="false"/>
                     <div className="m-4">
-                        <div className={"text-secondary font-bold text-lg max-w-30 truncate"}>{novel.name}</div>
+                        <div className={"text-secondary font-bold text-lg max-sm:text-base max-w-30 max-sm:max-w-52 truncate max-sm:hidden"}>{novel.name}</div>
                         <span className={"block text-gray-400 text-sm"}>Chapters: {novel.chapter_count}</span>
                         <span className={"block text-gray-400 text-sm"}> Last updated: {isValidDate(novel.latest_update) ? (
                             <DateFormatter dateString={novel.latest_update} />
@@ -26,8 +26,8 @@ async function LoadNovels() {
                         )}
                         </span>
                     </div>
-                    <div className={`badge ${novel.status} select-none`}>
-                        <span>{novel.status}</span>
+                    <div className={`badge ${novel.status} select-none max-sm:p-3`}>
+                        <span className={'max-sm:hidden'}>{novel.status}</span>
                     </div>
                 </Link>
             </div>

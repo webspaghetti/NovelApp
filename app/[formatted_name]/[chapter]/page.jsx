@@ -108,25 +108,25 @@ function Page({ params }) {
                 <div className="flex justify-start mb-5">
                     <button>
                         <Link href={`/${params.formatted_name}`}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="max-sm:w-6 max-sm:h-6 w-7 h-7">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
                             </svg>
                         </Link>
                     </button>
                 </div>
-                <h1 className="border-b-gray-400 border-b-2 text-center text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
+                <h1 className="border-b-gray-400 border-b-2 text-center max-sm:text-2xl text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
                 <div className="text-secondary max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent.replace(/<p>/g, '<p style="margin: 1rem 0;">') }} />
                 <div className="flex justify-around py-4">
                     {currentChapter > 1 &&(
-                    <button className="pr-10">
+                    <button className="md:pr-10 max-sm:py-4 max-sm:px-8">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>
-                        <Link href={`/${params.formatted_name}/${prevChapter}`}>Previous chapter</Link>
+                        <Link href={`/${params.formatted_name}/${prevChapter}`}><p className={'max-sm:hidden'}>Previous chapter</p></Link>
                     </button>)}
                     {currentChapter < chapterCount &&(
-                    <button className="pl-10">
-                        <Link href={`/${params.formatted_name}/${nextChapter}`}>Next chapter</Link>
+                    <button className="md:pl-10 max-sm:py-4 max-sm:px-8">
+                        <Link href={`/${params.formatted_name}/${nextChapter}`}><p className={'max-sm:hidden'}>Next chapter</p></Link>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>

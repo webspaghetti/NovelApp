@@ -6,7 +6,7 @@ import Link from "next/link";
 function ChapterButtons({ novel, user }) {
 
     return (
-        <div className="grid grid-cols-5 gap-4 justify-center items-center mt-4 pb-4">
+        <div className="grid max-sm:grid-cols-3 grid-cols-5 gap-4 justify-center items-center mt-4 pb-4">
             {Array.from({ length: novel.chapter_count }, (_, index) => {
                 const chapterNumber = novel.chapter_count - index;
                 const isBreakpoint = (chapterNumber % 100) === 0;
@@ -14,11 +14,11 @@ function ChapterButtons({ novel, user }) {
                 if (isBreakpoint) {
                     return (
                         <React.Fragment key={`fragment${chapterNumber/100}`}>
-                        <h1 key={`breakPoint${chapterNumber/100}`} className="col-span-full text-2xl font-bold text-center my-4 text-secondary link_outline select-none">
+                        <h1 key={`breakPoint${chapterNumber/100}`} className="col-span-full max-sm:text-xl text-2xl font-bold text-center my-4 text-secondary link_outline select-none">
                                 Chapters {chapterNumber} - {chapterNumber - 99}
                             </h1>
                             <button key={`chapter-${chapterNumber}`} className="normal-case px-4 py-2 rounded-md text-lg text-secondary flex justify-center items-center">
-                                Chapter {chapterNumber}
+                                <p className={'max-sm:text-base'}> Chapter {chapterNumber} </p>
                             </button>
                         </React.Fragment>
                     );
@@ -32,7 +32,7 @@ function ChapterButtons({ novel, user }) {
                                 user?.current_chapter === chapterNumber ? 'border-green-500 hover:bg-green-500' : ''
                             }`}
                         >
-                            <Link href={`/${novel.formatted_name}/${chapterNumber}`}> Chapter {chapterNumber} </Link>
+                            <Link href={`/${novel.formatted_name}/${chapterNumber}`}><p className={'max-sm:text-base'}> Chapter {chapterNumber} </p></Link>
                         </button>
                     );
                 }
