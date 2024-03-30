@@ -4,11 +4,11 @@ import mysql from "mysql2/promise";
 async function executeQuery(query) {
     try {
         const dbconnection = await mysql.createConnection({
-            host: 'localhost',
-            port: 3306,
-            database: 'novel_app',
-            user: 'root',
-            password: '',
+            host: process.env.DB_HOST, //'localhost'
+            port: process.env.DB_PORT, //3306
+            database: process.env.DB_DATABASE, //'novel_app'
+            user: process.env.DB_USER, //'root'
+            password: process.env.DB_PASSWORD, //''
         });
 
         const [rows] = await dbconnection.execute(query);
