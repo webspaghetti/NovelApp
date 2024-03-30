@@ -7,6 +7,7 @@ import {notFound} from "next/navigation";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export const dynamicParams = true;
+export const dynamic = 'force-dynamic';
 
 async function getNovel(f_name){
     try {
