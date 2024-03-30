@@ -38,7 +38,7 @@ function PopupForm(props) {
         const regex = /^https:\/\/freewebnovel\.com\/[a-z]+(?:-[a-z]+)*\.html$/;
 
             if (regex.test(link)) {
-                const response = await fetch(link);
+                const response = await fetch(link, { next: { revalidate: 1 } });
                 const html = await response.text();
 
                 const parser = new DOMParser();

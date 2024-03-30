@@ -27,7 +27,7 @@ function FetchNovels() {
 
     async function RefetchNovels(formattedName){
 
-        const response = await fetch(`https://freewebnovel.com/${formattedName}.html`);
+        const response = await fetch(`https://freewebnovel.com/${formattedName}.html`, { next: { revalidate: 1 } });
 
         const html = await response.text();
 

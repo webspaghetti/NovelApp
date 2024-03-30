@@ -62,7 +62,7 @@ function Page({ params }) {
     useEffect(() => {
         async function fetchChapter() {
             try {
-                const res = await fetch(link);
+                const res = await fetch(link, { next: { revalidate: 1 } });
                 const html = await res.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
