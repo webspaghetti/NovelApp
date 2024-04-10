@@ -11,8 +11,8 @@ module.exports = {
         primary: '#5e42cf',
         secondary: '#FAFAFA',
         navbar: '#121314',
-        card: '#121314', /*#212121*/
-        main_background: '#202020' /*#202020 #191919*/
+        card: '#0c0c0c', /*#212121 #121314*/
+        main_background: '#171717' /*#202020 #191919*/
       },
       borderWidth: {
         DEFAULT: '1px',
