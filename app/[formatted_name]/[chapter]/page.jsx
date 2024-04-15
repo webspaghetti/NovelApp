@@ -98,7 +98,7 @@ function Page({ params }) {
     SetUserProgress({userID: 1, novelID: getNovel.id, currentChapter: currentChapter});
 
     return (
-        <main className={'relative'}>
+        <main className={'relative px-5'}>
             {isLoading ? (
                 <div className="relative flex justify-center items-center h-full top-60">
                     <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
