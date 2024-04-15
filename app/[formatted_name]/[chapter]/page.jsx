@@ -118,19 +118,26 @@ function Page({ params }) {
                 <div className="text-secondary max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent.replace(/<p>/g, '<p style="margin: 1rem 0;">') }} />
                 <div className="flex justify-around py-4">
                     {currentChapter > 1 &&(
-                    <button className="md:pr-10 max-sm:py-4 max-sm:px-8">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                        </svg>
-                        <Link href={`/${params.formatted_name}/${prevChapter}`}><p className={'max-sm:hidden'}>Previous chapter</p></Link>
-                    </button>)}
+                        <Link href={`/${params.formatted_name}/${prevChapter}`}>
+                            <button className="md:pr-10 max-sm:py-4 max-sm:px-8">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                </svg>
+                                <p className={'max-sm:hidden'}>Previous chapter</p>
+                            </button>
+                        </Link>
+                    )}
+
                     {currentChapter < chapterCount &&(
-                    <button className="md:pl-10 max-sm:py-4 max-sm:px-8">
-                        <Link href={`/${params.formatted_name}/${nextChapter}`}><p className={'max-sm:hidden'}>Next chapter</p></Link>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </button>)}
+                        <Link href={`/${params.formatted_name}/${nextChapter}`}>
+                            <button className="md:pl-10 max-sm:py-4 max-sm:px-8">
+                               <p className={'max-sm:hidden'}>Next chapter</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                        </Link>
+                    )}
                 </div>
             </div>
                 )}
