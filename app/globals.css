@@ -140,12 +140,14 @@ button:not(:hover) {
   @apply my-4 leading-6 text-secondary text-lg;
 }
 
-.card:hover {
-  @apply scale-105 ease-out duration-500;
-}
+@media (min-width: 640px) {
+  .card:hover {
+    @apply scale-105 ease-out duration-500;
+  }
 
-.card:not(:hover) {
-  @apply scale-100 ease-out duration-500;
+  .card:not(:hover) {
+    @apply scale-100 ease-out duration-500;
+  }
 }
 
 /* badge styles */
