@@ -26,7 +26,7 @@ async function LoadNovels() {
                         )}
                         </span>
                     </div>
-                    <div className={`badge ${novel.status} select-none max-sm:p-3`}>
+                    <div className={`badge ${novel.status} select-none max-sm:p-2`}>
                         <span className={'max-sm:hidden'}>{novel.status}</span>
                     </div>
                 </Link>
