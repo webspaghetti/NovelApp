@@ -13,7 +13,7 @@ export default function Home() {
         </div>
 
         <div className={'max-md:flex max-md:justify-center'}>
-            <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-3 gap-5 md:gap-10 relative top-20 pb-9 max-md:w-100 max-md:h-100"}> {/*Cards layout*/}
+            <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-3 gap-5 md:gap-10 relative top-20 max-sm:pb-3 pb-9"}> {/*Cards layout*/}
                 <LoadNovels />
             </div>
         </div>
