@@ -21,7 +21,7 @@ function NavBar() {
     const navbarStyles = isSpecificPage ? "relative" : "fixed top-0 z-10";
 
     return (
-        <div className={"w-full bg-navbar select-none " + navbarStyles}>
+        <div className={"w-full bg-navbar select-none max-sm:px-0.5 " + navbarStyles}>
             <nav>
                 <Link href={"/"}><div className={"flex items-center max-sm:gap-2 gap-5"}>
                     <Image src={"/logo.png"} alt={"NovelApp logo"} width={60} height={60} quality={100}/>
