@@ -45,11 +45,26 @@ function PopupForm(props) {
                 const doc = parser.parseFromString(html, 'text/html');
 
                 const novelTitle = doc.querySelector('.tit').textContent.trim();
-                const novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
+                let novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
                 const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
                 const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
-                const imageUrl = doc.querySelector('.pic img').getAttribute('src'); //TBI
+                const imageUrl = doc.querySelector('.pic img').getAttribute('src');
+
+                function isMoreThanTwoMonthsOld(update) {
+                    if (update.includes('months ago')) {
+                        const monthsAgo = parseInt(update);
+                        return monthsAgo >= 3;
+                    } else if (Date.parse(update)) {
+                        // If the update is a valid date, it means the novel is not ongoing and likely on hiatus
+                        return true;
+                    }
+                    return false;
+                }
+
+                if(novelStatus === 'OnGoing' && isMoreThanTwoMonthsOld(lastUpdate)){
+                    novelStatus = 'Hiatus';
+                }
 
                 try {
                     const novelQuery = await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
