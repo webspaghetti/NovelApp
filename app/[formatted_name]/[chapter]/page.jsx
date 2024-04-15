@@ -106,13 +106,13 @@ function Page({ params }) {
             ) : (
             <div>
                 <div className="flex justify-start mb-5">
-                    <button>
-                        <Link href={`/${params.formatted_name}`}>
+                    <Link href={`/${params.formatted_name}`}>
+                        <button>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="max-sm:w-6 max-sm:h-6 w-7 h-7">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
                             </svg>
-                        </Link>
-                    </button>
+                        </button>
+                    </Link>
                 </div>
                 <h1 className="border-b-gray-400 border-b-2 text-center max-sm:text-2xl text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
                 <div className="text-secondary max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent.replace(/<p>/g, '<p style="margin: 1rem 0;">') }} />
