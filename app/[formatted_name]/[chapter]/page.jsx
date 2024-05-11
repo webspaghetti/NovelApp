@@ -55,7 +55,7 @@ function removeClutter(text) {
 }
 
 function Page({ params }) {
-    const link = useMemo(() => `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`, [params]);
+    const link = useMemo(() => `https://freewebnovel.comenovel.com/${params.formatted_name}/chapter-${params.chapter}`, [params]);
     const [isLoading, setIsLoading] = useState(true);
     const [chapter, setChapter] = useState({});
 
