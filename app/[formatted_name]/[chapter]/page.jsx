@@ -99,6 +99,12 @@ function Page({ params }) {
 
     return (
         <main className={'relative px-5'}>
+            <style jsx global>{`
+              body {
+                background-image: none;
+                background-color: #171717;
+              }
+            `}</style>
             {isLoading ? (
                 <div className="relative flex justify-center items-center h-full top-60">
                     <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
