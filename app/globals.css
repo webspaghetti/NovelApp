@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 /* base styles */
-body {
-  @apply bg-fixed bg-cover bg-[url('/background_img.png')];
-}
 h1, h2 {
   @apply font-bold text-primary text-lg;
 }
