@@ -87,7 +87,7 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-startup-image" href="/icons/apple-splash-1136-640.jpg"
               media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"/>
     </head>
-    <body className={inter.className + " bg-fixed bg-cover bg-[url('/background_img.png')]"}>
+    <body className={inter.className + " bg-fixed bg-cover bg-main_background lg:bg-[url('/background_img.png')]"}>
     <NavBar/>
     {children}
     </body>
