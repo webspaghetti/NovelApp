@@ -25,7 +25,7 @@ async function LoadNovels() {
                     <div className="m-4 max-sm:mx-2">
                         <div className={"text-secondary font-bold text-lg max-sm:text-base max-w-30 max-sm:max-w-52 truncate max-sm:hidden"}>{novel.name}</div>
                         <span className={"block text-gray-400 text-sm"}>Progress: {currentChapter} / {novel.chapter_count}</span>
-                        <span className={"block text-gray-400 text-sm"}> Last updated: {isValidDate(novel.latest_update) ? (
+                        <span className={"block text-gray-400 text-sm"}> Last updated: <br className={"sm:hidden"} /> {isValidDate(novel.latest_update) ? (
                             <DateFormatter dateString={novel.latest_update} />
                         ) : (
                             novel.latest_update
