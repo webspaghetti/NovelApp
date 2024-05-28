@@ -8,6 +8,8 @@ function isValidDate(dateString) {
 }
 
 function NovelPage({novel, user}) {
+    const progressPercentage = user.current_chapter / novel.chapter_count * 100;
+
     return (
             <div className={'flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-3 border-b-gray-400 pb-4'}>
 
@@ -31,6 +33,9 @@ function NovelPage({novel, user}) {
                             ? <Link href={`/${novel.formatted_name}/1`}><p className={'max-sm:text-sm'}>Start reading</p></Link>
                             : <Link href={`/${novel.formatted_name}/${user.current_chapter}`}><p className={'max-sm:text-sm'}>Continue reading - Chapter: {user.current_chapter} </p></Link>}
                     </button>
+                    <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
+                        <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>
+                    </div>
                 </div>
 
             </div>
