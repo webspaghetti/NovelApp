@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main>
 
-        <div className={"flex justify-between w-full mb-5 relative top-20"}> {/*Add novel button*/}
+        <div className={"flex justify-between w-full mb-5 relative top-20"}> {/*Control buttons*/}
             <AddNovel />
             <FetchNovels />
         </div>
