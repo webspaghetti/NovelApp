@@ -16,7 +16,7 @@ async function LoadNovels() {
 
             const userProgress = users.find(user => user.novel_id === novel.id);
             const currentChapter = userProgress && userProgress.current_chapter !== null ? userProgress.current_chapter : 0;
-            const progressPercentage = novel.chapter_count > 0 ? (currentChapter / novel.chapter_count) * 100 : 0;
+            const progressPercentage = currentChapter / novel.chapter_count * 100;
 
             return (
             <div key={novel.id} className={"card glassy-animation max-md:h-101 max-sm:h-80 min-w-42"}>
