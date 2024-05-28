@@ -16,6 +16,7 @@ async function LoadNovels() {
 
             const userProgress = users.find(user => user.novel_id === novel.id);
             const currentChapter = userProgress && userProgress.current_chapter !== null ? userProgress.current_chapter : 0;
+            const progressPercentage = novel.chapter_count > 0 ? (currentChapter / novel.chapter_count) * 100 : 0;
 
             return (
             <div key={novel.id} className={"card glassy-animation max-md:h-101 max-sm:h-75"}>
@@ -30,6 +31,9 @@ async function LoadNovels() {
                             novel.latest_update
                         )}
                         </span>
+                        <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
+                            <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>
+                        </div>
                     </div>
                     <div className={`badge ${novel.status} select-none max-sm:p-2`}>
                         <span className={'max-sm:hidden'}>{novel.status}</span>
