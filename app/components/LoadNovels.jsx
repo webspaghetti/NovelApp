@@ -25,11 +25,12 @@ async function LoadNovels() {
                     <div className="m-4 max-sm:mx-2">
                         <div className={"text-secondary font-bold text-lg max-sm:text-base max-w-30 max-sm:max-w-52 truncate max-sm:hidden"}>{novel.name}</div>
                         <span className={"block text-gray-400 text-sm"}>Progress: <span className={"text-green-600 font-bold"}>{currentChapter}</span> / {novel.chapter_count}</span>
-                        <span className={"block text-gray-400 text-sm"}> Last updated: <br className={"sm:hidden"} /> {isValidDate(novel.latest_update) ? (
+                        <span className={"block text-gray-400 text-sm"}> Last updated: <br className={"sm:hidden"} /> <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
                             <DateFormatter dateString={novel.latest_update} />
                         ) : (
                             novel.latest_update
                         )}
+                            </span>
                         </span>
                         <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
                             <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>

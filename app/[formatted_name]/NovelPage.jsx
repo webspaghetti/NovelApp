@@ -22,11 +22,12 @@ function NovelPage({novel, user}) {
                     </div>
                     <h1 className="max-sm:text-2xl text-3xl font-bold mb-2">{novel.name}</h1>
                     <p className="max-sm:text-base text-lg mb-2">Chapters: {novel.chapter_count}</p>
-                    <p className={"block text-gray-400 text-sm"}> Last updated: {isValidDate(novel.latest_update) ? (
+                    <p className={"block text-gray-400 text-sm"}> Last updated: <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
                         <DateFormatter dateString={novel.latest_update} />
                     ) : (
                         novel.latest_update
                     )}
+                        </span>
                     </p>
                     <button className="my-2 py-2 px-6 rounded-lg max-sm:px-4 shadow-md">
                         {user?.current_chapter === null
