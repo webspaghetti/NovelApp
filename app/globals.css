@@ -120,6 +120,16 @@ button:not(:hover) {
   @apply bg-main_background transition ease-out duration-500;
 }
 
+/* svg styles */
+@keyframes spinSvg {
+  100% {
+    transform: rotate(540deg);
+  }
+}
+.svg-animate-rotate:hover svg {
+  animation: spinSvg 1s forwards; /* Animation with forwards fill mode */
+}
+
 /* card styles */
 .card {
   @apply
