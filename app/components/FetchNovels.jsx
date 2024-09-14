@@ -44,6 +44,9 @@ function FetchNovels() {
             if (update.includes('months ago')) {
                 const monthsAgo = parseInt(update);
                 return monthsAgo >= 3;
+            } else if (update.includes('year ago') || update.includes('years ago')) {
+                // If the update mentions "year ago" or "years ago", it's definitely older than two months
+                return true;
             } else if (Date.parse(update)) {
                 // If the update is a valid date, it means the novel is not ongoing and likely on hiatus
                 return true;
