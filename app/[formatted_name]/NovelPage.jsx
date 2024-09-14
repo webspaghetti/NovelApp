@@ -17,7 +17,7 @@ function NovelPage({novel, user}) {
                     <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-lg m-auto"} draggable="false" />
                 </div>
                 <div className="flex flex-col justify-center items-start md:w-1/3">
-                    <div className={`badge ${novel.status} select-none relative top-20 mb-4 max-sm:left-7 max-sm:p-3`}>
+                    <div className={`badge ${novel.status} select-none relative top-20 mb-4 max-sm:left-7 max-sm:p-3 max-sm:mt-2`}>
                         <span><p>{novel.status}</p></span>
                     </div>
                     <h1 className="max-sm:text-2xl text-3xl font-bold mb-2">{novel.name}</h1>
