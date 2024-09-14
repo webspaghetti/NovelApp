@@ -1,4 +1,3 @@
-"use client"
 import LoadNovels from "@/app/components/LoadNovels";
 import AddNovel from "@/app/components/AddNovel";
 import FetchNovels from "@/app/components/FetchNovels";
