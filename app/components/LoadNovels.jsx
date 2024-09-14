@@ -36,7 +36,7 @@ async function LoadNovels() {
                             <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>
                         </div>
                     </div>
-                    <div className={`badge ${novel.status} select-none max-sm:p-2 ml-2 mt-2`}>
+                    <div className={`badge ${novel.status} max-sm:p-2 mt-2 ml-2 absolute top-0`}>
                         <span className={'max-sm:hidden'}>{novel.status}</span>
                     </div>
                 </Link>
