@@ -28,7 +28,7 @@ function NavBar() {
                 <h1 className={"max-sm:hidden text-2xl link_outline text-secondary"}>NovelApp</h1>
                 </div></Link>
                 <div className={"flex items-center max-sm:gap-6 gap-16"}>
-                <Link href={"/"}><p className={'max-sm:text-base'}>Home</p></Link>
+                <Link href={"/"}><p className={'max-sm:hidden'}>Home</p></Link>
                 <Link href={"/about"}><p className={'max-sm:text-base'}>About</p></Link>
                 </div>
             </nav>
