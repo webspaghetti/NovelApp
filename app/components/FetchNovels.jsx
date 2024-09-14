@@ -44,7 +44,7 @@ function FetchNovels() {
             if (update.includes('months ago')) {
                 const monthsAgo = parseInt(update);
                 return monthsAgo >= 3;
-            } else if (update.includes('year ago') || update.includes('years ago')) {
+            } else if (update.includes('a year ago') || update.includes('years ago')) {
                 // If the update mentions "year ago" or "years ago", it's definitely older than two months
                 return true;
             } else if (Date.parse(update)) {
