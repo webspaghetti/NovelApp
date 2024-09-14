@@ -49,7 +49,7 @@ function PopupForm(props) {
                 const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
                 const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
-                const imageUrl = doc.querySelector('.pic img').getAttribute('src');
+                const imageUrl = 'https://freewebnovel.com' + doc.querySelector('.pic img').getAttribute('src');
 
                 function isMoreThanTwoMonthsOld(update) {
                     if (update.includes('months ago')) {
