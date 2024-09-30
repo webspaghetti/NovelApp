@@ -6,6 +6,7 @@ function PopupForm(props) {
     const [link, setLink] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false)
+    const [shake, setShake] = useState(false);
 
     function handleClosing(event) {
         if (event.target.classList.contains('backdrop-blur-sm') && !isLoading) {
@@ -87,9 +88,16 @@ function PopupForm(props) {
                 }
             } else {
                 setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
+                triggerShake();
                 setIsLoading(false)
             }
     }
+
+    // Trigger button shake animation
+    const triggerShake = () => {
+        setShake(true);
+        setTimeout(() => setShake(false), 500); // Remove shake after 500ms
+    };
 
     return (props.trigger) ? (
         <div className="fixed top-0 left-0 w-full h-full flex bg-navbar bg-opacity-20 justify-center items-center z-10 backdrop-blur-sm" onClick={handleClosing}>
@@ -104,7 +112,7 @@ function PopupForm(props) {
                                aria-label="Link" />
 
                         {!isLoading ?(
-                            <button className="flex-shrink-0 text-sm border-4 text-secondary py-3 px-3 rounded-lg mb-2" type="submit">
+                            <button className={`flex-shrink-0 text-sm border-4 text-secondary py-3 px-3 rounded-lg mb-2 ${shake ? 'animate-shake' : ''}`} type="submit">
                                 Submit
                             </button>
                         ) : (
