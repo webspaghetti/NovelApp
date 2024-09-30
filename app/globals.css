@@ -73,6 +73,22 @@ p > a {
   2px 1px 1px #FAFAFA,
   2px 2px 1px #FAFAFA;}
 
+/* Custom Scrollbar for Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: #151515; /* Background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #303030; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Round the thumb */
+  border: 3px solid #151515; /* Add space around the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #404040; /* Change thumb color on hover */
+}
+
 /* nav styles */
 nav {
   @apply
