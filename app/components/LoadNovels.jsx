@@ -45,7 +45,7 @@ function LoadNovels({ novels }) {
             const progressPercentage = currentChapter / novel.chapter_count * 100;
 
             return (
-                <div key={novel.id} className={"card glassy-animation max-md:h-101 max-sm:h-80 min-w-42"}>
+                <div key={novel.id} className={"card glassy-animation"} style={{ height: "auto" }}>
                     <Link href={`/${novel.formatted_name}`}>
                         <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-100 md:h-96 max-sm:h-52 object-cover select-none img"} draggable="false" />
                         <div className="m-4 max-sm:mx-2">
