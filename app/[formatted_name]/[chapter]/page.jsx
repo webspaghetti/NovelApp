@@ -58,10 +58,27 @@ function Page({ params }) {
     const link = useMemo(() => `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`, [params]);
     const [isLoading, setIsLoading] = useState(true);
     const [chapter, setChapter] = useState({});
+    const [novel, setNovel] = useState(null);
+    const [currentChapter, setCurrentChapter] = useState(null);
+    const [chapterCount, setChapterCount] = useState(null);
 
     useEffect(() => {
-        async function fetchChapter() {
+        async function fetchNovelAndChapter() {
             try {
+                // Fetch novel data
+                const novelData = await GetNovel(params.formatted_name);
+                setNovel(novelData);
+
+                const currentChapterNum = parseInt(params.chapter);
+                setCurrentChapter(currentChapterNum);
+                setChapterCount(novelData.chapter_count);
+
+                if (currentChapterNum > novelData.chapter_count || currentChapterNum < 1) {
+                    notFound();
+                    return;
+                }
+
+                // Fetch chapter content
                 const res = await fetch(link);
                 const html = await res.text();
                 const parser = new DOMParser();
@@ -73,29 +90,26 @@ function Page({ params }) {
                 chapterContent = removeClutter(chapterContent);
 
                 setChapter({ chapterTitle, chapterContent });
-                setIsLoading(false); // Mark loading as complete
+
+                setIsLoading(false);
             } catch (error) {
                 console.error(error);
+                setIsLoading(false);
             }
         }
-        fetchChapter();
-    }, [link]);
+        fetchNovelAndChapter();
+    }, [link, params.formatted_name, params.chapter]);
 
-    const currentChapter = parseInt(params.chapter);
-
-    const prevChapter = currentChapter - 1;
-
-    const nextChapter = currentChapter + 1;
-
-    const getNovel = GetNovel (params.formatted_name);
-
-    const chapterCount = getNovel.chapter_count;
-
-    if (currentChapter > chapterCount || currentChapter < 1){
-        notFound();
+    if (isLoading) {
+        return (
+            <div className="relative flex justify-center items-center h-full top-60">
+                <CircularProgress sx={{color: "#5e42cf"}} size={150} thickness={6}/>
+            </div>
+        );
     }
 
-    SetUserProgress({userID: 1, novelID: getNovel.id, currentChapter: currentChapter});
+    const prevChapter = currentChapter - 1;
+    const nextChapter = currentChapter + 1;
 
     return (
         <main className={'relative px-5'}>
@@ -105,11 +119,6 @@ function Page({ params }) {
                 background-color: #171717;
               }
             `}</style>
-            {isLoading ? (
-                <div className="relative flex justify-center items-center h-full top-60">
-                    <CircularProgress sx={{color: "#5e42cf"}} size={150} thickness={6}/>
-                </div>
-            ) : (
             <div>
                 <div className="flex justify-start mb-5">
                     <Link href={`/${params.formatted_name}`}>
@@ -137,7 +146,7 @@ function Page({ params }) {
                     {currentChapter < chapterCount &&(
                         <Link href={`/${params.formatted_name}/${nextChapter}`}>
                             <button className="md:pl-10 max-sm:py-4 max-sm:px-8">
-                               <p className={'max-sm:hidden'}>Next chapter</p>
+                                <p className={'max-sm:hidden'}>Next chapter</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                                 </svg>
@@ -146,7 +155,13 @@ function Page({ params }) {
                     )}
                 </div>
             </div>
-                )}
+            {novel && (
+                <SetUserProgress
+                    userID={1}
+                    novelID={novel.id}
+                    currentChapter={currentChapter}
+                />
+            )}
         </main>
     );
 }
