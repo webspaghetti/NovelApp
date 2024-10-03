@@ -134,7 +134,7 @@ function Page({ params }) {
                 <div className="flex justify-around py-4">
                     {currentChapter > 1 &&(
                         <Link href={`/${params.formatted_name}/${prevChapter}`}>
-                            <button className="md:pr-10 max-sm:py-4 max-sm:px-8">
+                            <button className="md:pr-10 max-sm:py-4 max-sm:px-8" aria-label={"Previous chapter"}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                                 </svg>
@@ -145,7 +145,7 @@ function Page({ params }) {
 
                     {currentChapter < chapterCount &&(
                         <Link href={`/${params.formatted_name}/${nextChapter}`}>
-                            <button className="md:pl-10 max-sm:py-4 max-sm:px-8">
+                            <button className="md:pl-10 max-sm:py-4 max-sm:px-8" aria-label={"Next chapter"}>
                                 <p className={'max-sm:hidden'}>Next chapter</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
