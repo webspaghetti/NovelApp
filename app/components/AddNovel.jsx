@@ -1,6 +1,7 @@
 "use client"
 import {useState} from "react";
 import PopupForm from "@/app/components/PopupForm";
+import HoverRevealButton from "@/app/components/HoverRevealButton";
 
 function AddNovel() {
 
@@ -8,12 +9,7 @@ function AddNovel() {
 
     return (
         <>
-            <button onClick={() => setButtonPopup(true)} className={"text-secondary mr-2 svg-animate-scale"} aria-label={"Add novel"}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                <p className={'max-sm:hidden'}>Add novel</p>
-            </button>
+            <HoverRevealButton label={'Add novel'} onClick={() => setButtonPopup(true)} animation={'svg-animate-scale'} shape={'M12 4.5v15m7.5-7.5h-15'} />
             <PopupForm trigger={buttonPopup} setTrigger={setButtonPopup} />
         </>
     );
