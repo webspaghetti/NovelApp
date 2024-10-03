@@ -128,12 +128,13 @@ button {
   border-4
   select-none;
 }
+
 button:hover {
-  @apply bg-primary text-secondary transition ease-out duration-500;
+  @apply bg-primary text-secondary transform scale-105 ease-out duration-200;
 }
 
 button:not(:hover) {
-  @apply bg-main_background transition ease-out duration-500;
+  @apply transform scale-100 ease-in duration-200;
 }
 
 @keyframes button_shake {
