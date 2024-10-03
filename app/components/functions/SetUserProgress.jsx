@@ -1,19 +1,34 @@
 import { useEffect } from 'react';
-import executeQuery from "@/app/database/db";
 
 export default function SetUserProgress({ userID, novelID, currentChapter }) {
-
     useEffect(() => {
         async function updateProgress() {
+            if (novelID === undefined) return;
+
             try {
-                if (novelID !== undefined){
-                    await executeQuery(`UPDATE user_progress SET read_chapters = CASE WHEN JSON_CONTAINS(read_chapters, '${currentChapter}') THEN read_chapters ELSE JSON_ARRAY_APPEND(read_chapters, '$', ${currentChapter}) END, current_chapter = ${currentChapter} WHERE user_id = ${userID} AND novel_id = ${novelID};`)
+                const response = await fetch('/api/user_progress', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userID,
+                        novelId: novelID,
+                        currentChapter: currentChapter
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update user progress');
                 }
+
             } catch (error) {
-                console.error(error);
+                console.error('Error updating user progress:', error);
             }
         }
 
         updateProgress();
     }, [userID, novelID, currentChapter]);
+
+    return null;  // This component doesn't render anything
 }

@@ -1,0 +1,60 @@
+import { NextResponse } from 'next/server';
+import pool from '@/lib/db';
+
+export async function GET(request) {
+    const { searchParams } = new URL(request.url);
+    const formattedName = searchParams.get('formattedName');
+
+    try {
+        let query, params;
+        if (formattedName) {
+            query = 'SELECT * FROM novel_table WHERE formatted_name = ?';
+            params = [formattedName];
+        } else {
+            query = 'SELECT * FROM novel_table';
+            params = [];
+        }
+
+        const [rows] = await pool.query(query, params);
+        return NextResponse.json(rows);
+    } catch (error) {
+        console.error('Error fetching novels:', error);
+        return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+}
+
+export async function POST(request) {
+    try {
+        const { name, formattedName, chapterCount, status, latestUpdate, imageUrl } = await request.json();
+
+        const [result] = await pool.query(
+            'INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES (?, ?, ?, ?, ?, ?)',
+            [name, formattedName, chapterCount, status, latestUpdate, imageUrl]
+        );
+
+        return NextResponse.json({ id: result.insertId, name, formattedName, chapterCount, status, latestUpdate, imageUrl }, { status: 201 });
+    } catch (error) {
+        console.error('Error creating novel:', error);
+        return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+}
+
+export async function PUT(request) {
+    try {
+        const { formattedName, chapterCount, status, latestUpdate } = await request.json();
+
+        const [result] = await pool.query(
+            'UPDATE novel_table SET chapter_count = ?, status = ?, latest_update = ? WHERE formatted_name = ?',
+            [chapterCount, status, latestUpdate, formattedName]
+        );
+
+        if (result.affectedRows === 0) {
+            return NextResponse.json({ message: "No matching novel found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Novel updated successfully" }, { status: 200 });
+    } catch (error) {
+        console.error('Error updating novel:', error);
+        return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+}

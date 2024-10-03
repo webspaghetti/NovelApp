@@ -1,33 +1,28 @@
 "use client"
-import executeQuery from "@/app/database/db";
 import React, {useEffect, useState} from "react";
 import NovelPage from "@/app/[formatted_name]/NovelPage";
 import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
 import {notFound} from "next/navigation";
 import CircularProgress from "@mui/material/CircularProgress";
+import GetNovel from "@/app/components/functions/GetNovel";
 
-export const dynamicParams = true;
+export const dynamicParams = { dynamicParams: true }
 
-async function getNovel(f_name){
+async function getUserInfo(userId, novelId) {
     try {
-        // Problems with ("SELECT * FROM novel_table WHERE formatted_name = ?", [f_name])
-        return await executeQuery(`SELECT * FROM novel_table WHERE formatted_name = '${f_name}'`);
+        const response = await fetch(`/api/user_progress?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch user progress');
+        }
+        const data = await response.json();
+        return data[0]; // Assuming the API returns an array with one item
     } catch (error) {
-        console.error("Oops, an error occurred:", error);
+        console.error("Error fetching user info:", error);
         return null;
     }
 }
 
-async function getUserInfo(n_id){
-    try {
-        return await executeQuery(`SELECT * FROM user_progress WHERE user_id = 1 AND novel_id = ${n_id}`); // Just me :)
-    } catch (error) {
-        console.error("Oops, an error occurred:", error);
-        return null;
-    }
-}
-
-function Page({params}) {
+function Page({ params }) {
     const [novel, setNovel] = useState(null);
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -35,12 +30,12 @@ function Page({params}) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedNovels = await getNovel(params.formatted_name);
+                const fetchedNovels = await GetNovel(params.formatted_name);
 
-                if (fetchedNovels && fetchedNovels.length > 0) {
-                    const fetchedUser = await getUserInfo(fetchedNovels[0].id);
-                    setUser(fetchedUser[0]);
-                    setNovel(fetchedNovels[0]);
+                if (fetchedNovels) {
+                    const fetchedUser = await getUserInfo(1, fetchedNovels.id); // Just me :)
+                    setUser(fetchedUser);
+                    setNovel(fetchedNovels);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -56,7 +51,7 @@ function Page({params}) {
         <main className="relative top-20">
             {isLoading ? (
                 <div className="relative flex justify-center items-center top-60">
-                    <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
+                    <CircularProgress sx={{color: "#5e42cf"}} size={150} thickness={6}/>
                 </div>
             ) : novel ?(
                 <>
@@ -68,7 +63,6 @@ function Page({params}) {
             )}
         </main>
     );
-
 }
 
 export default Page;

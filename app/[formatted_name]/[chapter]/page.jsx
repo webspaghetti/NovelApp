@@ -55,8 +55,7 @@ function removeClutter(text) {
 }
 
 function Page({ params }) {
-    //const link = useMemo(() => `https://freewebnovel.comenovel.com/${params.formatted_name}/chapter-${params.chapter}`, [params]);
-    const link = useMemo(() => `https://read.freewebnovel.me/${params.formatted_name}/chapter-${params.chapter}`, [params]);
+    const link = useMemo(() => `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`, [params]);
     const [isLoading, setIsLoading] = useState(true);
     const [chapter, setChapter] = useState({});
 
@@ -88,9 +87,9 @@ function Page({ params }) {
 
     const nextChapter = currentChapter + 1;
 
-    const getNovel = GetNovel ({ formattedName: params.formatted_name });
+    const getNovel = GetNovel (params.formatted_name);
 
-    const chapterCount = getNovel.chapter_count; // Fetch on the server
+    const chapterCount = getNovel.chapter_count;
 
     if (currentChapter > chapterCount || currentChapter < 1){
         notFound();
@@ -108,7 +107,7 @@ function Page({ params }) {
             `}</style>
             {isLoading ? (
                 <div className="relative flex justify-center items-center h-full top-60">
-                    <CircularProgress sx={{color: "#5e42cf"}} size={150}/>
+                    <CircularProgress sx={{color: "#5e42cf"}} size={150} thickness={6}/>
                 </div>
             ) : (
             <div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import executeQuery from "@/app/database/db";
 import CircularProgress from "@mui/material/CircularProgress";
+import GetNovel from "@/app/components/functions/GetNovel";
 
 function PopupForm(props) {
     const [link, setLink] = useState('');
@@ -27,10 +27,6 @@ function PopupForm(props) {
     function extractChapterNumber(chapterText) {
         const match = chapterText.match(/\d+/);
         return match ? match[0] : '';
-    }
-    async function getNovelID(formattedName){
-        const novels = await executeQuery(`select id from novel_table where formatted_name = '${formattedName}';`);
-        return novels[0].id;
     }
 
     async function handleSubmit(event) {
@@ -68,16 +64,55 @@ function PopupForm(props) {
                 }
 
                 try {
-                    const novelQuery = await executeQuery(`INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES ("${novelTitle}", '${formattedName}', ${chapterCount}, '${novelStatus}', '${lastUpdate}', '${imageUrl}')`);
+                    try {
+                        const response = await fetch('/api/novels', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                name: novelTitle,
+                                formattedName: formattedName,
+                                chapterCount: chapterCount,
+                                status: novelStatus,
+                                latestUpdate: lastUpdate,
+                                imageUrl: imageUrl
+                            }),
+                        });
 
-                    // Only proceed if the first query succeeded
-                    const errorMessage = novelQuery.message;
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                    } catch (error) {
+                        console.error("Error creating novel:", error);
+                        throw error;
+                    }
 
                     if (!errorMessage.startsWith('Duplicate')) { // Check if there's no error
-                        const novelID = await getNovelID(formattedName);
-                        await executeQuery(`INSERT INTO user_progress (user_id, novel_id, read_chapters) VALUES (1, ${novelID}, '[]')`).then(() => {
+                        const { id: novelID } = await GetNovel(formattedName);
+
+                        try {
+                            const response = await fetch('/api/user_progress', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    userId: 1,
+                                    novelId: novelID,
+                                }),
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('Failed to create user progress');
+                            }
+
+                            // Reload the page after successful creation
                             location.reload();
-                        });
+                        } catch (error) {
+                            console.error('Error creating user progress:', error);
+                        }
                     } else {
                         setErrorMessage('Novel is already present.');
                         setIsLoading(false)
@@ -117,7 +152,7 @@ function PopupForm(props) {
                             </button>
                         ) : (
                             <button disabled={true} className={"flex-shrink-0 text-sm border-4 text-secondary py-3 px-8 rounded-lg mb-2"}>
-                                <CircularProgress sx={{color: "#FAFAFA"}} size={20}/>
+                                <CircularProgress sx={{color: "#FAFAFA"}} size={20} thickness={6}/>
                             </button>
                         )}
 
