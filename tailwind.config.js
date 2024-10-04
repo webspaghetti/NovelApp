@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        primary: '#5e42cf',
+        primary: '#5e42cf', /*#4a32a1*/
         secondary: '#FAFAFA',
         navbar: '#121314',
         card: '#0c0c0c', /*#212121 #121314*/
