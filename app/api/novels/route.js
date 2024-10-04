@@ -27,6 +27,18 @@ export async function POST(request) {
     try {
         const { name, formattedName, chapterCount, status, latestUpdate, imageUrl } = await request.json();
 
+        const [existingNovel] = await pool.query(
+            'SELECT * FROM novel_table WHERE formatted_name = ?',
+            [formattedName]
+        );
+
+        if (existingNovel.length > 0) {
+            return NextResponse.json({
+                message: 'Duplicate entry: Novel already exists',
+                isDuplicate: true
+            }, { status: 200 });
+        }
+
         const [result] = await pool.query(
             'INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url) VALUES (?, ?, ?, ?, ?, ?)',
             [name, formattedName, chapterCount, status, latestUpdate, imageUrl]

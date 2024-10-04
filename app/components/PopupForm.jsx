@@ -35,102 +35,97 @@ function PopupForm(props) {
     }
 
     async function handleSubmit(event) {
-        setIsLoading(true)
+        setIsLoading(true);
         event.preventDefault();
         const regex = /^https:\/\/freewebnovel\.com\/[a-z]+(?:-[a-z]+)*\.html$/;
 
-            if (regex.test(link)) {
-                const response = await fetch(link);
-                const html = await response.text();
+        if (regex.test(link)) {
+            const response = await fetch(link);
+            const html = await response.text();
 
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
 
-                const novelTitle = doc.querySelector('.tit').textContent.trim();
-                let novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
-                const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
-                const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li a'));
-                const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
-                const imageUrl = 'https://freewebnovel.com' + doc.querySelector('.pic img').getAttribute('src');
+            const novelTitle = doc.querySelector('.tit').textContent.trim();
+            let novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
+            const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
+            const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li a'));
+            const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
+            const imageUrl = 'https://freewebnovel.com' + doc.querySelector('.pic img').getAttribute('src');
 
-                function isMoreThanTwoMonthsOld(update) {
-                    if (update.includes('months ago')) {
-                        const monthsAgo = parseInt(update);
-                        return monthsAgo >= 3;
-                    } else if (Date.parse(update)) {
-                        // If the update is a valid date, it means the novel is not ongoing and likely on hiatus
-                        return true;
-                    }
-                    return false;
+            function isMoreThanTwoMonthsOld(update) {
+                if (update.includes('months ago')) {
+                    const monthsAgo = parseInt(update);
+                    return monthsAgo >= 3;
+                } else if (Date.parse(update)) {
+                    return true;
                 }
-
-                if(novelStatus === 'OnGoing' && isMoreThanTwoMonthsOld(lastUpdate)){
-                    novelStatus = 'Hiatus';
-                }
-
-                try {
-                    try {
-                        const response = await fetch('/api/novels', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                name: novelTitle,
-                                formattedName: formattedName,
-                                chapterCount: chapterCount,
-                                status: novelStatus,
-                                latestUpdate: lastUpdate,
-                                imageUrl: imageUrl
-                            }),
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-
-                    } catch (error) {
-                        console.error("Error creating novel:", error);
-                        throw error;
-                    }
-
-                    if (!errorMessage.startsWith('Duplicate')) { // Check if there's no error
-                        const { id: novelID } = await GetNovel(formattedName);
-
-                        try {
-                            const response = await fetch('/api/user_progress', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    userId: 1,
-                                    novelId: novelID,
-                                }),
-                            });
-
-                            if (!response.ok) {
-                                throw new Error('Failed to create user progress');
-                            }
-
-                            // Reload the page after successful creation
-                            location.reload();
-                        } catch (error) {
-                            console.error('Error creating user progress:', error);
-                        }
-                    } else {
-                        setErrorMessage('Novel is already present.');
-                        setIsLoading(false)
-                    }
-                } catch (error) {
-                    console.error("Error executing query:", error);
-                    setIsLoading(false)
-                }
-            } else {
-                setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
-                triggerShake();
-                setIsLoading(false)
+                return false;
             }
+
+            if (novelStatus === 'OnGoing' && isMoreThanTwoMonthsOld(lastUpdate)) {
+                novelStatus = 'Hiatus';
+            }
+
+            try {
+                const novelResponse = await fetch('/api/novels', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: novelTitle,
+                        formattedName: formattedName,
+                        chapterCount: chapterCount,
+                        status: novelStatus,
+                        latestUpdate: lastUpdate,
+                        imageUrl: imageUrl
+                    }),
+                });
+
+                const data = await novelResponse.json();
+
+                if (data.isDuplicate) {
+                    setErrorMessage('Novel is already present.');
+                    triggerShake();
+                    setIsLoading(false);
+                    return;
+                }
+
+                if (!novelResponse.ok) {
+                    throw new Error(data.message || 'Failed to create novel');
+                }
+
+                const { id: novelID } = await GetNovel(formattedName);
+
+                const userProgressResponse = await fetch('/api/user_progress', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: 1,
+                        novelId: novelID,
+                    }),
+                });
+
+                if (!userProgressResponse.ok) {
+                    throw new Error('Failed to create user progress');
+                }
+
+                // Reload the page after successful creation
+                location.reload();
+            } catch (error) {
+                console.error("Error executing query:", error.message);
+                setErrorMessage(error.message);
+                triggerShake();
+                setIsLoading(false);
+            }
+        } else {
+            setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
+            triggerShake();
+            setIsLoading(false);
+        }
     }
 
     // Trigger button shake animation
