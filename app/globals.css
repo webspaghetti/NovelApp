@@ -172,7 +172,7 @@ button:not(:hover) {
   rounded-3xl
   relative
   overflow-hidden
-  border-primary max-sm:border-[3px] border-4
+  border-primary max-sm:border-[2px] border-4
   text-center;
 }
 .card h3 {
