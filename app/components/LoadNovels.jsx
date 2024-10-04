@@ -56,7 +56,7 @@ function LoadNovels({ novels }) {
                                 isLoadingProgress ? (
                                     <CircularProgress size={14} sx={{ color: "#16a34a"}} thickness={10} />
                                 ) : (
-                                    <span className={"text-green-600 font-bold ml-1"}>{currentChapter}</span>
+                                    <span className={"text-green-600 font-bold ml-2 mr-1"}>{currentChapter}</span>
                                 )
                             } / {novel.chapter_count}
                                 {currentChapter === novel.chapter_count && (
