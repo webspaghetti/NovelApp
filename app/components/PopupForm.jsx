@@ -24,9 +24,14 @@ function PopupForm(props) {
         return lastUpdateText.replace(/Updated |\[|]/g, '').trim();
     }
 
-    function extractChapterNumber(chapterText) {
-        const match = chapterText.match(/\d+/);
-        return match ? match[0] : '';
+    function extractChapterNumber(element) {
+        if (!element) return '';
+
+        const href = element.getAttribute('href');
+        if (!href) return '';
+
+        const match = href.match(/\/chapter-(\d+)\.html/);
+        return match ? match[1] : '';
     }
 
     async function handleSubmit(event) {
@@ -44,7 +49,7 @@ function PopupForm(props) {
                 const novelTitle = doc.querySelector('.tit').textContent.trim();
                 let novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
                 const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
-                const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
+                const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li a'));
                 const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
                 const imageUrl = 'https://freewebnovel.com' + doc.querySelector('.pic img').getAttribute('src');
 
