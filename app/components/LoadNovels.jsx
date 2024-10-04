@@ -50,7 +50,11 @@ function LoadNovels({ novels }) {
                         <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[24rem] max-sm:h-[200px] object-cover select-none img"} draggable="false" priority={true} />
 
                         <div className="m-4 max-sm:hidden">
-                            <div className={`text-secondary font-bold text-lg max-w-[30rem] truncate`}>{novel.name}</div>
+                            <div className="h-10 mb-2 flex items-center justify-center">
+                                <div className="text-secondary font-bold text-lg line-clamp-2 overflow-hidden">
+                                    {novel.name}
+                                </div>
+                            </div>
                             <span className={"flex items-center justify-center text-gray-400 text-sm"}>
                                 Progress: {
                                 isLoadingProgress ? (
