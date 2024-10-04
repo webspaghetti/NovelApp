@@ -11,7 +11,7 @@ function NovelPage({novel, user}) {
     const progressPercentage = user.current_chapter / novel.chapter_count * 100;
 
     return (
-            <div className={'flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-3 border-b-gray-400 pb-4'}>
+            <div className={'flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-[3px] border-b-gray-400 pb-4'}>
 
                 <div className="w-1/2 max-sm:w-full">
                     <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-lg m-auto"} draggable="false" priority={true} />

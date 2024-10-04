@@ -14,29 +14,6 @@ module.exports = {
         card: '#0c0c0c', /*#212121 #121314*/
         main_background: '#171717' /*#202020 #191919*/
       },
-      borderWidth: {
-        DEFAULT: '1px',
-        '0': '0',
-        '2': '2px',
-        '3': '3px',
-        '4': '4px',
-        '6': '6px',
-        '8': '8px'
-      },
-      maxWidth:{
-        '30': '30rem',
-      },
-      minWidth:{
-        '42': '170px',
-      },
-      height:{
-        '100': '20rem',
-        '101': '27rem',
-        '75': '19rem',
-      },
-      width:{
-        '100': '35rem',
-      }
     },
   },
   plugins: [],
