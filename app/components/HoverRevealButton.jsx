@@ -19,10 +19,9 @@ export default function HoverRevealButton({ onClick, label, animation, shape }){
                     d={shape}
                 />
             </svg>
-            <div className="absolute left-0 w-7 h-7 bg-transparent group-hover:w-full transition-all duration-300 ease-in-out" />
             <span className="max-sm:hidden overflow-hidden opacity-0 max-w-0 group-hover:max-w-xs group-hover:opacity-100 transition-all duration-1000 ease-in-out">
-        <span className="pl-2 whitespace-nowrap">{label}</span>
-      </span>
+                <span className="pl-2 whitespace-nowrap">{label}</span>
+            </span>
         </button>
     );
 }
