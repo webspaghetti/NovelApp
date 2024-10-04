@@ -51,6 +51,7 @@ function LoadNovels({ novels }) {
                         <div className="m-4 max-sm:mx-2">
                             <div className={"text-secondary font-bold text-lg max-sm:text-base max-w-30 max-sm:max-w-52 truncate max-sm:hidden"}>{novel.name}</div>
                             <span className={"block text-gray-400 text-sm"}>
+                        <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-100 md:h-96 max-sm:h-52 object-cover select-none img"} draggable="false" priority={true} />
                                 Progress: {
                                 isLoadingProgress ? (
                                     <CircularProgress size={14} sx={{ color: "#16a34a"}} thickness={10} />
