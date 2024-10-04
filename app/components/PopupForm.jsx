@@ -10,6 +10,8 @@ function PopupForm(props) {
 
     function handleClosing(event) {
         if (event.target.classList.contains('backdrop-blur-sm') && !isLoading) {
+            setLink('');
+            setErrorMessage('');
             props.setTrigger(false);
         }
     }
