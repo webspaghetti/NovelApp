@@ -54,7 +54,7 @@ function LoadNovels({ novels }) {
                             <span className={"flex items-center justify-center text-gray-400 text-sm"}>
                                 Progress: {
                                 isLoadingProgress ? (
-                                    <CircularProgress size={14} sx={{ color: "#16a34a"}} thickness={10} />
+                                    <CircularProgress size={14} sx={{ color: "#16a34a", marginRight: '10px', marginLeft: '10px'}} thickness={10} />
                                 ) : (
                                     <span className={"text-green-600 font-bold ml-2 mr-1"}>{currentChapter}</span>
                                 )
@@ -89,7 +89,7 @@ function LoadNovels({ novels }) {
                             <span className={"flex items-center justify-center text-gray-400 text-sm pt-1"}>
                                 {
                                     isLoadingProgress ? (
-                                        <CircularProgress size={14} sx={{ color: "#16a34a"}} thickness={10} />
+                                        <CircularProgress size={14} sx={{ color: "#16a34a", marginRight: "10px"}} thickness={10} />
                                     ) : (
                                         <span className={"text-green-600 font-bold ml-2 mr-1"}>{currentChapter}</span>
                                     )
