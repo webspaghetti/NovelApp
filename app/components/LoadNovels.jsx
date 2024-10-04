@@ -81,6 +81,11 @@ function LoadNovels({ novels }) {
                         </div>
 
                         <div className="m-2 sm:hidden">
+                            <div className="h-10 mb-2 flex items-center justify-center">
+                                <div className="text-secondary font-bold text-sm line-clamp-2 overflow-hidden">
+                                    {novel.name}
+                                </div>
+                            </div>
                             <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
                                 {!isLoadingProgress && (
                                     <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>
