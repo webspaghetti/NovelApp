@@ -39,7 +39,7 @@ function PopupForm(props) {
     async function handleSubmit(event) {
         setIsLoading(true);
         event.preventDefault();
-        const regex = /^https:\/\/freewebnovel\.com\/[a-z]+(?:-[a-z]+)*\.html$/;
+        const regex = /^https:\/\/freewebnovel\.com\/[a-z0-9]+(?:-[a-z0-9]+)*\.html$/;
 
         if (regex.test(link)) {
             const response = await fetch(link);
@@ -124,7 +124,7 @@ function PopupForm(props) {
                 setIsLoading(false);
             }
         } else {
-            setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html');
+            setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html or https://www.lightnovelworld.co/novel/novel-name');
             triggerShake();
             setIsLoading(false);
         }
