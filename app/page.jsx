@@ -5,8 +5,7 @@ import FetchNovels from "@/app/components/FetchNovels";
 
 // Server-Side Render
 async function getNovels() {
-    //const res = await fetch(`${process.env.PUBLIC_API_URL}/api/novels`, { cache: 'no-store' });
-    const res = await fetch(`http://localhost:3000/api/novels`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.PUBLIC_API_URL}/api/novels`, { cache: 'no-store' });
     if (!res.ok) {
         throw new Error('Failed to fetch novels');
     }
