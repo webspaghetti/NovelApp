@@ -196,14 +196,14 @@ button:not(:hover) {
 
 /* badge styles */
 .badge{
-  @apply bg-gray-50 text-secondary text-xs uppercase font-bold rounded-full p-2 select-none;
+  @apply bg-gray-50 text-secondary text-xs uppercase font-bold rounded-full p-2 max-sm:p-1 select-none;
 }
 
 .badge.Hiatus {
   @apply bg-red-400 text-red-800;
 }
 .badge.OnGoing {
-  @apply bg-yellow-400 text-yellow-800;
+  @apply bg-yellow-400 text-yellow-800 p-[4px] max-sm:p-[2px];
 }
 .badge.Completed {
   @apply bg-emerald-400 text-emerald-800;
