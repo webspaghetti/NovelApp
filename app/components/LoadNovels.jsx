@@ -47,11 +47,11 @@ function LoadNovels({ novels }) {
             return (
                 <div key={novel.id} className={"card glassy-animation"} style={{ height: "auto" }}>
                     <Link href={`/${novel.formatted_name}`}>
-                        <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-100 md:h-96 max-sm:h-52 object-cover select-none img"} draggable="false" />
-                        <div className="m-4 max-sm:mx-2">
-                            <div className={"text-secondary font-bold text-lg max-sm:text-base max-w-30 max-sm:max-w-52 truncate max-sm:hidden"}>{novel.name}</div>
-                            <span className={"block text-gray-400 text-sm"}>
                         <Image src={novel.alternative_image_url ? novel.alternative_image_url : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-100 md:h-96 max-sm:h-52 object-cover select-none img"} draggable="false" priority={true} />
+
+                        <div className="m-4 max-sm:hidden">
+                            <div className={"text-secondary font-bold text-lg max-w-30 truncate"}>{novel.name}</div>
+                            <span className={"flex items-center justify-center text-gray-400 text-sm"}>
                                 Progress: {
                                 isLoadingProgress ? (
                                     <CircularProgress size={14} sx={{ color: "#16a34a"}} thickness={10} />
@@ -78,7 +78,7 @@ function LoadNovels({ novels }) {
                             <span className={'max-sm:hidden'}>
                                 {novel.status === "Completed" && (
                                     <>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="max-sm:size-3 size-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={5} stroke="currentColor" className="max-sm:size-3 size-5">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                         </svg>
                                     </>
@@ -92,7 +92,7 @@ function LoadNovels({ novels }) {
                                 )}
                                 {novel.status === "Hiatus" && (
                                     <>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={4} stroke="currentColor" className="max-sm:size-3 size-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={5} stroke="currentColor" className="max-sm:size-3 size-5">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
                                         </svg>
                                     </>
