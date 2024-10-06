@@ -17,7 +17,7 @@ export default async function Home() {
 
     return (
         <main>
-            <div className={"flex justify-between w-full mb-5 relative top-20"}>
+            <div className={"flex justify-between w-full mb-5 relative top-20 max-sm:top-[70px]"}>
                 <AddNovel />
                 <FetchNovels />
             </div>
