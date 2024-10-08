@@ -17,8 +17,16 @@ function ChapterButtons({ novel, user }) {
                         <h1 key={`breakPoint${chapterNumber/100}`} className="col-span-full max-sm:text-xl text-2xl font-bold text-center my-4 text-secondary link_outline select-none">
                                 Chapters {chapterNumber} - {chapterNumber - 99}
                             </h1>
-                            <button key={`chapter-${chapterNumber}`} className="normal-case px-4 py-2 rounded-md text-lg text-secondary flex justify-center items-center">
-                                <p className={'max-sm:text-base'}> Chapter {chapterNumber} </p>
+                            <button
+                                key={`chapter-${chapterNumber}`}
+                                className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center ${
+                                    //user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
+                                    user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
+                                } ${
+                                    user?.current_chapter === chapterNumber ? 'border-green-600 hover:bg-green-600' : ''
+                                }`}
+                            >
+                                <Link href={`/${novel.formatted_name}/${chapterNumber}`}><p className={'max-sm:text-base'}> Chapter {chapterNumber} </p></Link>
                             </button>
                         </React.Fragment>
                     );
