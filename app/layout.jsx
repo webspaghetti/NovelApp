@@ -14,6 +14,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
     <head>
+        <link rel="preload" href="/background_img.png" as="image" />
+
         <link rel="apple-touch-icon" href="/icons/apple-icon-180.png"/>
 
         <meta name="apple-mobile-web-app-capable" content="yes"/>
