@@ -130,9 +130,11 @@ button {
   transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
 }
 
-button:hover {
-  @apply bg-primary text-secondary;
-  transform: scale(1.05);
+@media (min-width: 640px) {
+  button:hover {
+    @apply bg-primary text-secondary;
+    transform: scale(1.05);
+  }
 }
 
 button:not(:hover) {
