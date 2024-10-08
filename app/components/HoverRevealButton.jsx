@@ -2,7 +2,7 @@ export default function HoverRevealButton({ onClick, label, animation, shape }){
     return (
         <button
             onClick={onClick}
-            className={`group flex items-center text-secondary md:pl-4 ${animation} relative`}
+            className={`group flex items-center text-secondary md:pl-4 ${animation} relative max-sm:bg-primary`}
             aria-label={label}
         >
             <svg
