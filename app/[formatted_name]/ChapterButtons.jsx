@@ -19,11 +19,10 @@ function ChapterButtons({ novel, user }) {
                             </h1>
                             <button
                                 key={`chapter-${chapterNumber}`}
-                                className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center ${
-                                    //user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
-                                    user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
+                                className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary ${
+                                    user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
                                 } ${
-                                    user?.current_chapter === chapterNumber ? 'border-green-600 hover:bg-green-600' : ''
+                                    user?.current_chapter === chapterNumber ? 'border-green-600 !bg-green-600' : ''
                                 }`}
                             >
                                 <Link href={`/${novel.formatted_name}/${chapterNumber}`}><p className={'max-sm:text-base'}> Chapter {chapterNumber} </p></Link>
@@ -34,10 +33,10 @@ function ChapterButtons({ novel, user }) {
                     return (
                         <button
                             key={`chapter-${chapterNumber}`}
-                            className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center ${
-                                user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-green-700 hover:bg-green-700 text-gray-400' : ''
+                            className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary  ${
+                                user?.read_chapters.includes(chapterNumber) && user?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
                             } ${
-                                user?.current_chapter === chapterNumber ? 'border-green-500 hover:bg-green-500' : ''
+                                user?.current_chapter === chapterNumber ? 'border-green-600 !bg-green-600' : ''
                             }`}
                         >
                             <Link href={`/${novel.formatted_name}/${chapterNumber}`}><p className={'max-sm:text-base'}> Chapter {chapterNumber} </p></Link>
