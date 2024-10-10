@@ -137,10 +137,10 @@ button {
     @apply bg-primary text-secondary;
     transform: scale(1.05);
   }
-}
 
-button:not(:hover) {
-  @apply transform scale-100 ease-in duration-200;
+  button:not(:hover) {
+    @apply transform scale-100 ease-in duration-200;
+  }
 }
 
 @keyframes button_shake {
