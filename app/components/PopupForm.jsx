@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import GetNovel from "@/app/components/functions/GetNovel";
+import IsMoreThanTwoMonthsOld from "@/app/components/functions/IsMoreThanTwoMonthsOld";
 
 function PopupForm(props) {
     const [link, setLink] = useState('');
@@ -55,17 +56,7 @@ function PopupForm(props) {
             const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
             const imageUrl = 'https://freewebnovel.com' + doc.querySelector('.pic img').getAttribute('src');
 
-            function isMoreThanTwoMonthsOld(update) {
-                if (update.includes('months ago')) {
-                    const monthsAgo = parseInt(update);
-                    return monthsAgo >= 3;
-                } else if (Date.parse(update)) {
-                    return true;
-                }
-                return false;
-            }
-
-            if (novelStatus === 'OnGoing' && isMoreThanTwoMonthsOld(lastUpdate)) {
+            if (novelStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(lastUpdate)) {
                 novelStatus = 'Hiatus';
             }
 

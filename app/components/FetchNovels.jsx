@@ -3,6 +3,7 @@ import LoadingPopup from "@/app/components/LoadingPopup";
 import { useState } from "react";
 import GetNovel from "@/app/components/functions/GetNovel";
 import HoverRevealButton from "@/app/components/HoverRevealButton";
+import IsMoreThanTwoMonthsOld from "@/app/components/functions/IsMoreThanTwoMonthsOld";
 
 function FetchNovels() {
     const [buttonPopup, setButtonPopup] = useState(false);
@@ -27,19 +28,7 @@ function FetchNovels() {
         const chapterCountFetch = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
         const chapterCount = parseInt(chapterCountFetch);
 
-        function isMoreThanTwoMonthsOld(update) {
-            if (update.includes('months ago')) {
-                const monthsAgo = parseInt(update);
-                return monthsAgo >= 3;
-            } else if (update.includes('a year ago') || update.includes('years ago')) {
-                return true;
-            } else if (Date.parse(update)) {
-                return true;
-            }
-            return false;
-        }
-
-        if (novelStatus === 'OnGoing' && isMoreThanTwoMonthsOld(lastUpdate)) {
+        if (novelStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(lastUpdate)) {
             novelStatus = 'Hiatus';
         }
 
