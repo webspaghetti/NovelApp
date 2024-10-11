@@ -105,7 +105,7 @@ function Page({ params }) {
                         />
                     ) : (
                         <div className={'text-center text-xl'}>
-                            <p>This is most likely caused by the chapter structure of the novel.</p>
+                            <p>This is most likely caused by the novel using partial chapter structure (1.1, 1.2, etc.).</p>
                             <p>Unfortunately, right now this makes these novels unavailable.</p>
                             <p>We&apos;re sorry :(</p>
                         </div>
