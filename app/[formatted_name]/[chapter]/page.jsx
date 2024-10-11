@@ -1,61 +1,12 @@
 "use client"
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import Link from "next/link";
 import GetNovel from "@/app/components/functions/GetNovel";
 import SetUserProgress from "@/app/components/functions/SetUserProgress";
 import CircularProgress from "@mui/material/CircularProgress";
 import {notFound} from "next/navigation";
 
-function removeClutter(text) {
-    // Regex for detecting clutter patterns
-    const pattern = /[^.">]*[^\w\n]*r[^\w\n]*e[^\w\n]*e[^\w\n]*w[^\w\n]*.*b[^\w\n]*n[^\w\n]*o[^\w\n]*v[^\w\n]*.[^\w\n]*l[^\w\n]*(?<!<\/)\b|[\W\n]*c[.\W\n]*o[.\W\n]*m*(?!\w)(\))?(?<!<\/)/gi;
-    const chapterPattern = /<p>\s*<\/p><h4>Chapter \d+.*?<\/h4>\s*<p>\s*<\/p>|<p>\s*Chapter \d+\s.*?<\/p>/gi;
-    const translatorPattern = /<p>\s*(<strong>)?Translator: (<\/strong>)?.*?<\/p>/gi;
-
-    // Replace matched patterns with empty string
-    let cleanText = text.replace(pattern, '');
-
-    cleanText = cleanText.replace(chapterPattern, '');
-
-    cleanText = cleanText.replace(translatorPattern, '');
-
-    // Unicode ranges for non-weird characters
-    const validRanges = [
-        [0x0041, 0x005A],  // Uppercase Latin letters
-        [0x0061, 0x007A],  // Lowercase Latin letters
-        [0x0030, 0x0039],  // Digits
-        [0x0020, 0x002F],  // Common punctuation
-        [0x003A, 0x0040],
-        [0x005B, 0x0060],
-        [0x007B, 0x007E],
-        [0x000A, 0x000A],   // New line character
-        [0x201C, 0x201D],  // The characters “”
-        [0x2018, 0x2019] // The character ‘’
-    ];
-
-    // Filter out characters not in the valid ranges
-    cleanText = cleanText
-        .split('')
-        .filter((char, index, array) => {
-            const charCode = char.charCodeAt(0);
-            const isValid = validRanges.some(([start, end]) => start <= charCode && charCode <= end);
-
-            if (!isValid) {
-                return false;
-            } else return !(char === '.' && (index === 0 || index === array.length - 1 || !isValidCharacter(array[index - 1]) && !isValidCharacter(array[index + 1])));
-        })
-        .join('');
-
-    function isValidCharacter(character) {
-        const charCode = character.charCodeAt(0);
-        return validRanges.some(([start, end]) => start <= charCode && charCode <= end);
-    }
-
-    return cleanText;
-}
-
 function Page({ params }) {
-    const link = useMemo(() => `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`, [params]);
     const [isLoading, setIsLoading] = useState(true);
     const [chapter, setChapter] = useState({});
     const [novel, setNovel] = useState(null);
@@ -78,18 +29,26 @@ function Page({ params }) {
                     return;
                 }
 
-                // Fetch chapter content
-                const res = await fetch(link);
-                const html = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
+                // Determine the link based on the novel source
+                const link = novelData.source === 'freewebnovel'
+                    ? `https://freewebnovel.com/${params.formatted_name}/chapter-${params.chapter}.html`
+                    : `https://www.lightnovelworld.co/novel/${params.formatted_name}/chapter-${params.chapter}`;
 
-                const chapterTitle = doc.querySelector('.chapter').textContent.trim();
-                let chapterContent = doc.querySelector('#article').innerHTML.trim();
-                chapterContent = chapterContent.substring(0, chapterContent.lastIndexOf('<p>'));
-                chapterContent = removeClutter(chapterContent);
+                // Fetch chapter content using the API
+                const response = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: link }),
+                });
 
-                setChapter({ chapterTitle, chapterContent });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch chapter content');
+                }
+
+                const data = await response.json();
+                setChapter(data.content);
 
                 setIsLoading(false);
             } catch (error) {
@@ -98,7 +57,7 @@ function Page({ params }) {
             }
         }
         fetchNovelAndChapter();
-    }, [link, params.formatted_name, params.chapter]);
+    }, [params.formatted_name, params.chapter]);
 
     if (isLoading) {
         return (

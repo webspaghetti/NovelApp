@@ -1,58 +1,72 @@
 "use client"
-import LoadingPopup from "@/app/components/LoadingPopup";
 import { useState } from "react";
+import LoadingPopup from "@/app/components/LoadingPopup";
 import GetNovel from "@/app/components/functions/GetNovel";
 import HoverRevealButton from "@/app/components/HoverRevealButton";
 import IsMoreThanTwoMonthsOld from "@/app/components/functions/IsMoreThanTwoMonthsOld";
+import wordsToNumbers from "words-to-numbers";
 
 function FetchNovels() {
     const [buttonPopup, setButtonPopup] = useState(false);
 
     function formatLastUpdate(lastUpdateText) {
-        return lastUpdateText.replace(/Updated |\[|]/g, '').trim();
+        // Remove 'Updated' and surrounding brackets
+        let formattedText = lastUpdateText.replace(/Updated |\[|]/g, '').trim();
+
+        // Split the text to isolate the time-related part
+        let timePart = formattedText.split(' ')[0];
+
+        // Check if the time part is a written number, and convert it if needed
+        const numericTimePart = isNaN(timePart) ? wordsToNumbers(timePart) : timePart;
+
+        // Rebuild the final string with the converted time part
+        return formattedText.replace(timePart, numericTimePart);
     }
 
-    function extractChapterNumber(chapterText) {
-        const match = chapterText.match(/\d+/);
-        return match ? match[0] : '';
-    }
-
-    async function RefetchNovels(formattedName) {
-        const response = await fetch(`https://freewebnovel.com/${formattedName}.html`);
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        let novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
-        const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
-        const chapterCountFetch = extractChapterNumber(doc.querySelector('.ul-list5 li').textContent);
-        const chapterCount = parseInt(chapterCountFetch);
-
-        if (novelStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(lastUpdate)) {
-            novelStatus = 'Hiatus';
-        }
-
+    async function RefetchNovels(formattedName, source) {
         try {
+            const sourceUrl = (source === 'freewebnovel') ? `https://freewebnovel.com/${formattedName}.html` : `https://www.lightnovelworld.co/novel/${formattedName}` ;
+
+            const response = await fetch('/api/scrape', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ url: sourceUrl }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch novel data');
+            }
+
+            const data = await response.json();
+            const { novelStatus, lastUpdate, chapterCount } = data.content;
+
+            let updatedStatus = novelStatus;
+            if (updatedStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(formatLastUpdate(lastUpdate))) {
+                updatedStatus = 'Hiatus';
+            }
+
             const databaseNovel = await GetNovel(formattedName);
 
-            if (databaseNovel.chapter_count !== chapterCount ||
-                databaseNovel.status !== novelStatus ||
-                databaseNovel.latest_update !== lastUpdate
+            if (databaseNovel.chapter_count !== parseInt(chapterCount) ||
+                databaseNovel.status !== updatedStatus ||
+                databaseNovel.latest_update !== formatLastUpdate(lastUpdate)
             ) {
-                const response = await fetch('/api/novels', {
+                const updateResponse = await fetch('/api/novels', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
                         formattedName,
-                        chapterCount,
-                        status: novelStatus,
-                        latestUpdate: lastUpdate
+                        chapterCount: parseInt(chapterCount),
+                        status: updatedStatus,
+                        latestUpdate: formatLastUpdate(lastUpdate)
                     }),
                 });
 
-                if (!response.ok) {
+                if (!updateResponse.ok) {
                     throw new Error('Failed to update novel');
                 }
             }
@@ -69,12 +83,12 @@ function FetchNovels() {
             }
             const novels = await response.json();
 
-            for (const novel of novels) {
-                await RefetchNovels(novel.formatted_name);
-            }
+            // Use Promise.all to run RefetchNovels concurrently for all novels
+            await Promise.all(novels.map(novel => RefetchNovels(novel.formatted_name, novel.source)));
+
             location.reload();
         } catch (error) {
-            console.error("Error fetching formatted_names:", error);
+            console.error("Error fetching or updating novels:", error);
         }
     }
 

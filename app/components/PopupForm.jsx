@@ -2,11 +2,12 @@ import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import GetNovel from "@/app/components/functions/GetNovel";
 import IsMoreThanTwoMonthsOld from "@/app/components/functions/IsMoreThanTwoMonthsOld";
+import wordsToNumbers from 'words-to-numbers';
 
 function PopupForm(props) {
     const [link, setLink] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const [shake, setShake] = useState(false);
 
     function handleClosing(event) {
@@ -19,48 +20,53 @@ function PopupForm(props) {
 
     function handleChange(event) {
         setLink(event.target.value);
-        // Clear previous error message when input changes
         setErrorMessage('');
     }
 
     function formatLastUpdate(lastUpdateText) {
-        return lastUpdateText.replace(/Updated |\[|]/g, '').trim();
-    }
+        // Remove 'Updated' and surrounding brackets
+        let formattedText = lastUpdateText.replace(/Updated |\[|]/g, '').trim();
 
-    function extractChapterNumber(element) {
-        if (!element) return '';
+        // Split the text to isolate the time-related part
+        let timePart = formattedText.split(' ')[0];
 
-        const href = element.getAttribute('href');
-        if (!href) return '';
+        // Check if the time part is a written number, and convert it if needed
+        const numericTimePart = isNaN(timePart) ? wordsToNumbers(timePart) : timePart;
 
-        const match = href.match(/\/chapter-(\d+)\.html/);
-        return match ? match[1] : '';
+        // Rebuild the final string with the converted time part
+        return formattedText.replace(timePart, numericTimePart);
     }
 
     async function handleSubmit(event) {
         setIsLoading(true);
         event.preventDefault();
-        const regex = /^https:\/\/freewebnovel\.com\/[a-z0-9]+(?:-[a-z0-9]+)*\.html$/;
+        const regex = /^(https:\/\/freewebnovel\.com\/[a-z0-9]+(?:-[a-z0-9]+)*\.html|https:\/\/www\.lightnovelworld\.co\/novel\/[a-z0-9-]+)$/;
 
         if (regex.test(link)) {
-            const response = await fetch(link);
-            const html = await response.text();
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-
-            const novelTitle = doc.querySelector('.tit').textContent.trim();
-            let novelStatus = doc.querySelector('.s1.s2, .s1.s3').textContent.trim();
-            const lastUpdate = formatLastUpdate(doc.querySelector('.lastupdate').textContent);
-            const chapterCount = extractChapterNumber(doc.querySelector('.ul-list5 li a'));
-            const formattedName = link.match(/https:\/\/freewebnovel\.com\/([^\/]+)\.html/)[1];
-            const imageUrl = 'https://freewebnovel.com' + doc.querySelector('.pic img').getAttribute('src');
-
-            if (novelStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(lastUpdate)) {
-                novelStatus = 'Hiatus';
-            }
-
             try {
+                const response = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: link }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch novel data');
+                }
+
+                const data = await response.json();
+                const { novelTitle, novelStatus, lastUpdate, chapterCount, imageUrl, formattedName } = data.content;
+
+                let updatedStatus = (novelStatus === 'Ongoing') ? 'OnGoing' : novelStatus;
+
+                if (updatedStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(formatLastUpdate(lastUpdate))) {
+                    updatedStatus = 'Hiatus';
+                }
+
+                const novelSource = link.includes('freewebnovel.com') ? 'freewebnovel' : 'lightnovelworld';
+
                 const novelResponse = await fetch('/api/novels', {
                     method: 'POST',
                     headers: {
@@ -70,15 +76,16 @@ function PopupForm(props) {
                         name: novelTitle,
                         formattedName: formattedName,
                         chapterCount: chapterCount,
-                        status: novelStatus,
-                        latestUpdate: lastUpdate,
-                        imageUrl: imageUrl
+                        status: updatedStatus,
+                        latestUpdate: formatLastUpdate(lastUpdate),
+                        imageUrl: imageUrl,
+                        source: novelSource
                     }),
                 });
 
-                const data = await novelResponse.json();
+                const novelData = await novelResponse.json();
 
-                if (data.isDuplicate) {
+                if (novelData.isDuplicate) {
                     setErrorMessage('Novel is already present.');
                     triggerShake();
                     setIsLoading(false);
@@ -86,7 +93,7 @@ function PopupForm(props) {
                 }
 
                 if (!novelResponse.ok) {
-                    throw new Error(data.message || 'Failed to create novel');
+                    throw new Error(novelData.message || 'Failed to create novel');
                 }
 
                 const { id: novelID } = await GetNovel(formattedName);
@@ -106,12 +113,12 @@ function PopupForm(props) {
                     throw new Error('Failed to create user progress');
                 }
 
-                // Reload the page after successful creation
                 location.reload();
             } catch (error) {
-                console.error("Error executing query:", error.message);
+                console.error("Error:", error.message);
                 setErrorMessage(error.message);
                 triggerShake();
+            } finally {
                 setIsLoading(false);
             }
         } else {
@@ -121,7 +128,6 @@ function PopupForm(props) {
         }
     }
 
-    // Trigger button shake animation
     const triggerShake = () => {
         setShake(true);
         setTimeout(() => setShake(false), 500); // Remove shake after 500ms
@@ -139,7 +145,7 @@ function PopupForm(props) {
                                placeholder="Link"
                                aria-label="Link" />
 
-                        {!isLoading ?(
+                        {!isLoading ? (
                             <button className={`flex-shrink-0 text-sm border-4 text-secondary py-3 px-3 rounded-lg mb-2 ${shake ? 'animate-shake' : ''}`} type="submit">
                                 Submit
                             </button>
