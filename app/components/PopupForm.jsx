@@ -53,7 +53,9 @@ function PopupForm(props) {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch novel data');
+                    triggerShake();
+                    setIsLoading(false);
+                    throw new Error('Failed to fetch novel data\nCheck your link');
                 }
 
                 const data = await response.json();
