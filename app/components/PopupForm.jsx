@@ -113,7 +113,9 @@ function PopupForm(props) {
                     throw new Error('Failed to create user progress');
                 }
 
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 0);
             } catch (error) {
                 console.error("Error:", error.message);
                 setErrorMessage(error.message);

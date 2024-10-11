@@ -86,7 +86,9 @@ function FetchNovels() {
             // Use Promise.all to run RefetchNovels concurrently for all novels
             await Promise.all(novels.map(novel => RefetchNovels(novel.formatted_name, novel.source)));
 
-            location.reload();
+            setTimeout(() => {
+                location.reload();
+            }, 0);
         } catch (error) {
             console.error("Error fetching or updating novels:", error);
         }
