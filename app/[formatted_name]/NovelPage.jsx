@@ -21,7 +21,7 @@ function NovelPage({novel, user}) {
                         <span className={'flex flex-row items-center'}>
                             {novel.status === "Completed" && (
                                 <>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={5} stroke="currentColor" className="size-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={5} stroke="currentColor" className="size-5 ml-1">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                     </svg>
                                     <span className="ml-1 mr-2 max-sm:hidden">Completed</span>
@@ -29,7 +29,7 @@ function NovelPage({novel, user}) {
                             )}
                             {novel.status === "OnGoing" && (
                                 <>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="max-sm:size-7 size-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="max-sm:size-7 size-5 ml-1">
                                         <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-3.75V6Z" clipRule="evenodd" />
                                     </svg>
                                     <span className="ml-1 mr-2 max-sm:hidden">OnGoing</span>
@@ -37,7 +37,7 @@ function NovelPage({novel, user}) {
                             )}
                             {novel.status === "Hiatus" && (
                                 <>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={5} stroke="currentColor" className="size-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={5} stroke="currentColor" className="size-5 ml-1">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
                                     </svg>
                                     <span className="ml-1 mr-2 max-sm:hidden">Hiatus</span>
