@@ -88,8 +88,27 @@ function Page({ params }) {
                         </button>
                     </Link>
                 </div>
-                <h1 className="border-b-gray-400 border-b-2 text-center max-sm:text-2xl text-3xl mb-4 pb-6">{chapter.chapterTitle}</h1>
-                <div className="text-secondary max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2" dangerouslySetInnerHTML={{ __html: chapter.chapterContent.replace(/<p>/g, '<p style="margin: 1rem 0;">') }} />
+
+                <h1 className="border-b-gray-400 border-b-2 text-center max-sm:text-2xl text-3xl mb-4 pb-6">
+                    {chapter.chapterTitle || "Failed to display"}
+                </h1>
+
+                <div className="text-secondary max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2">
+                    {chapter.chapterContent ? (
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: chapter.chapterContent.replace(/<p>/g, '<p style="margin: 1rem 0;">')
+                            }}
+                        />
+                    ) : (
+                        <div className={'text-center text-xl'}>
+                            <p>This is most likely caused by the chapter structure of the novel.</p>
+                            <p>Unfortunately, right now this makes these novels unavailable.</p>
+                            <p>We&apos;re sorry :(</p>
+                        </div>
+                    )}
+                </div>
+
                 <div className="flex justify-around py-4">
                     {currentChapter > 1 &&(
                         <Link href={`/${params.formatted_name}/${prevChapter}`}>
