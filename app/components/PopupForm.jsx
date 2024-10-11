@@ -120,8 +120,6 @@ function PopupForm(props) {
                 console.error("Error:", error.message);
                 setErrorMessage(error.message);
                 triggerShake();
-            } finally {
-                setIsLoading(false);
             }
         } else {
             setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html or https://www.lightnovelworld.co/novel/novel-name');
