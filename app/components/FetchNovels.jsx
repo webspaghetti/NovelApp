@@ -42,7 +42,8 @@ function FetchNovels() {
             const data = await response.json();
             const { novelStatus, lastUpdate, chapterCount } = data.content;
 
-            let updatedStatus = novelStatus;
+            let updatedStatus = (novelStatus === 'Ongoing') ? 'OnGoing' : novelStatus;
+
             if (updatedStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(formatLastUpdate(lastUpdate))) {
                 updatedStatus = 'Hiatus';
             }
