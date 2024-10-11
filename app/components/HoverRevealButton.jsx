@@ -11,7 +11,7 @@ export default function HoverRevealButton({ onClick, label, animation, shape }){
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-7 h-7 z-10 sm:ml-1"
+                className="w-7 h-7 sm:ml-1"
             >
                 <path
                     strokeLinecap="round"
