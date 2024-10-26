@@ -202,7 +202,7 @@ button {
 
 /* badge styles */
 .badge{
-  @apply bg-gray-50 text-secondary text-xs uppercase font-bold rounded-full p-[5px] max-sm:p-1 select-none;
+  @apply bg-gray-50 text-secondary text-xs uppercase font-extrabold rounded-full p-[5px] max-sm:p-1 select-none;
 }
 
 .badge.Hiatus {
