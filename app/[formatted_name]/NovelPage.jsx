@@ -17,6 +17,7 @@ function NovelPage({novel, user}) {
                 <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-lg m-auto"} draggable="false" priority={true} />
             </div>
             <div className="flex flex-col justify-center items-start md:w-1/3 max-sm:w-full">
+                <span className={'flex flex-row items-center sm:gap-2'}>
                     <div className={`badge ${novel.status} max-sm:left-7 max-sm:p-1.5 max-sm:mt-2 mb-4 max-sm:absolute max-sm:top-0`}>
                         <span className={'flex flex-row items-center'}>
                             {novel.status === "Completed" && (
@@ -45,6 +46,8 @@ function NovelPage({novel, user}) {
                             )}
                             </span>
                         </div>
+                        <div className={`source ${novel.source}`} />
+                    </span>
                 <h1 className="max-sm:text-2xl text-3xl font-bold mb-2">{novel.name}</h1>
                 <p className="max-sm:text-base text-lg mb-2">Chapters: {novel.chapter_count}</p>
                 <p className={"block text-gray-400 text-sm"}> Last updated:
