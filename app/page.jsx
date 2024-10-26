@@ -22,7 +22,7 @@ export default async function Home() {
                 <FetchNovels />
             </div>
 
-            <div className="w-full h-[4px] bg-gradient-to-r from-primary via-secondary to-primary relative top-[76px] max-sm:top-[70px] mb-5 max-sm:mb-4 rounded-full" />
+            <div className="w-full h-[4px] bg-gradient-to-r from-primary via-secondary to-primary relative top-[76px] max-sm:top-[70px] mb-8 max-sm:mb-4 rounded-full" />
 
             <div className={'max-md:flex max-md:justify-center'}>
                 <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-4 gap-5 md:gap-10 relative top-20 max-sm:pb-3 pb-9"}>
