@@ -174,7 +174,7 @@ button {
 .card {
   @apply
   bg-card
-  shadow-cardT
+  shadow-cardB
   max-sm:rounded-b-lg max-sm:rounded-3xl rounded-b-lg rounded-[32px]
   relative
   overflow-hidden
@@ -224,7 +224,7 @@ button {
   max-sm:left-[31px] max-sm:mt-11 mb-4 max-sm:absolute max-sm:top-0
   select-none
   bg-card
-  shadow-primaryT;
+  shadow-primaryB;
 }
 
 .source.freewebnovel {
