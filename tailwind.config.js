@@ -14,6 +14,9 @@ module.exports = {
         card: '#0c0c0c', /*#212121 #121314*/
         main_background: '#171717' /*#202020 #191919*/
       },
+      boxShadow: {
+        'cardT': '0px 0px 15px 5px rgb(0 0 0 / 1)',
+      }
     },
   },
   plugins: [],
