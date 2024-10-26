@@ -16,7 +16,7 @@ module.exports = {
       },
       boxShadow: {
         'cardT': '0px 0px 15px 5px rgb(0 0 0 / 1)',
-        'primaryT': '0px 0px 1px 3px rgb(94 66 207 / 1)',
+        'primaryT': '0px 0px 3px 3px rgb(94 66 207 / 1)',
       }
     },
   },
