@@ -14,7 +14,7 @@ function NovelPage({novel, user}) {
         <div className={'flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-4 border-b-gray-400 pb-4'}>
 
             <div className="w-1/2 max-sm:w-full">
-                <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-cardT m-auto"} draggable="false" priority={true} />
+                <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-cardB m-auto"} draggable="false" priority={true} />
             </div>
             <div className="flex flex-col justify-center items-start md:w-1/3 max-sm:w-full">
                 <span className={'flex flex-row items-center sm:gap-2'}>
