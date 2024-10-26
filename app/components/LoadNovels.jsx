@@ -47,7 +47,7 @@ function LoadNovels({ novels }) {
             return (
                 <div key={novel.id} className={"card glassy-animation"} style={{ height: "auto" }}>
                     <Link href={`/${novel.formatted_name}`}>
-                        <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[24rem] max-sm:h-[200px] object-cover select-none img"} draggable="false" priority={true} />
+                        <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"} draggable="false" priority={true} />
 
                         <div className="m-4 max-sm:hidden">
                             <div className="h-10 mb-2 flex items-center justify-center">
