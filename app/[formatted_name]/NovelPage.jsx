@@ -50,7 +50,7 @@ function NovelPage({novel, user}) {
                 </span>
                 <h1 className="max-sm:text-2xl text-3xl font-bold mb-2">{novel.name}</h1>
                 <p className="max-sm:text-base text-lg mb-2">Chapters: {novel.chapter_count}</p>
-                <p className={"block text-gray-400 text-sm"}> Last updated:
+                <p className={"block text-gray-400 text-sm"}> Last updated: {' '}
                     <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
                         <DateFormatter dateString={novel.latest_update} />
                     ) : (
