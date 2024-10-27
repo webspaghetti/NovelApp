@@ -126,6 +126,10 @@ function Page({ params }) {
                         </Link>
                     )}
 
+                    {currentChapter === 1 &&(
+                        <div />
+                    )}
+
                     {currentChapter < chapterCount &&(
                         <Link href={`/${params.formatted_name}/${nextChapter}`}>
                             <button className="md:pl-5 max-sm:py-4 max-sm:px-6 group" aria-label={"Next chapter"}>
