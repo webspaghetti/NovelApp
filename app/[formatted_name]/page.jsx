@@ -3,8 +3,8 @@ import React, {useEffect, useState} from "react";
 import NovelPage from "@/app/[formatted_name]/NovelPage";
 import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
 import {notFound} from "next/navigation";
-import CircularProgress from "@mui/material/CircularProgress";
 import GetNovel from "@/app/components/functions/GetNovel";
+import {ChapterButtonsSkeleton, NovelPageSkeleton} from "@/app/components/Skeletons";
 
 export const dynamicParams = { dynamicParams: true }
 
@@ -48,17 +48,18 @@ function Page({ params }) {
     }, [params.formatted_name]);
 
     return (
-        <main className="relative top-20">
+        <main className="relative pt-20">
             {isLoading ? (
-                <div className="relative flex justify-center items-center top-60">
-                    <CircularProgress sx={{color: "#5e42cf"}} size={150} thickness={6}/>
-                </div>
-            ) : novel ?(
                 <>
-                <NovelPage user={user} novel={novel} />
-                <ChapterButtons novel={novel} user={user} />
+                    <NovelPageSkeleton />
+                    <ChapterButtonsSkeleton />
                 </>
-            ): (
+            ) : novel ? (
+                <>
+                    <NovelPage user={user} novel={novel} />
+                    <ChapterButtons novel={novel} user={user} />
+                </>
+            ) : (
                 notFound()
             )}
         </main>

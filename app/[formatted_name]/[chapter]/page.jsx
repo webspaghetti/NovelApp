@@ -1,10 +1,10 @@
 "use client"
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import GetNovel from "@/app/components/functions/GetNovel";
 import SetUserProgress from "@/app/components/functions/SetUserProgress";
-import CircularProgress from "@mui/material/CircularProgress";
-import {notFound} from "next/navigation";
+import { notFound } from "next/navigation";
+import {ChapterSkeleton} from "@/app/components/Skeletons";
 
 function Page({ params }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -60,18 +60,14 @@ function Page({ params }) {
     }, [params.formatted_name, params.chapter]);
 
     if (isLoading) {
-        return (
-            <div className="relative flex justify-center items-center h-full top-60">
-                <CircularProgress sx={{color: "#5e42cf"}} size={150} thickness={6}/>
-            </div>
-        );
+        return <ChapterSkeleton />;
     }
 
     const prevChapter = currentChapter - 1;
     const nextChapter = currentChapter + 1;
 
     return (
-        <main className={'relative px-5'}>
+        <main className={'px-5'}>
             <style jsx global>{`
               body {
                 background-image: none;
