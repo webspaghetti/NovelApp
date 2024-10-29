@@ -3,8 +3,8 @@ import React, {useEffect, useState} from "react";
 import NovelPage from "@/app/[formatted_name]/NovelPage";
 import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
 import {notFound} from "next/navigation";
-import GetNovel from "@/app/components/functions/GetNovel";
-import {ChapterButtonsSkeleton, NovelPageSkeleton} from "@/app/components/Skeletons";
+import GetNovel from "@/components/functions/GetNovel";
+import {ChapterButtonsSkeleton, NovelPageSkeleton} from "@/components/Skeletons";
 
 export const dynamicParams = { dynamicParams: true }
 

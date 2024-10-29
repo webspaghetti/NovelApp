@@ -1,9 +1,9 @@
 "use client"
 import { useState } from "react";
-import LoadingPopup from "@/app/components/LoadingPopup";
-import GetNovel from "@/app/components/functions/GetNovel";
-import HoverRevealButton from "@/app/components/HoverRevealButton";
-import IsMoreThanTwoMonthsOld from "@/app/components/functions/IsMoreThanTwoMonthsOld";
+import LoadingPopup from "@/components/LoadingPopup";
+import GetNovel from "@/components/functions/GetNovel";
+import HoverRevealButton from "@/components/HoverRevealButton";
+import IsMoreThanTwoMonthsOld from "@/components/functions/IsMoreThanTwoMonthsOld";
 import wordsToNumbers from "words-to-numbers";
 
 function FetchNovels() {

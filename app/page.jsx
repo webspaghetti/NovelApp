@@ -1,6 +1,6 @@
-import LoadNovels from "@/app/components/LoadNovels";
-import AddNovel from "@/app/components/AddNovel";
-import FetchNovels from "@/app/components/FetchNovels";
+import LoadNovels from "@/components/LoadNovels";
+import AddNovel from "@/components/AddNovel";
+import FetchNovels from "@/components/FetchNovels";
 
 
 // Server-Side Render

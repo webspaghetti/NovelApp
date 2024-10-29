@@ -1,7 +1,7 @@
 "use client"
 import {useState} from "react";
-import PopupForm from "@/app/components/PopupForm";
-import HoverRevealButton from "@/app/components/HoverRevealButton";
+import PopupForm from "@/components/PopupForm";
+import HoverRevealButton from "@/components/HoverRevealButton";
 
 function AddNovel() {
 

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
-import DateFormatter from "@/app/components/functions/DateFormatter";
+import DateFormatter from "@/components/functions/DateFormatter";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function LoadNovels({ novels }) {

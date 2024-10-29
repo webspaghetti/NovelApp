@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from "next/image";
-import DateFormatter from "@/app/components/functions/DateFormatter";
+import DateFormatter from "@/components/functions/DateFormatter";
 import Link from "next/link";
 
 function isValidDate(dateString) {

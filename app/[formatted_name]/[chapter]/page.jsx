@@ -1,10 +1,10 @@
 "use client"
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import GetNovel from "@/app/components/functions/GetNovel";
-import SetUserProgress from "@/app/components/functions/SetUserProgress";
+import GetNovel from "@/components/functions/GetNovel";
+import SetUserProgress from "@/components/functions/SetUserProgress";
 import { notFound } from "next/navigation";
-import {ChapterSkeleton} from "@/app/components/Skeletons";
+import {ChapterSkeleton} from "@/components/Skeletons";
 
 function Page({ params }) {
     const [isLoading, setIsLoading] = useState(true);

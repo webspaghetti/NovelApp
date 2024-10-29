@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import GetNovel from "@/app/components/functions/GetNovel";
-import IsMoreThanTwoMonthsOld from "@/app/components/functions/IsMoreThanTwoMonthsOld";
+import GetNovel from "@/components/functions/GetNovel";
+import IsMoreThanTwoMonthsOld from "@/components/functions/IsMoreThanTwoMonthsOld";
 import wordsToNumbers from 'words-to-numbers';
 
 function PopupForm(props) {
