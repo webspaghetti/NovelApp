@@ -179,6 +179,8 @@ button {
   relative
   overflow-hidden
   text-center;
+  transition: transform 0.5s ease;
+  transform: scale(1)
 }
 .card h3 {
   @apply
@@ -191,11 +193,7 @@ button {
 
 @media (min-width: 640px) {
   .card:hover {
-    @apply scale-105 ease-out duration-500;
-  }
-
-  .card:not(:hover) {
-    @apply scale-100 ease-out duration-500;
+    transform: scale(1.05);
   }
 }
 
