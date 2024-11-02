@@ -18,7 +18,7 @@ function NovelPage({novel, user}) {
             </div>
             <div className="flex flex-col justify-center items-start md:w-1/3 max-sm:w-full">
                 <span className={'flex flex-row items-center sm:gap-2'}>
-                    <div className={`badge ${novel.status} max-sm:left-7 max-sm:p-1.5 max-sm:mt-2 mb-4 max-sm:absolute max-sm:top-0`}>
+                    <div className={`badge ${novel.status} max-sm:left-7 max-sm:p-1.5 max-sm:mt-2 mb-4 max-sm:absolute max-sm:top-20`}>
                         <span className={'flex flex-row items-center'}>
                             {novel.status === "Completed" && (
                                 <>
@@ -46,7 +46,7 @@ function NovelPage({novel, user}) {
                             )}
                             </span>
                         </div>
-                    <div className={`source ${novel.source} max-sm:mt-[46px]`} />
+                    <div className={`source ${novel.source} max-sm:mt-[8rem]`} />
                 </span>
                 <h1 className="max-sm:text-2xl text-3xl font-bold mb-2">{novel.name}</h1>
                 <p className="max-sm:text-base text-lg mb-2">Chapters: {novel.chapter_count}</p>
