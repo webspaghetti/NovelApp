@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
 import { notFound } from "next/navigation";
-import { ChapterPageSkeleton } from "@/components/common/SkeletonLoaders";
+import { ChapterPageSkeleton } from "@/components/general/SkeletonLoaders";
 import { updateUsersProgress } from "@/app/helper-functions/updateUsersProgress";
 import ChapterDetails from "@/components/chapter-page/ChapterDetails";
 import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";

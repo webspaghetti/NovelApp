@@ -1,8 +1,8 @@
 "use client"
 import { useState } from "react";
-import LoadingOverlay from "@/components/common/LoadingOverlay";
+import LoadingOverlay from "@/components/general/LoadingOverlay";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
-import AnimatedIconButton from "@/components/common/AnimatedIconButton";
+import AnimatedIconButton from "@/components/general/AnimatedIconButton";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
 import wordsToNumbers from "words-to-numbers";
 

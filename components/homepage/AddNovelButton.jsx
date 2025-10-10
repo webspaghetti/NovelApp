@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import AddNovelPopup from "@/components/homepage/popup/AddNovelPopup";
-import AnimatedIconButton from "@/components/common/AnimatedIconButton";
+import AnimatedIconButton from "@/components/general/AnimatedIconButton";
 
 
 function AddNovelButton() {

@@ -4,7 +4,7 @@ import NovelDetails from "@/components/novel-page/NovelDetails";
 import ChapterButtonsList from "@/components/novel-page/ChapterButtonsList";
 import { notFound} from "next/navigation";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
-import { ChapterButtonsSkeleton, NovelPageSkeleton } from "@/components/common/SkeletonLoaders";
+import { ChapterButtonsSkeleton, NovelPageSkeleton } from "@/components/general/SkeletonLoaders";
 
 
 async function getUsersProgress(userId, novelId) {
