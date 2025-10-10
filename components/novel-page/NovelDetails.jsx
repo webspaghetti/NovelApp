@@ -1,13 +1,11 @@
 import React from 'react';
 import Image from "next/image";
-import DateFormatter from "@/components/functions/DateFormatter";
 import Link from "next/link";
+import { isValidDate } from "@/app/helper-functions/isValidDate";
+import { dateFormatter } from "@/app/helper-functions/dateFormatter";
 
-function isValidDate(dateString) {
-    return !isNaN(Date.parse(dateString));
-}
 
-function NovelPage({novel, user}) {
+function NovelDetails({novel, user}) {
     const progressPercentage = user.current_chapter / novel.chapter_count * 100;
 
     return (
@@ -52,7 +50,7 @@ function NovelPage({novel, user}) {
                 <p className="max-sm:text-base text-lg mb-2">Chapters: {novel.chapter_count}</p>
                 <p className={"block text-gray-400 text-sm"}> Last updated: {' '}
                     <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
-                        <DateFormatter dateString={novel.latest_update} />
+                        dateFormatter(novel.latest_update)
                     ) : (
                         novel.latest_update
                     )}
@@ -72,4 +70,5 @@ function NovelPage({novel, user}) {
     );
 }
 
-export default NovelPage;
+
+export default NovelDetails;

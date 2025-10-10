@@ -1,4 +1,4 @@
-function DateFormatter({dateString}) { //Passing as string not an object
+export function dateFormatter({dateString}) {
 
     const date = new Date(dateString);
     const day = date.getDate();
@@ -7,5 +7,3 @@ function DateFormatter({dateString}) { //Passing as string not an object
 
     return `${day}.${month}.${year}`;
 }
-
-export default DateFormatter;

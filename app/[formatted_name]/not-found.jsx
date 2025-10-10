@@ -1,8 +1,10 @@
 "use client"
+
+
 function NotFound() {
-    const handleNavigation = () => {
+    function handleNavigation() {
         window.location.href = "/"; // Navigate to homepage
-    };
+    }
 
     return (
         <main className={"text-center relative top-20"}>
@@ -14,5 +16,6 @@ function NotFound() {
         </main>
     );
 }
+
 
 export default NotFound;

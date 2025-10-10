@@ -1,21 +1,22 @@
 "use client"
-import React, {useEffect, useState} from "react";
-import NovelPage from "@/app/[formatted_name]/NovelPage";
-import ChapterButtons from "@/app/[formatted_name]/ChapterButtons";
-import {notFound} from "next/navigation";
-import GetNovel from "@/components/functions/GetNovel";
-import {ChapterButtonsSkeleton, NovelPageSkeleton} from "@/components/Skeletons";
+import { useEffect, useState } from "react";
+import NovelDetails from "@/components/novel-page/NovelDetails";
+import ChapterButtonsList from "@/components/novel-page/ChapterButtonsList";
+import { notFound} from "next/navigation";
+import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
+import { ChapterButtonsSkeleton, NovelPageSkeleton } from "@/components/common/SkeletonLoaders";
 
-export const dynamicParams = { dynamicParams: true }
 
-async function getUserInfo(userId, novelId) {
+async function getUsersProgress(userId, novelId) {
     try {
         const response = await fetch(`/api/user_progress?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`);
         if (!response.ok) {
-            throw new Error('Failed to fetch user progress');
+            console.error('Failed to fetch user progress');
+            return null;
         }
         const data = await response.json();
-        return data[0]; // Assuming the API returns an array with one item
+        return data[0];
+
     } catch (error) {
         console.error("Error fetching user info:", error);
         return null;
@@ -27,13 +28,14 @@ function Page({ params }) {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedNovels = await GetNovel(params.formatted_name);
+                const fetchedNovels = await fetchNovelByFormattedName(params.formatted_name);
 
                 if (fetchedNovels) {
-                    const fetchedUser = await getUserInfo(1, fetchedNovels.id); // Just me :)
+                    const fetchedUser = await getUsersProgress(1, fetchedNovels.id); // Just me :)
                     setUser(fetchedUser);
                     setNovel(fetchedNovels);
                 }
@@ -47,23 +49,27 @@ function Page({ params }) {
         fetchData();
     }, [params.formatted_name]);
 
+
     return (
         <main className="relative pt-20">
-            {isLoading ? (
+            {isLoading && (
                 <>
                     <NovelPageSkeleton />
                     <ChapterButtonsSkeleton />
                 </>
-            ) : novel ? (
-                <>
-                    <NovelPage user={user} novel={novel} />
-                    <ChapterButtons novel={novel} user={user} />
-                </>
-            ) : (
-                notFound()
             )}
+
+            {novel && !isLoading && (
+                <>
+                    <NovelDetails user={user} novel={novel} />
+                    <ChapterButtonsList novel={novel} user={user} />
+                </>
+            )}
+
+            {!novel && !isLoading && notFound()}
         </main>
     );
 }
+
 
 export default Page;

@@ -2,10 +2,13 @@
 import { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
-import DateFormatter from "@/components/functions/DateFormatter";
 import CircularProgress from "@mui/material/CircularProgress";
+import { isValidDate } from "@/app/helper-functions/isValidDate";
+import { dateFormatter } from "@/app/helper-functions/dateFormatter";
 
-function LoadNovels({ novels }) {
+
+
+function NovelList({ novelList }) {
     const [userProgress, setUserProgress] = useState({});
     const [isLoadingProgress, setIsLoadingProgress] = useState(true);
 
@@ -34,12 +37,9 @@ function LoadNovels({ novels }) {
         fetchUserProgress();
     }, []);
 
-    function isValidDate(dateString) {
-        return !isNaN(Date.parse(dateString));
-    }
 
     return (
-        novels.map((novel) => {
+        novelList.map((novel) => {
             const progress = userProgress[novel.id];
             const currentChapter = progress && progress.current_chapter !== null ? progress.current_chapter : 0;
             const progressPercentage = currentChapter / novel.chapter_count * 100;
@@ -70,7 +70,7 @@ function LoadNovels({ novels }) {
                                 )}
                             </span>
                             <span className={"block text-gray-400 text-sm"}> Last updated: <br className={"sm:hidden"} /> <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
-                                <DateFormatter dateString={novel.latest_update} />
+                                dateFormatter(novel.latest_update)
                             ) : (
                                 novel.latest_update
                             )}
@@ -144,4 +144,5 @@ function LoadNovels({ novels }) {
     );
 }
 
-export default LoadNovels;
+
+export default NovelList;

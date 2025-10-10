@@ -6,19 +6,19 @@ import { useState, useEffect } from 'react';
 
 
 function NavBar() {
-
     const [isSpecificPage, setIsSpecificPage] = useState(false);
-    const pathname = usePathname();
+    const pathName = usePathname();
 
     useEffect(() => {
         // Extract the last section of the pathname
-        const lastSection = pathname.split('/').pop();
+        const lastSection = pathName.split('/').pop();
 
         // Check if the last section is a number (using isNaN)
         setIsSpecificPage(!isNaN(parseInt(lastSection)));
-    }, [pathname]);
+    }, [pathName]);
 
     const navbarStyles = isSpecificPage ? "relative" : "fixed top-0 z-10";
+
 
     return (
         <div className={"w-full bg-navbar select-none max-sm:px-2.5 " + navbarStyles}>
@@ -40,5 +40,6 @@ function NavBar() {
         </div>
     );
 }
+
 
 export default NavBar;

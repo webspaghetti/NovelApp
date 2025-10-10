@@ -1,7 +1,7 @@
 import React from 'react';
 //import { LogOut, BookOpen, Clock, BookMarked } from 'lucide-react';
 
-const ProfilePage = () => {
+function ProfilePage() {
     const user = {
         name: "Sarah Chen",
         email: "sarah.chen@example.com",
@@ -90,6 +90,6 @@ const ProfilePage = () => {
             </div>
         </main>
     );
-};
+}
 
 export default ProfilePage;

@@ -1,6 +1,7 @@
 "use client"
-import {useEffect, useState} from "react";
-import {usePathname} from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
 
 function NotFound() {
     const pathname = usePathname();
@@ -14,9 +15,9 @@ function NotFound() {
         setLocation(novelName);
     }, [pathname]);
 
-    const handleNavigation = () => {
+    function handleNavigation() {
         window.location.href = `/${location}`; // Navigate to homepage
-    };
+    }
 
     return (
         <main className={"text-center"}>
@@ -28,5 +29,6 @@ function NotFound() {
         </main>
     );
 }
+
 
 export default NotFound;

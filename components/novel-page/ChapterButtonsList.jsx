@@ -1,10 +1,9 @@
 "use client"
-
 import React from "react";
 import Link from "next/link";
 
-function ChapterButtons({ novel, user }) {
 
+function ChapterButtonsList({ novel, user }) {
     return (
         <div className="grid max-sm:grid-cols-3 grid-cols-5 gap-4 justify-center items-center mt-4 pb-4">
             {Array.from({ length: novel.chapter_count }, (_, index) => {
@@ -48,4 +47,5 @@ function ChapterButtons({ novel, user }) {
     );
 }
 
-export default ChapterButtons;
+
+export default ChapterButtonsList;

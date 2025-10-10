@@ -1,6 +1,4 @@
-import React from 'react';
-
-const NovelPageSkeleton = () => {
+function NovelPageSkeleton() {
     return (
         <div className="flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-[3px] border-gray-700 pb-4">
             <div className="w-1/2 max-sm:w-full animate-pulse">
@@ -25,9 +23,9 @@ const NovelPageSkeleton = () => {
             </div>
         </div>
     );
-};
+}
 
-const ChapterButtonsSkeleton = () => {
+function ChapterButtonsSkeleton() {
     return (
         <div className="grid max-sm:grid-cols-3 grid-cols-5 gap-4 justify-center items-center mt-4 pb-4">
             {Array.from({ length: 30 }, (_, index) => (
@@ -38,18 +36,11 @@ const ChapterButtonsSkeleton = () => {
             ))}
         </div>
     );
-};
+}
 
-const ChapterSkeleton = () => {
+function ChapterPageSkeleton() {
     return (
-        <main className="relative px-5 pb-6">
-            <style jsx global>{`
-        body {
-          background-image: none;
-          background-color: #171717;
-        }
-      `}</style>
-
+        <>
             {/* Back button skeleton */}
             <div className="flex justify-start mb-5">
                 <div className="w-[72px] h-[60px] bg-gray-700 rounded-full animate-pulse" />
@@ -78,8 +69,9 @@ const ChapterSkeleton = () => {
                 <div className="w-[72px] h-[56px] bg-gray-700 rounded-full animate-pulse" />
                 <div className="w-[72px] h-[56px] bg-gray-700 rounded-full animate-pulse" />
             </div>
-        </main>
+        </>
     );
-};
+}
 
-export { NovelPageSkeleton, ChapterButtonsSkeleton, ChapterSkeleton };
+
+export { NovelPageSkeleton, ChapterButtonsSkeleton, ChapterPageSkeleton };

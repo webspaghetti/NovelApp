@@ -1,4 +1,4 @@
-export default function HoverRevealButton({ onClick, label, animation, shape }){
+function AnimatedIconButton({ onClick, label, animation, shape }){
     return (
         <button
             onClick={onClick}
@@ -25,3 +25,6 @@ export default function HoverRevealButton({ onClick, label, animation, shape }){
         </button>
     );
 }
+
+
+export default AnimatedIconButton;

@@ -1,14 +1,16 @@
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import GetNovel from "@/components/functions/GetNovel";
-import IsMoreThanTwoMonthsOld from "@/components/functions/IsMoreThanTwoMonthsOld";
+import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
+import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
 import wordsToNumbers from 'words-to-numbers';
 
-function PopupForm(props) {
+
+function AddNovelPopup(props) {
     const [link, setLink] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [shake, setShake] = useState(false);
+
 
     function handleClosing(event) {
         if (event.target.classList.contains('backdrop-blur-sm') && !isLoading) {
@@ -63,7 +65,7 @@ function PopupForm(props) {
 
                 let updatedStatus = (novelStatus === 'Ongoing') ? 'OnGoing' : novelStatus;
 
-                if (updatedStatus === 'OnGoing' && IsMoreThanTwoMonthsOld(formatLastUpdate(lastUpdate))) {
+                if (updatedStatus === 'OnGoing' && isMoreThanTwoMonthsOld(formatLastUpdate(lastUpdate))) {
                     updatedStatus = 'Hiatus';
                 }
 
@@ -98,7 +100,7 @@ function PopupForm(props) {
                     throw new Error(novelData.message || 'Failed to create novel');
                 }
 
-                const { id: novelID } = await GetNovel(formattedName);
+                const { id: novelID } = await fetchNovelByFormattedName(formattedName);
 
                 const userProgressResponse = await fetch('/api/user_progress', {
                     method: 'POST',
@@ -130,10 +132,11 @@ function PopupForm(props) {
         }
     }
 
-    const triggerShake = () => {
+    function triggerShake() {
         setShake(true);
         setTimeout(() => setShake(false), 500); // Remove shake after 500ms
-    };
+    }
+
 
     return (props.trigger) ? (
         <div className="fixed top-0 left-0 w-full h-full flex bg-navbar bg-opacity-20 justify-center items-center z-10 backdrop-blur-sm" onClick={handleClosing}>
@@ -169,4 +172,5 @@ function PopupForm(props) {
     ) : null;
 }
 
-export default PopupForm;
+
+export default AddNovelPopup;

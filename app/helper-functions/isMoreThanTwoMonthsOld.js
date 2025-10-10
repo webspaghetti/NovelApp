@@ -1,4 +1,4 @@
-export default function IsMoreThanTwoMonthsOld(update) {
+export function isMoreThanTwoMonthsOld(update) {
     if (update.includes('months ago')) {
         const monthsAgo = parseInt(update);
         return monthsAgo >= 3;
