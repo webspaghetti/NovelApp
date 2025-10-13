@@ -2,7 +2,7 @@ import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
-import wordsToNumbers from 'words-to-numbers';
+import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
 
 
 function AddNovelPopup(props) {
@@ -25,24 +25,11 @@ function AddNovelPopup(props) {
         setErrorMessage('');
     }
 
-    function formatLastUpdate(lastUpdateText) {
-        // Remove 'Updated' and surrounding brackets
-        let formattedText = lastUpdateText.replace(/Updated |\[|]/g, '').trim();
-
-        // Split the text to isolate the time-related part
-        let timePart = formattedText.split(' ')[0];
-
-        // Check if the time part is a written number, and convert it if needed
-        const numericTimePart = isNaN(timePart) ? wordsToNumbers(timePart) : timePart;
-
-        // Rebuild the final string with the converted time part
-        return formattedText.replace(timePart, numericTimePart);
-    }
-
     async function handleSubmit(event) {
         setIsLoading(true);
         event.preventDefault();
-        const regex = /^(https:\/\/freewebnovel\.com\/[a-z0-9]+(?:-[a-z0-9]+)*\.html|https:\/\/www\.lightnovelworld\.co\/novel\/[a-z0-9-]+)$/;
+
+        const regex = /^https:\/\/freewebnovel\.com\/novel\/[a-z0-9-]+$/;
 
         if (regex.test(link)) {
             try {
@@ -62,14 +49,14 @@ function AddNovelPopup(props) {
 
                 const data = await response.json();
                 const { novelTitle, novelStatus, lastUpdate, chapterCount, imageUrl, formattedName } = data.content;
+                const novelSource = data.source;
 
-                let updatedStatus = (novelStatus === 'Ongoing') ? 'OnGoing' : novelStatus;
+                let updatedStatus = novelStatus;
+                let formattedLastUpdate = formatLastUpdate(lastUpdate);
 
-                if (updatedStatus === 'OnGoing' && isMoreThanTwoMonthsOld(formatLastUpdate(lastUpdate))) {
+                if (updatedStatus === 'OnGoing' && isMoreThanTwoMonthsOld(formattedLastUpdate)) {
                     updatedStatus = 'Hiatus';
                 }
-
-                const novelSource = link.includes('freewebnovel.com') ? 'freewebnovel' : 'lightnovelworld';
 
                 const novelResponse = await fetch('/api/novels', {
                     method: 'POST',
@@ -81,7 +68,7 @@ function AddNovelPopup(props) {
                         formattedName: formattedName,
                         chapterCount: chapterCount,
                         status: updatedStatus,
-                        latestUpdate: formatLastUpdate(lastUpdate),
+                        latestUpdate: formattedLastUpdate,
                         imageUrl: imageUrl,
                         source: novelSource
                     }),
@@ -126,7 +113,7 @@ function AddNovelPopup(props) {
                 triggerShake();
             }
         } else {
-            setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name.html or https://www.lightnovelworld.co/novel/novel-name');
+            setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name');
             triggerShake();
             setIsLoading(false);
         }
