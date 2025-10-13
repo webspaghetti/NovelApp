@@ -11,8 +11,7 @@ async function getUsersProgress(userId, novelId) {
     try {
         const response = await fetch(`/api/user_progress?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`);
         if (!response.ok) {
-            console.error('Failed to fetch user progress');
-            return null;
+            throw new Error('Failed to fetch user progress');
         }
         const data = await response.json();
         return data[0];

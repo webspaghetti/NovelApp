@@ -57,8 +57,7 @@ function Page({ params }) {
                 });
 
                 if (!response.ok) {
-                    console.error("Failed to fetch chapter content");
-                    return;
+                    throw new Error('Failed to fetch chapter content');
                 }
 
                 const data = await response.json();

@@ -26,8 +26,7 @@ function SyncNovelsButton() {
         try {
             const response = await fetch('/api/novels');
             if (!response.ok) {
-                console.error("Failed to fetch novels");
-                return [];
+                throw new Error('Failed to fetch novels');
             }
             const novels = await response.json();
 
@@ -56,8 +55,7 @@ function SyncNovelsButton() {
             });
 
             if (!response.ok) {
-                console.error('Failed to fetch novel data');
-                return;
+                throw new Error('Failed to fetch novel data');
             }
 
             const data = await response.json();
@@ -90,7 +88,7 @@ function SyncNovelsButton() {
                 });
 
                 if (!updateResponse.ok) {
-                    console.error("Failed to update novel");
+                    throw new Error('Failed to fetch novel data');
                 }
             }
         } catch (error) {
