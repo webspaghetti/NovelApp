@@ -175,7 +175,7 @@ button {
   @apply
   bg-card
   max-sm:shadow-cardBs shadow-cardB
-  max-sm:rounded-b-lg max-sm:rounded-3xl rounded-b-lg rounded-[32px]
+  max-sm:rounded-b-lg max-sm:rounded-3xl rounded-b-lg rounded-[20px]
   relative
   overflow-hidden
   text-center;
