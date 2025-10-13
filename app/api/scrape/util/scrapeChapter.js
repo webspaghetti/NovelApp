@@ -1,24 +1,4 @@
-// Configuration for different sources
-const SCRAPER_CONFIGS = {
-    freewebnovel: {
-        selectors: {
-            title: '.chapter',
-            content: '#article'
-        },
-        watermarkPatterns: [
-            // Freewebnovel-specific watermark
-            /[^\s<>]*?(?:[fƒḟ́])?[^\s<>]*?(?:r|г)[^\s<>]*?(?:e|е|ε|е́|ё|ē)[^\s<>]*?(?:e|е|ε|е́|ё|ē)[^\s<>]*?(?:w|ω|ѡ|ԝ)[^\s<>]*?(?:e|е|ε|е́|ё|ē)[^\s<>]*?[^\s<>]*?(?:[b|ɓ])[^\s<>]*?(?:n|ɳ|ո|ռ)[^\s<>]*?(?:o|о|ο|օ|σ)[^\s<>]*?(?:v|ν|ṿ|ṽ|ѵ)[^\s<>]*?(?:e|е|ε|е́|ё|ē)[^\s<>]*?l[^\s<>]*?(?:\.|\․|。|｡)?[^\s<>]*?(?:c|с|ϲ|ƈ)[^\s<>]*?(?:o|о|ο|օ|σ)[^\s<>]*?(?:m|м|ṃ|ṁ|๓)[^\s<>]*?(?=\s*<\/p>|\s*$)/gi,
-        ]
-    },
-    lightnovelworld: {
-        selectors: {
-            title: 'span.chapter-title',
-            content: 'div.chapter-content'
-        },
-        watermarkPatterns: []
-    }
-};
-
+import sourceConfig from "@/config/sourceConfig"
 // Common cleanup patterns used by all sources
 const COMMON_CLEANUP_PATTERNS = [
     // Remove chapter headings
@@ -35,10 +15,10 @@ const COMMON_CLEANUP_PATTERNS = [
 
 
 async function scrapeChapter(page, url, sourceName) {
-    const config = SCRAPER_CONFIGS[sourceName];
+    const config = sourceConfig[sourceName].chapter_scraper;
 
     if (!config) {
-        throw new Error(`Unknown source: ${sourceName}. Available sources: ${Object.keys(SCRAPER_CONFIGS).join(', ')}`);
+        throw new Error(`Unknown source: ${sourceName}. Available sources: ${Object.keys(sourceConfig).join(', ')}`);
     }
 
     // Console log forwarding

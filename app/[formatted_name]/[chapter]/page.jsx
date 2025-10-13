@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import sourceConfig from "@/config/sourceConfig"
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
@@ -43,9 +44,7 @@ function Page({ params }) {
                 // Update user progress after validation
                 updateUsersProgress(1, novelData.id, currentChapterNum);
 
-                const link = novelData.source === "freewebnovel"
-                    ? `https://freewebnovel.com/novel/${params.formatted_name}/chapter-${params.chapter}`
-                    : `https://www.lightnovelworld.co/novel/${params.formatted_name}/chapter-${params.chapter}`;
+                const link = sourceConfig[novelData.source].getChapterLink(params);
 
                 // Fetch chapter content using the API
                 const response = await fetch("/api/scrape", {

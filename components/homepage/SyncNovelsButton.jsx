@@ -1,4 +1,5 @@
 "use client"
+import sourceConfig from "@/config/sourceConfig"
 import { useState } from "react";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
@@ -44,13 +45,7 @@ function SyncNovelsButton() {
 
     async function syncNovelData(formattedName, source) {
         try {
-            const sourceUrlsMap = {
-                'freewebnovel': `https://freewebnovel.com/${formattedName}.html`,
-                'lightnovelworld': `https://www.lightnovelworld.co/novel/${formattedName}`,
-            };
-
-            const sourceUrl = sourceUrlsMap[source];
-
+            const sourceUrl = sourceConfig[source].getInfoLink(formattedName);
 
             const response = await fetch('/api/scrape', {
                 method: 'POST',

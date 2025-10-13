@@ -1,3 +1,4 @@
+import sourceConfig from "@/config/sourceConfig"
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
@@ -29,13 +30,9 @@ function AddNovelPopup(props) {
         setIsLoading(true);
         event.preventDefault();
 
-        //TODO: Better handling
-        const linkRegexes = [
-            /^https:\/\/freewebnovel\.com\/novel\/[a-z0-9-]+$/,
-            /^https:\/\/www\.lightnovelworld\.co\/novel\/[a-z0-9-]+$/
-        ];
+        const linkRegexArray = Object.values(sourceConfig).map(source => source.link_regex);
 
-        if (linkRegexes.some(regex => regex.test(link))) {
+        if (linkRegexArray.some(regex => regex.test(link))) {
             try {
                 const response = await fetch('/api/scrape', {
                     method: 'POST',
@@ -50,6 +47,7 @@ function AddNovelPopup(props) {
                     setIsLoading(false);
                     throw new Error('Failed to fetch novel data\nCheck your link');
                 }
+                throw new Error('Failed to fetch novel data\nCheck your link');
 
                 const data = await response.json();
                 const { novelTitle, novelStatus, lastUpdate, chapterCount, imageUrl, formattedName } = data.content;
@@ -117,7 +115,7 @@ function AddNovelPopup(props) {
                 triggerShake();
             }
         } else {
-            setErrorMessage('Please enter a valid link in the format: https://freewebnovel.com/novel-name');
+            setErrorMessage(`Please enter a valid link in the format: ${Object.values(sourceConfig).map(source => source.link_template)}`);
             triggerShake();
             setIsLoading(false);
         }
