@@ -42,7 +42,7 @@ function Page({ params }) {
                 setChapterCount(novelData.chapter_count);
 
                 // Update user progress after validation
-                updateUsersProgress(1, novelData.id, currentChapterNum);
+                await updateUsersProgress(1, novelData.id, currentChapterNum);
 
                 const link = sourceConfig[novelData.source].getChapterLink(params);
 
