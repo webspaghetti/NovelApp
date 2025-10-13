@@ -4,7 +4,7 @@ import LoadingOverlay from "@/components/general/LoadingOverlay";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
 import AnimatedIconButton from "@/components/general/AnimatedIconButton";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
-import wordsToNumbers from "words-to-numbers";
+import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
 
 
 function SyncNovelsButton() {
@@ -94,20 +94,6 @@ function SyncNovelsButton() {
         } catch (error) {
             console.error(error);
         }
-    }
-
-    function formatLastUpdate(lastUpdateText) {
-        // Remove 'Updated' and surrounding brackets
-        let formattedText = lastUpdateText.replace(/Updated |\[|]/g, '').trim();
-
-        // Split the text to isolate the time-related part
-        let timePart = formattedText.split(' ')[0];
-
-        // Check if the time part is a written number, and convert it if needed
-        const numericTimePart = isNaN(timePart) ? wordsToNumbers(timePart) : timePart;
-
-        // Rebuild the final string with the converted time part
-        return formattedText.replace(timePart, numericTimePart);
     }
 
 
