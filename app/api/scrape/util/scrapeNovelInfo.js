@@ -1,9 +1,3 @@
-/**
- * Generic novel info scraper that works with multiple sources
- * @param {Page} page - Playwright page object
- * @param {string} url - URL to scrape
- * @param {string} sourceName - Name of the source ('freewebnovel', 'lightnovelworld', etc.)
- */
 async function scrapeNovelInfo(page, url, sourceName) {
     // Console log forwarding
     page.on('console', msg => {

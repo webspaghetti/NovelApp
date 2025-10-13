@@ -33,12 +33,7 @@ const COMMON_CLEANUP_PATTERNS = [
     /<!--[\s\S]*?-->/g
 ];
 
-/**
- * Generic chapter scraper that works with multiple sources
- * @param {Page} page - Playwright page object
- * @param {string} url - URL to scrape
- * @param {string} sourceName - Name of the source ('freewebnovel', 'lightnovelworld', etc.)
- */
+
 async function scrapeChapter(page, url, sourceName) {
     const config = SCRAPER_CONFIGS[sourceName];
 
