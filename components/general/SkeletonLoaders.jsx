@@ -67,8 +67,8 @@ function ChapterPageSkeleton() {
 
             {/* Navigation buttons skeleton */}
             <div className="flex justify-between py-4">
-                <div className="w-[72px] h-[56px] bg-gray-700 rounded-full animate-pulse" />
-                <div className="w-[72px] h-[56px] bg-gray-700 rounded-full animate-pulse" />
+                <div className="w-[72px] h-[56px] max-sm:w-[80px] max-sm:h-[64px] bg-gray-700 rounded-full animate-pulse" />
+                <div className="w-[72px] h-[56px] max-sm:w-[80px] max-sm:h-[64px] bg-gray-700 rounded-full animate-pulse" />
             </div>
         </>
     );
