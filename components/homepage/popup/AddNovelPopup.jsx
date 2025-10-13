@@ -29,9 +29,13 @@ function AddNovelPopup(props) {
         setIsLoading(true);
         event.preventDefault();
 
-        const regex = /^https:\/\/freewebnovel\.com\/novel\/[a-z0-9-]+$/;
+        //TODO: Better handling
+        const linkRegexes = [
+            /^https:\/\/freewebnovel\.com\/novel\/[a-z0-9-]+$/,
+            /^https:\/\/www\.lightnovelworld\.co\/novel\/[a-z0-9-]+$/
+        ];
 
-        if (regex.test(link)) {
+        if (linkRegexes.some(regex => regex.test(link))) {
             try {
                 const response = await fetch('/api/scrape', {
                     method: 'POST',
