@@ -44,7 +44,13 @@ function SyncNovelsButton() {
 
     async function syncNovelData(formattedName, source) {
         try {
-            const sourceUrl = (source === 'freewebnovel') ? `https://freewebnovel.com/${formattedName}.html` : `https://www.lightnovelworld.co/novel/${formattedName}` ;
+            const sourceUrlsMap = {
+                'freewebnovel': `https://freewebnovel.com/${formattedName}.html`,
+                'lightnovelworld': `https://www.lightnovelworld.co/novel/${formattedName}`,
+            };
+
+            const sourceUrl = sourceUrlsMap[source];
+
 
             const response = await fetch('/api/scrape', {
                 method: 'POST',
