@@ -1,4 +1,5 @@
 import React from 'react';
+import sourceConfig from "@/config/sourceConfig"
 import Image from "next/image";
 import Link from "next/link";
 import { isValidDate } from "@/app/helper-functions/isValidDate";
@@ -44,7 +45,12 @@ function NovelDetails({novel, user}) {
                             )}
                             </span>
                         </div>
-                    <div className={`source ${novel.source} max-sm:mt-[8rem]`} />
+                    <div
+                        className="source max-sm:mt-[8rem]"
+                        style={{
+                            backgroundImage: `url(${sourceConfig[novel.source].icon_url})`,
+                        }}
+                    />
                 </span>
                 <h1 className="max-sm:text-2xl text-3xl font-bold mb-2">{novel.name}</h1>
                 <p className="max-sm:text-base text-lg mb-2">Chapters: {novel.chapter_count}</p>
