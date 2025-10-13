@@ -42,13 +42,14 @@ function ChapterPageSkeleton() {
     return (
         <>
             {/* Back button skeleton */}
-            <div className="flex justify-start mb-5">
-                <div className="w-[72px] h-[60px] bg-gray-700 rounded-full animate-pulse" />
+            <div className="flex justify-start mb-6">
+                <div className="w-[72px] h-[60px] max-sm:w-[56px] max-sm:h-[56px] bg-gray-700 rounded-full animate-pulse" />
             </div>
 
             {/* Chapter title skeleton */}
-            <div className="border-b-gray-400 border-b-2 text-center mb-6 pb-6">
-                <div className="h-10 w-3/4 bg-gray-700 rounded-lg animate-pulse mx-auto" />
+            <div className="border-b-gray-400 border-b-2 text-center mb-5 pb-6">
+                <div className="h-8 max-sm:h-7 w-3/5 max-sm:w-5/6 bg-gray-700 rounded-lg animate-pulse mx-auto max-sm:mb-1" />
+                <div className="h-7 w-3/5 bg-gray-700 rounded-lg animate-pulse mx-auto sm:hidden" />
             </div>
 
             {/* Chapter content skeleton */}
