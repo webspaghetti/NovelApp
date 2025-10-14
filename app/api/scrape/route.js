@@ -91,7 +91,6 @@ export async function POST(req) {
 
             if (url.includes(config.info_identifier) && !url.includes(config.chapter_identifier)) {
                 result = await scrapeNovelInfo(page, url, novelSource);
-                console.log(result)
 
             } else if (url.includes(config.chapter_identifier)) {
                 result = await scrapeChapter(page, url, novelSource);
