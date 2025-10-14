@@ -7,15 +7,15 @@ import { dateFormatter } from "@/app/helper-functions/dateFormatter";
 import NovelSettingsPopup from "@/components/novel-page/NovelSettingsPopup";
 
 
-function NovelDetails({novel, user}) {
-    const progressPercentage = user.current_chapter / novel.chapter_count * 100;
+function NovelDetails({novel, userNovel}) {
     const [popupTrigger, setPopupTrigger] = useState(false);
+    const progressPercentage = userNovel.current_chapter / novel.chapter_count * 100;
 
     return (
-        <div className={'flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-[3px] border-gray-700 pb-4'}>
+        <div className={'flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-[3px] border-gray-700 pb-4 relative'}>
 
             <div className="w-1/2 max-sm:w-full">
-                <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-cardB m-auto"} draggable="false" priority={true} />
+                <Image src={userNovel.image_url_alternative ?? novel.image_url} alt={`${novel.name} thumbnail`} width={350} height={350} quality={100} className={"select-none rounded-lg shadow-cardB m-auto"} draggable="false" priority={true} />
             </div>
             <div className="flex flex-col justify-center items-start md:w-1/3 max-sm:w-full">
                 <button className="absolute top-0 max-sm:top-1 max-md:right-1 right-16 text-secondary p-1 z-10" onClick={() => setPopupTrigger(true)}>
@@ -70,9 +70,9 @@ function NovelDetails({novel, user}) {
                     </span>
                 </p>
                 <button className="my-2 py-2 px-6 rounded-lg max-sm:px-4 shadow-md">
-                    {user?.current_chapter === null
+                    {userNovel?.current_chapter === null
                         ? <Link href={`/${novel.formatted_name}/1`}><p className={'max-sm:text-sm'}>Start reading</p></Link>
-                        : <Link href={`/${novel.formatted_name}/${user.current_chapter}`}><p className={'max-sm:text-sm'}>Continue reading - Chapter: {user.current_chapter} </p></Link>}
+                        : <Link href={`/${novel.formatted_name}/${userNovel.current_chapter}`}><p className={'max-sm:text-sm'}>Continue reading - Chapter: {userNovel.current_chapter} </p></Link>}
                 </button>
                 <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
                     <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>

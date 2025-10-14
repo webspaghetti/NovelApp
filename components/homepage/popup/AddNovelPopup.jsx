@@ -91,7 +91,7 @@ function AddNovelPopup(props) {
 
                 const { id: novelID } = await fetchNovelByFormattedName(formattedName);
 
-                const userProgressResponse = await fetch('/api/user_progress', {
+                const userProgressResponse = await fetch('/api/user_novel', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

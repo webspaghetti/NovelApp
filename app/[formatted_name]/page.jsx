@@ -9,7 +9,7 @@ import { ChapterButtonsSkeleton, NovelPageSkeleton } from "@/components/general/
 
 async function getUsersProgress(userId, novelId) {
     try {
-        const response = await fetch(`/api/user_progress?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`);
+        const response = await fetch(`/api/user_novel?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`);
         if (!response.ok) {
             throw new Error('Failed to fetch user progress');
         }
@@ -24,7 +24,7 @@ async function getUsersProgress(userId, novelId) {
 
 function Page({ params }) {
     const [novel, setNovel] = useState(null);
-    const [user, setUser] = useState(null);
+    const [userNovel, setUserNovel] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
 
@@ -35,7 +35,7 @@ function Page({ params }) {
 
                 if (fetchedNovels) {
                     const fetchedUser = await getUsersProgress(1, fetchedNovels.id); // Just me :)
-                    setUser(fetchedUser);
+                    setUserNovel(fetchedUser);
                     setNovel(fetchedNovels);
                 }
             } catch (error) {
@@ -60,8 +60,8 @@ function Page({ params }) {
 
             {novel && !isLoading && (
                 <>
-                    <NovelDetails user={user} novel={novel} />
-                    <ChapterButtonsList novel={novel} user={user} />
+                    <NovelDetails novel={novel} userNovel={userNovel} />
+                    <ChapterButtonsList novel={novel} userNovel={userNovel} />
                 </>
             )}
 
