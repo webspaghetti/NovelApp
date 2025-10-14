@@ -111,6 +111,7 @@ function AddNovelPopup(props) {
             } catch (error) {
                 console.error("Error:", error.message);
                 setErrorMessage(error.message);
+                setIsLoading(false);
                 triggerShake();
             }
         } else {
