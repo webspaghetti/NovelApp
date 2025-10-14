@@ -63,3 +63,31 @@ export async function PUT(request) {
         return NextResponse.json({ message: error.message }, { status: 500 });
     }
 }
+
+
+export async function DELETE(request) {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+    const novelId = searchParams.get('novelId');
+
+    if (!userId || !novelId) {
+        return NextResponse.json({ message: 'userId and novelId query parameters are required' }, { status: 400 });
+    }
+
+    try {
+        // Delete the user-novel connection from the user_novel table
+        const [result] = await pool.query(
+            'DELETE FROM user_novel WHERE user_id = ? AND novel_id = ?',
+            [userId, novelId]
+        );
+
+        if (result.affectedRows === 0) {
+            return NextResponse.json({ message: "User-novel connection not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "User-novel connection deleted successfully" }, { status: 200 });
+    } catch (error) {
+        console.error('Error deleting user-progress connection:', error);
+        return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+}
