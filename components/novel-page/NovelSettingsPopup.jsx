@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "@/components/general/AlertDialog";
 
+
 function NovelSettingsPopup({ trigger, setTrigger, novel }) {
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
@@ -175,5 +176,6 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
         </div>
     ) : null;
 }
+
 
 export default NovelSettingsPopup;
