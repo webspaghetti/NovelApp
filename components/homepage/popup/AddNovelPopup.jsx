@@ -78,7 +78,7 @@ function AddNovelPopup(props) {
                 const novelData = await novelResponse.json();
 
                 if (novelData.isDuplicate) {
-                    setErrorMessage('Novel is already present.');
+                    setErrorMessage('Novel with this source is already present.');
                     triggerShake();
                     setIsLoading(false);
                     return;
