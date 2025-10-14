@@ -75,3 +75,31 @@ export async function PUT(request) {
         return NextResponse.json({ message: error.message }, { status: 500 });
     }
 }
+
+
+export async function DELETE(request) {
+    const { searchParams } = new URL(request.url);
+    const formattedName = searchParams.get('formattedName');
+    const source = searchParams.get('source');
+
+    if (!formattedName) {
+        return NextResponse.json({ message: 'formattedName query parameter is required' }, { status: 400 });
+    }
+
+    try {
+        // Delete the novel from the novel_table
+        const [result] = await pool.query(
+            'DELETE FROM novel_table WHERE formatted_name = ? AND source = ?',
+            [formattedName, source]
+        );
+
+        if (result.affectedRows === 0) {
+            return NextResponse.json({ message: "Novel not found" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Novel deleted successfully" }, { status: 200 });
+    } catch (error) {
+        console.error('Error deleting novel:', error);
+        return NextResponse.json({ message: error.message }, { status: 500 });
+    }
+}
