@@ -1,19 +1,8 @@
+import sourceConfig from "@/config/sourceConfig"
 import { chromium } from 'playwright';
 import { NextResponse } from 'next/server';
 import scrapeChapter from "@/app/api/scrape/util/scrapeChapter";
 import scrapeNovelInfo from "@/app/api/scrape/util/scrapeNovelInfo";
-
-
-const PAGE_CONFIGS = {
-    freewebnovel: {
-        info_identifier: '/novel/',
-        chapter_identifier: '/chapter-'
-    },
-    lightnovelworld: {
-        info_identifier: '/novel/',
-        chapter_identifier: '/chapter-'
-    }
-}
 
 
 let browserInstance = null;
@@ -82,7 +71,7 @@ export async function POST(req) {
         if (matchNovelSource) {
             novelSource = matchNovelSource[1];
 
-            const config = PAGE_CONFIGS[novelSource]
+            const config = sourceConfig[novelSource].link_identifier
 
             if (!config) {
                 console.error(`Unknown source: ${novelSource}. Available sources: ${Object.keys(PAGE_CONFIGS).join(', ')}`);
