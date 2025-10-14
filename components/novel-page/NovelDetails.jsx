@@ -1,4 +1,3 @@
-import React from 'react';
 import sourceConfig from "@/config/sourceConfig"
 import Image from "next/image";
 import Link from "next/link";
