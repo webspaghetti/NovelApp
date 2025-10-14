@@ -25,7 +25,7 @@ function NovelDetails({novel, user}) {
                     </svg>
                 </button>
                 <span className={'flex flex-row items-center sm:gap-2'}>
-                    <div className={`badge ${novel.status} max-sm:left-7 max-sm:p-1.5 max-sm:mt-2 mb-4 max-sm:absolute max-sm:top-20`}>
+                    <div className={`badge ${novel.status} max-sm:left-2 max-sm:p-1.5 max-sm:mt-2 mb-4 max-sm:absolute max-sm:top-0`}>
                         <span className={'flex flex-row items-center'}>
                             {novel.status === "Completed" && (
                                 <>
@@ -54,7 +54,7 @@ function NovelDetails({novel, user}) {
                             </span>
                         </div>
                     <div
-                        className="source max-sm:mt-[8rem]"
+                        className="source max-sm:mt-12 max-sm:left-[11px]"
                         style={{
                             backgroundImage: `url(${sourceConfig[novel.source].icon_url})`,
                         }}
