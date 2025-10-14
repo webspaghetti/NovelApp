@@ -13,7 +13,24 @@ async function fetchNovels() {
     return res.json();
 }
 
+async function fetchUserNovel() {
+    const res = await fetch(`${process.env.PUBLIC_API_URL}/api/novels`, { cache: 'no-store' });
+    if (!res.ok) {
+        throw new Error('Failed to fetch user novel');
+    }
+
+    return res.json();
+}
+
 async function Home() {
+    const novelList = await fetchNovels(); // Your existing novelList fetch
+    const userNovel = await fetchUserNovel(); // Fetch user data on server
+
+    const unObj = userNovel.reduce((acc, item) => {
+        acc[item.novel_id] = item;
+        return acc;
+    }, {});
+
     return (
         <main>
             <div className={"flex justify-between w-full mb-5 relative top-[76px] max-sm:top-[70px]"}>
@@ -25,7 +42,7 @@ async function Home() {
 
             <div className={'max-md:flex max-md:justify-center'}>
                 <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-4 gap-5 md:gap-10 relative top-20 max-sm:pb-3 pb-9"}>
-                    <NovelList novelList={await fetchNovels()} />
+                    <NovelList novelList={novelList} initialUserNovel={unObj} />
                 </div>
             </div>
         </main>
