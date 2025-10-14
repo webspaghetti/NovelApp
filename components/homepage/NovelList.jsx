@@ -7,47 +7,41 @@ import { isValidDate } from "@/app/helper-functions/isValidDate";
 import { dateFormatter } from "@/app/helper-functions/dateFormatter";
 
 
+function NovelList({ novelList, initialUserNovel  }) {
+    const [userNovel, setUserNovel] = useState(initialUserNovel)
+    const [isLoadingProgress, setIsLoadingProgress] = useState(!initialUserNovel);
 
-function NovelList({ novelList }) {
-    const [userProgress, setUserProgress] = useState({});
-    const [isLoadingProgress, setIsLoadingProgress] = useState(true);
 
     useEffect(() => {
-        async function fetchUserProgress() {
+        async function fetchUserNovel() {
             try {
-                const res = await fetch('/api/user_progress?userId=1');
-                if (!res.ok) {
-                    throw new Error('Failed to fetch user progress');
-                }
+                const res = await fetch('/api/user_novel?userId=1');
+                if (!res.ok) throw new Error('Failed to fetch user novel');
                 const data = await res.json();
-                // Convert array to object for easier lookup
                 const progressObj = data.reduce((acc, item) => {
                     acc[item.novel_id] = item;
-                    return acc;
-                }, {});
-                setUserProgress(progressObj);
+                    return acc;}, {});
+                setUserNovel(progressObj);
             } catch (error) {
-                console.error('Error fetching user progress:', error);
-                // Handle error (e.g., show error message to user)
+                console.error('Error fetching user novel:', error);
             } finally {
                 setIsLoadingProgress(false);
             }
         }
-
-        fetchUserProgress();
-    }, []);
+        fetchUserNovel();
+    }, [initialUserNovel]);
 
 
     return (
         novelList.map((novel) => {
-            const progress = userProgress[novel.id];
-            const currentChapter = progress && progress.current_chapter !== null ? progress.current_chapter : 0;
+            const unObject = userNovel[novel.id];
+            const currentChapter = unObject && unObject.current_chapter !== null ? unObject.current_chapter : 0;
             const progressPercentage = currentChapter / novel.chapter_count * 100;
 
             return (
                 <div key={novel.id} className={"card glassy-animation"} style={{ height: "auto" }}>
                     <Link href={`/${novel.formatted_name}`}>
-                        <Image src={novel.image_url_alternative ? novel.image_url_alternative : novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"} draggable="false" priority={true} />
+                        <Image src={unObject.image_url_alternative ?? novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"} draggable="false" priority={true} />
 
                         <div className="m-4 max-sm:hidden">
                             <div className="h-10 mb-2 flex items-center justify-center">
