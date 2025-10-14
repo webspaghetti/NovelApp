@@ -47,7 +47,6 @@ function AddNovelPopup(props) {
                     setIsLoading(false);
                     throw new Error('Failed to fetch novel data\nCheck your link');
                 }
-                throw new Error('Failed to fetch novel data\nCheck your link');
 
                 const data = await response.json();
                 const { novelTitle, novelStatus, lastUpdate, chapterCount, imageUrl, formattedName } = data.content;
