@@ -5,12 +5,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { isValidDate } from "@/app/helper-functions/isValidDate";
 import { dateFormatter } from "@/app/helper-functions/dateFormatter";
+import { useNovelLoading } from "@/components/novel-page/NovelPageWrapper";
 import NovelSettingsPopup from "@/components/novel-page/NovelSettingsPopup";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
-function NovelDetails({novel, userNovel}) {
+function NovelDetails({ novel, userNovel }) {
+    const { isLoading, setIsLoading, loadingChapter, setLoadingChapter } = useNovelLoading();
+
+    const loadingCheck = isLoading || loadingChapter !== null;
+
     const [popupTrigger, setPopupTrigger] = useState(false);
     const progressPercentage = userNovel.current_chapter / novel.chapter_count * 100;
+
 
     return (
         <div className={'flex max-sm:flex-col flex-row max-sm:items-start justify-center items-center max-sm:gap-3 gap-8 border-b-[3px] border-gray-700 pb-4 relative'}>
@@ -70,11 +77,24 @@ function NovelDetails({novel, userNovel}) {
                     )}
                     </span>
                 </p>
-                <button className="my-2 py-2 px-6 rounded-lg max-sm:px-4 shadow-md">
-                    {userNovel?.current_chapter === null
-                        ? <Link href={`/${novel.formatted_name}/1`}><p className={'max-sm:text-sm'}>Start reading</p></Link>
-                        : <Link href={`/${novel.formatted_name}/${userNovel.current_chapter}`}><p className={'max-sm:text-sm'}>Continue reading - Chapter: {userNovel.current_chapter} </p></Link>}
-                </button>
+                <Link className={`disabled:${loadingCheck} ${loadingCheck ? 'opacity-60' : ''}`} href={`/${novel.formatted_name}/${userNovel?.current_chapter || 1}`}
+                      onClick={() => {
+                          setIsLoading(true);
+                          setLoadingChapter(userNovel?.current_chapter || 1);
+                      }}
+                >
+                    <button className={`my-2 py-2 px-6 rounded-lg max-sm:px-4 shadow-md ${loadingCheck ? 'flex justify-center items-center gap-2' : ''}`} disabled={Boolean(isLoading)}>
+                        <p className="max-sm:text-sm">
+                            {userNovel?.current_chapter === null
+                                ? 'Start reading'
+                                : `Continue reading - Chapter: ${userNovel.current_chapter}`
+                            }
+                        </p>
+                        <span className={`${loadingCheck ? 'flex' : 'hidden'} items-center justify-center`}>
+                            <CircularProgress sx={{color: "#FAFAFA"}} size={20} thickness={8} />
+                        </span>
+                    </button>
+                </Link>
                 <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
                     <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>
                 </div>
