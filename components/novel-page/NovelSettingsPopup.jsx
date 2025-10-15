@@ -8,7 +8,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
     const [imageUrl, setImageUrl] = useState("");
 
     const originalName = novel?.name;
-    const originalUrl = novel.image_url_alternative ? novel.image_url_alternative : novel.image_url;
+    const originalUrl = novel.image_url_alternative ?? novel.image_url;
 
     useEffect(() => {
         if (!novel) return;
