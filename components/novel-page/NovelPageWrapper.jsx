@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 import NovelDetails from "@/components/novel-page/NovelDetails";
 import ChapterButtonsList from "@/components/novel-page/ChapterButtonsList";
 
+
 // Create context
 const NovelLoadingContext = createContext();
 
@@ -14,6 +15,7 @@ export function useNovelLoading() {
     }
     return context;
 }
+
 
 function NovelPageWrapper({ novel, userNovel }) {
     const [isLoading, setIsLoading] = useState(false);
@@ -33,5 +35,6 @@ function NovelPageWrapper({ novel, userNovel }) {
         </NovelLoadingContext.Provider>
     );
 }
+
 
 export default NovelPageWrapper;
