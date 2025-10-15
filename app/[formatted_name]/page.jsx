@@ -7,7 +7,7 @@ import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFo
 import { ChapterButtonsSkeleton, NovelPageSkeleton } from "@/components/general/SkeletonLoaders";
 
 
-async function getUsersProgress(userId, novelId) {
+async function getUsersNovel(userId, novelId) {
     try {
         const response = await fetch(`/api/user_novel?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`);
         if (!response.ok) {
@@ -34,7 +34,7 @@ function Page({ params }) {
                 const fetchedNovels = await fetchNovelByFormattedName(params.formatted_name);
 
                 if (fetchedNovels) {
-                    const fetchedUser = await getUsersProgress(1, fetchedNovels.id); // Just me :)
+                    const fetchedUser = await getUsersNovel(1, fetchedNovels.id); // Just me :)
                     setUserNovel(fetchedUser);
                     setNovel(fetchedNovels);
                 }
