@@ -33,3 +33,6 @@ yarn-error.log*
 
 # idea
 .idea
+
+# tests
+app/test/
