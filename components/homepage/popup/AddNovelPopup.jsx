@@ -88,7 +88,7 @@ function AddNovelPopup(props) {
                     throw new Error(novelData.message || 'Failed to create novel');
                 }
 
-                const { id: novelID } = await fetchNovelByFormattedName(formattedName);
+                const fetchedNovel = await fetchNovelByFormattedName(formattedName);
 
                 const userProgressResponse = await fetch('/api/user_novel', {
                     method: 'POST',
@@ -97,7 +97,7 @@ function AddNovelPopup(props) {
                     },
                     body: JSON.stringify({
                         userId: 1,
-                        novelId: novelID,
+                        novelId: fetchedNovel.id,
                     }),
                 });
 
