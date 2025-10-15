@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "@/components/general/AlertDialog";
 
@@ -8,8 +9,9 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
     const [imageUrl, setImageUrl] = useState("");
 
     const originalName = novel?.name;
-    const originalUrl = novel.image_url_alternative ?? novel.image_url;
     const originalUrl = novel?.image_url;
+
+    const router = useRouter();
 
     useEffect(() => {
         if (!novel) return;
@@ -111,15 +113,33 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
 
     async function handleRemove() {
         setIsLoading(true);
+
         try {
-            console.log("Removing novel...");
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const response = await fetch('/api/remove-novel', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userNovel.user_id,
+                    novelId: userNovel.novel_id,
+                    formattedName: novel.formatted_name,
+                    source: novel.source,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to remove novel');
+            }
+
             setTrigger(false);
         } catch (error) {
-            console.error("Error:", error.message);
+            console.error("Error removing novel:", error.message);
         } finally {
             setIsLoading(false);
             setIsDialogOpen(false);
+            await router.push('/');
+            router.refresh();
         }
     }
 
