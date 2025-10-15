@@ -61,15 +61,51 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
         event.preventDefault();
         setIsLoading(true);
 
+        let nameChange;
+        let imageUrlChange;
+
+        if (userNovel.name_alternative){
+            nameChange = (userNovel.name_alternative !== name);
+        } else nameChange = (originalName !== name);
+
+        if (userNovel.image_url_alternative){
+            imageUrlChange = (userNovel.image_url_alternative !== imageUrl);
+        } else imageUrlChange = (originalUrl !== imageUrl);
+
+        if (!nameChange && !imageUrlChange){
+            setIsLoading(false)
+            setTrigger(false);
+            return
+        }
+
+
         try {
-            console.log('Updating novel:', { name, imageUrl });
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const updateResponse = await fetch('/api/user_novel/update', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userNovel.user_id,
+                    novelId: userNovel.novel_id,
+                    nameAlternative: name,
+                    imageUrlAlternative: imageUrl
+                }),
+            });
+
+            if (!updateResponse.ok) {
+                throw new Error('Failed to fetch novel data');
+            }
+
             setTrigger(false);
         } catch (error) {
-            console.error("Error:", error.message);
+            console.error("Error updating novel:", error.message);
             triggerShake();
         } finally {
             setIsLoading(false);
+            setTimeout(() => {
+                location.reload();
+            }, 0);
         }
     }
 
