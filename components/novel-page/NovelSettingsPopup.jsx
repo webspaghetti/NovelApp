@@ -98,15 +98,23 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
                         >
                             Name
                         </label>
-                        <input
-                            className="w-full bg-navbar border border-gray-700 rounded-lg text-secondary py-2 px-3 focus:outline-none focus:border-secondary caret-primary placeholder-gray-500 disabled:opacity-60"
-                            id="name"
-                            type="text"
-                            value={name}
-                            onChange={handleNameChange}
-                            placeholder="Enter novel name"
-                            disabled={isLoading}
-                        />
+                        <div className={"flex flex-row gap-3"}>
+                            <input
+                                className="w-full bg-navbar border border-gray-700 rounded-lg text-secondary py-2 px-3 focus:outline-none focus:border-secondary caret-primary placeholder-gray-500 disabled:opacity-60"
+                                id="name"
+                                type="text"
+                                value={name}
+                                onChange={handleNameChange}
+                                placeholder="Enter novel name"
+                                disabled={isLoading}
+                            />
+                            <button className="text-secondary p-1 z-10" onClick={() => handleRestore("name")}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     {/* Image URL input */}
@@ -117,15 +125,23 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
                         >
                             Image URL
                         </label>
-                        <input
-                            className="w-full bg-navbar border border-gray-700 rounded-lg text-secondary py-2 px-3 focus:outline-none focus:border-secondary caret-primary placeholder-gray-500 disabled:opacity-60"
-                            id="image"
-                            type="text"
-                            value={imageUrl}
-                            onChange={handleImageChange}
-                            placeholder="Enter image URL"
-                            disabled={isLoading}
-                        />
+                        <div className={"flex flex-row gap-3"}>
+                            <input
+                                className="w-full bg-navbar border border-gray-700 rounded-lg text-secondary py-2 px-3 focus:outline-none focus:border-secondary caret-primary placeholder-gray-500 disabled:opacity-60"
+                                id="image"
+                                type="text"
+                                value={imageUrl}
+                                onChange={handleImageChange}
+                                placeholder="Enter image URL"
+                                disabled={isLoading}
+                            />
+                            <button className="text-secondary p-1 z-10" onClick={() => handleRestore("image_url")}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     {/* Buttons */}
