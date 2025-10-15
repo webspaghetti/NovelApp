@@ -2,7 +2,7 @@ export async function updateUsersProgress(userID, novelID, currentChapter) {
     if (novelID === undefined) return;
 
     try {
-        const response = await fetch('/api/user_novel', {
+        const response = await fetch('/api/user_novel/progress', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
