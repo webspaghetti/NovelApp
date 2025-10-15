@@ -1,7 +1,6 @@
-import NovelDetails from "@/components/novel-page/NovelDetails";
-import ChapterButtonsList from "@/components/novel-page/ChapterButtonsList";
 import { notFound } from "next/navigation";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
+import NovelPageWrapper from "@/components/novel-page/NovelPageWrapper";
 
 
 async function getUsersNovel(userId, novelId) {
@@ -39,8 +38,7 @@ async function Page({ params }) {
 
     return (
         <main className="relative pt-20">
-            <NovelDetails novel={novel} userNovel={userNovel} />
-            <ChapterButtonsList novel={novel} userNovel={userNovel} />
+            <NovelPageWrapper novel={novel} userNovel={userNovel} />
         </main>
     );
 }
