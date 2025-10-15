@@ -23,8 +23,8 @@ async function fetchUserNovel() {
 }
 
 async function Home() {
-    const novelList = await fetchNovels(); // Your existing novelList fetch
-    const userNovel = await fetchUserNovel(); // Fetch user data on server
+    const novelList = await fetchNovels();
+    const userNovel = await fetchUserNovel();
 
     const unObj = userNovel.reduce((acc, item) => {
         acc[item.novel_id] = item;
