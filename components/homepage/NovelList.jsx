@@ -46,7 +46,7 @@ function NovelList({ novelList, initialUserNovel  }) {
                         <div className="m-4 max-sm:hidden">
                             <div className="h-10 mb-2 flex items-center justify-center">
                                 <div className="text-secondary font-bold text-lg line-clamp-2 overflow-hidden">
-                                    {novel.name}
+                                    {unObject.name_alternative ?? novel.name}
                                 </div>
                             </div>
                             <span className={"flex items-center justify-center text-gray-400 text-sm"}>
