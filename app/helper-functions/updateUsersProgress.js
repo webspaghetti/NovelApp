@@ -1,25 +1,30 @@
-export async function updateUsersProgress(userID, novelID, currentChapter) {
+import pool from "@/lib/db";
+import { revalidatePath } from 'next/cache';
+
+export async function updateUsersProgress(userID, novelID, currentChapter, formattedName) {
     if (novelID === undefined) return;
 
-    const apiUrl = process.env.PUBLIC_API_URL || '';
-
     try {
-        const response = await fetch(`${apiUrl}/api/user_novel/progress`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: userID,
-                novelId: novelID,
-                currentChapter: currentChapter,
-            }),
-        });
+        const [result] = await pool.query(
+            `UPDATE user_novel 
+             SET read_chapters = IF(JSON_CONTAINS(read_chapters, ?), read_chapters,
+                                   JSON_ARRAY_APPEND(read_chapters, '$', ?)), 
+                 current_chapter = ? 
+             WHERE user_id = ? AND novel_id = ?`,
+            [currentChapter, currentChapter, currentChapter, userID, novelID]
+        );
 
-        if (!response.ok) {
-            throw new Error('Failed to update user progress');
+        if (result.affectedRows === 0) {
+            console.warn("No matching user_novel record found");
+            return false;
         }
+
+        // THIS IS THE KEY: Revalidate the novel detail page cache
+        revalidatePath(`/${formattedName}`);
+
+        return true;
     } catch (error) {
         console.error('Error updating user progress:', error);
+        return false;
     }
 }
