@@ -1,8 +1,10 @@
 export async function updateUsersProgress(userID, novelID, currentChapter) {
     if (novelID === undefined) return;
 
+    const apiUrl = process.env.PUBLIC_API_URL || '';
+
     try {
-        const response = await fetch('/api/user_novel/progress', {
+        const response = await fetch(`${apiUrl}/api/user_novel/progress`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
