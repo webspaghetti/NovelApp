@@ -1,3 +1,4 @@
+"use client"
 import sourceConfig from "@/config/sourceConfig"
 import Image from "next/image";
 import Link from "next/link";
