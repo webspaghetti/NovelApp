@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "@/components/general/AlertDialog";
 
 
-function NovelSettingsPopup({ trigger, setTrigger, novel }) {
+function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
 
