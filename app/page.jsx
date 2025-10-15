@@ -14,7 +14,7 @@ async function fetchNovels() {
 }
 
 async function fetchUserNovel() {
-    const res = await fetch(`${process.env.PUBLIC_API_URL}/api/novels`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.PUBLIC_API_URL}/api/user_novel?userId=1`, { cache: 'no-store' });
     if (!res.ok) {
         throw new Error('Failed to fetch user novel');
     }
