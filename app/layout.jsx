@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import NavBar from "@/components/general/layout/NavBar";
+import NavBarWrapper from "@/components/general/layout/NavBarWrapper";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -93,7 +93,7 @@ function RootLayout({ children }) {
                   media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"/>
         </head>
         <body className={inter.className}>
-            <NavBar/>
+            <NavBarWrapper/>
             {children}
         </body>
     </html>
