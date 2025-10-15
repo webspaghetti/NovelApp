@@ -14,13 +14,14 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
     useEffect(() => {
         if (!novel) return;
 
-        setName(novel.name);
+        if (userNovel.name_alternative){
+            setName(userNovel.name_alternative);
+        } else setName(originalName)
 
-        if (novel.image_url_alternative) {
-            setImageUrl(novel.image_url_alternative);
-        } else if (novel.image_url) {
-            setImageUrl(novel.image_url);
-        }
+        if (userNovel.image_url_alternative) {
+            setImageUrl(userNovel.image_url_alternative);
+        } else setImageUrl(originalUrl);
+
     }, [novel]);
 
     const [isLoading, setIsLoading] = useState(false);
@@ -30,8 +31,8 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
 
     function handleClosing(event) {
         if (event.target.classList.contains('backdrop-blur-sm') && !isLoading) {
-            setName(originalName);
-            setImageUrl(originalUrl);
+            setName(userNovel.name_alternative ?? originalName);
+            setImageUrl(userNovel.image_url_alternative ?? originalUrl);
             setIsDialogOpen(false);
             setTrigger(false);
         }
