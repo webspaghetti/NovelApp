@@ -1,6 +1,7 @@
 import pool from "@/lib/db";
 import { NextResponse } from "next/server";
 
+
 export async function PUT(request) {
     try {
         const { userId, novelId, nameAlternative, imageUrlAlternative } = await request.json();
@@ -13,6 +14,7 @@ export async function PUT(request) {
         if (result.affectedRows === 0) {
             return NextResponse.json({ message: "No matching record found" }, { status: 404 });
         }
+
 
         return NextResponse.json({ message: "User novel updated successfully" }, { status: 200 });
     } catch (error) {

@@ -1,9 +1,11 @@
 import pool from '@/lib/db';
 
+
 export async function DELETE(request) {
     const { userId, novelId, formattedName, source } = await request.json();
 
     const connection = await pool.getConnection();
+
 
     try {
         await connection.beginTransaction();

@@ -40,6 +40,7 @@ async function scrapeChapter(page, url, sourceName) {
     await page.waitForLoadState('load');
     console.log(`Loaded ${sourceName}`);
 
+
     try {
         // Pass config into the browser context
         const result = await page.evaluate(({ selectors, watermarkPatterns, commonPatterns }) => {
@@ -77,6 +78,7 @@ async function scrapeChapter(page, url, sourceName) {
                 .replace(/&quot;/g, '"')
                 .trim()
                 .replace(/\n{3,}/g, '\n\n');
+
 
             return {
                 chapterTitle,
