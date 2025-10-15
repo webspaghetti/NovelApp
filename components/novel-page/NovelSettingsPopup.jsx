@@ -9,6 +9,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
 
     const originalName = novel?.name;
     const originalUrl = novel.image_url_alternative ?? novel.image_url;
+    const originalUrl = novel?.image_url;
 
     useEffect(() => {
         if (!novel) return;
@@ -42,6 +43,17 @@ function NovelSettingsPopup({ trigger, setTrigger, novel }) {
 
     function handleImageChange(event) {
         setImageUrl(event.target.value);
+    }
+
+    async function handleRestore(field){
+        switch (field){
+            case "name":
+                setName(originalName);
+                break;
+            case "image_url":
+                setImageUrl(originalUrl)
+                break
+        }
     }
 
     async function handleSubmit(event) {
