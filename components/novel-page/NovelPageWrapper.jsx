@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import NovelDetails from "@/components/novel-page/NovelDetails";
 import ChapterButtonsList from "@/components/novel-page/ChapterButtonsList";
 
@@ -20,6 +20,8 @@ export function useNovelLoading() {
 function NovelPageWrapper({ novel, userNovel }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChapter, setLoadingChapter] = useState(null);
+    const [userNovelState, setUserNovelState] = useState(userNovel)
+
 
     const value = {
         isLoading,
@@ -28,10 +30,26 @@ function NovelPageWrapper({ novel, userNovel }) {
         setLoadingChapter,
     };
 
+
+    useEffect(() => {
+        async function fetchUserNovel() {
+            try {
+                const res = await fetch(`/api/user_novel?userId=1&novelId=${novel.id}`);
+                if (!res.ok) throw new Error('Failed to fetch user novel');
+                const data = await res.json();
+                setUserNovelState(data[0])
+            } catch (error) {
+                console.error('Error fetching user novel:', error);
+            }
+        }
+        fetchUserNovel();
+    }, [userNovel]);
+
+
     return (
         <NovelLoadingContext.Provider value={value}>
-            <NovelDetails novel={novel} userNovel={userNovel} />
-            <ChapterButtonsList novel={novel} userNovel={userNovel} />
+            <NovelDetails novel={novel} userNovel={userNovelState} />
+            <ChapterButtonsList novel={novel} userNovel={userNovelState} />
         </NovelLoadingContext.Provider>
     );
 }
