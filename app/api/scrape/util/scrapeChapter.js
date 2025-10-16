@@ -30,7 +30,7 @@ async function scrapeChapter(page, url, sourceName) {
             !text.includes('CORS') &&
             !text.includes('GroupMarkerNotSet') &&
             !text.includes('iframe') &&
-            msg.type() === 'error' || msg.type() === 'log'
+            msg.type() !== 'error' || msg.type() === 'log'
         ) {
             console.log('Browser:', text + ' -' + type);
         }
