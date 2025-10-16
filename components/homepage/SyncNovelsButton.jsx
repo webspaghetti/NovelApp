@@ -43,57 +43,83 @@ function SyncNovelsButton() {
         }
     }
 
-    async function syncNovelData(formattedName, source) {
-        try {
-            const sourceUrl = sourceConfig[source].getInfoLink(formattedName);
+    async function syncNovelData(formattedName, source, retries = 2) {
+        for (let attempt = 0; attempt <= retries; attempt++) {
+            try {
+                // Add a small delay between attempts to avoid overwhelming the server
+                if (attempt > 0) {
+                    console.log(`Retrying ${formattedName} (attempt ${attempt + 1}/${retries + 1})...`);
+                    await new Promise(resolve => setTimeout(resolve, 2000 * attempt)); // Exponential backoff
+                }
 
-            const response = await fetch('/api/scrape', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ url: sourceUrl }),
-            });
+                const sourceUrl = sourceConfig[source].getInfoLink(formattedName);
+                if (!sourceUrl) throw new Error('Invalid source URL');
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch novel data');
-            }
-
-            const data = await response.json();
-            const { novelStatus, lastUpdate, chapterCount } = data.content;
-
-            let updatedStatus = novelStatus;
-            let formattedLastUpdate = formatLastUpdate(lastUpdate);
-
-            if (updatedStatus === 'OnGoing' && isMoreThanTwoMonthsOld(formattedLastUpdate)) {
-                updatedStatus = 'Hiatus';
-            }
-
-            const databaseNovel = await fetchNovelByFormattedName(formattedName);
-
-            if (databaseNovel.chapter_count !== parseInt(chapterCount) ||
-                databaseNovel.status !== updatedStatus ||
-                databaseNovel.latest_update !== formattedLastUpdate
-            ) {
-                const updateResponse = await fetch('/api/novels', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        formattedName,
-                        chapterCount: parseInt(chapterCount),
-                        status: updatedStatus,
-                        latestUpdate: formattedLastUpdate
-                    }),
+                const response = await fetch('/api/scrape', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: sourceUrl }),
                 });
 
-                if (!updateResponse.ok) {
-                    throw new Error('Failed to fetch novel data');
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Scrape failed (${response.status}): ${errorText}`);
+                }
+
+                const data = await response.json();
+                const { novelStatus, lastUpdate, chapterCount } = data.content;
+
+                let updatedStatus = novelStatus;
+                let formattedLastUpdate = formatLastUpdate(lastUpdate);
+
+                if (updatedStatus === 'OnGoing' && isMoreThanTwoMonthsOld(formattedLastUpdate)) {
+                    updatedStatus = 'Hiatus';
+                }
+
+                const databaseNovel = await fetchNovelByFormattedName(formattedName);
+                const parsedChapterCount = chapterCount ? parseInt(chapterCount, 10) : 0;
+
+                // Scrape log
+                /*console.log(`✓ Scraped ${formattedName}:`, {
+                    dbChapters: databaseNovel.chapter_count,
+                    scrapedChapters: parsedChapterCount,
+                    dbStatus: databaseNovel.status,
+                    scrapedStatus: updatedStatus,
+                });*/
+
+                if (
+                    databaseNovel.chapter_count !== parsedChapterCount ||
+                    databaseNovel.status !== updatedStatus ||
+                    databaseNovel.latest_update !== formattedLastUpdate
+                ) {
+                    const updateResponse = await fetch('/api/novels', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            formattedName,
+                            chapterCount: parsedChapterCount,
+                            status: updatedStatus,
+                            latestUpdate: formattedLastUpdate,
+                        }),
+                    });
+
+                    if (!updateResponse.ok) {
+                        const errorText = await updateResponse.text();
+                        throw new Error(`Failed to update: ${errorText}`);
+                    }
+
+                    console.log(`✓ ${formattedName} updated successfully`);
+                    return { success: true, updated: true, name: formattedName };
+                } else {
+                    console.log(`✓ ${formattedName} is already up to date`);
+                    return { success: true, updated: false, name: formattedName };
+                }
+            } catch (error) {
+                if (attempt === retries) {
+                    console.error(`✗ Failed to sync ${formattedName} after ${retries + 1} attempts:`, error.message);
+                    return { success: false, error: error.message, name: formattedName };
                 }
             }
-        } catch (error) {
-            console.error(error);
         }
     }
 
