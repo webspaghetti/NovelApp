@@ -11,6 +11,8 @@ function ChapterButtonsList({ novel, userNovel }) {
 
     const loadingCheck = loadingChapter !== null || isLoading;
 
+    const readChaptersJson = JSON.parse(userNovel.read_chapters)
+
 
     function handleChapterClick(chapterNumber) {
         setLoadingChapter(chapterNumber);
@@ -47,7 +49,7 @@ function ChapterButtonsList({ novel, userNovel }) {
                                 onClick={(e) => handleChapterClick(chapterNumber)}
                                 disabled={loadingCheck}
                                 className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary relative ${
-                                    userNovel?.read_chapters.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
+                                    readChaptersJson.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
                                 } ${
                                     userNovel?.current_chapter === chapterNumber ? 'border-green-600 !bg-green-600' : ''
                                 } ${
@@ -65,7 +67,7 @@ function ChapterButtonsList({ novel, userNovel }) {
                             onClick={(e) => handleChapterClick(chapterNumber)}
                             disabled={loadingCheck}
                             className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary relative ${
-                                userNovel?.read_chapters.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
+                                readChaptersJson.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
                             } ${
                                 userNovel?.current_chapter === chapterNumber ? 'border-green-600 !bg-green-600' : ''
                             } ${
