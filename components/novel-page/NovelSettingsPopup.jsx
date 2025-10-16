@@ -8,8 +8,8 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
     const [name, setName] = useState("");
     const [imageUrl, setImageUrl] = useState("");
 
-    const originalName = novel?.name;
-    const originalUrl = novel?.image_url;
+    const originalName = novel.name;
+    const originalUrl = novel.image_url;
 
     const router = useRouter();
 
@@ -63,21 +63,69 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
         event.preventDefault();
         setIsLoading(true);
 
-        let nameChange;
-        let imageUrlChange;
+        let nameToSend;
+        let imageUrlToSend;
 
-        if (userNovel.name_alternative){
-            nameChange = (userNovel.name_alternative !== name);
-        } else nameChange = (originalName !== name);
+        let hasChanges = false;
 
-        if (userNovel.image_url_alternative){
-            imageUrlChange = (userNovel.image_url_alternative !== imageUrl);
-        } else imageUrlChange = (originalUrl !== imageUrl);
+        // Handle name logic
+        if (userNovel.name_alternative) {
+            // Alternative exists
+            if (name === originalName) {
+                // User wants to revert to original - remove alternative
+                nameToSend = null;
+                hasChanges = true;
+            } else if (userNovel.name_alternative !== name) {
+                // User changed to a different alternative
+                nameToSend = name;
+                hasChanges = true;
+            } else {
+                // No change - keep existing alternative
+                nameToSend = userNovel.name_alternative;
+            }
+        } else {
+            // No alternative exists
+            if (name !== originalName) {
+                // User wants to set a new alternative
+                nameToSend = name;
+                hasChanges = true;
+            } else {
+                // No change - keep it null
+                nameToSend = null;
+            }
+        }
 
-        if (!nameChange && !imageUrlChange){
-            setIsLoading(false)
+        // Handle image URL logic
+        if (userNovel.image_url_alternative) {
+            // Alternative exists
+            if (imageUrl === originalUrl) {
+                // User wants to revert to original - remove alternative
+                imageUrlToSend = null;
+                hasChanges = true;
+            } else if (userNovel.image_url_alternative !== imageUrl) {
+                // User changed to a different alternative
+                imageUrlToSend = imageUrl;
+                hasChanges = true;
+            } else {
+                // No change - keep existing alternative
+                imageUrlToSend = userNovel.image_url_alternative;
+            }
+        } else {
+            // No alternative exists
+            if (imageUrl !== originalUrl) {
+                // User wants to set a new alternative
+                imageUrlToSend = imageUrl;
+                hasChanges = true;
+            } else {
+                // No change - keep it null
+                imageUrlToSend = null;
+            }
+        }
+
+        if (!hasChanges) {
+            setIsLoading(false);
             setTrigger(false);
-            return
+            return;
         }
 
 
@@ -90,13 +138,13 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
                 body: JSON.stringify({
                     userId: userNovel.user_id,
                     novelId: userNovel.novel_id,
-                    nameAlternative: name,
-                    imageUrlAlternative: imageUrl
+                    nameAlternative: nameToSend,
+                    imageUrlAlternative: imageUrlToSend
                 }),
             });
 
             if (!updateResponse.ok) {
-                throw new Error('Failed to fetch novel data');
+                throw new Error('Failed to update novel data');
             }
 
             setTrigger(false);
