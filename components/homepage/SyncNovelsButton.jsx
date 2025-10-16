@@ -31,15 +31,54 @@ function SyncNovelsButton() {
             }
             const novels = await response.json();
 
-            // Use Promise.all to run syncNovelData concurrently for all novels
-            await Promise.all(novels.map(novel => syncNovelData(novel.formatted_name, novel.source)));
+            // Scrape log
+            // console.log(`Starting sync for ${novels.length} novels...`);
 
+            // Process in batches of 5 to avoid overwhelming the server
+            const BATCH_SIZE = 5;
+            const results = [];
+
+            for (let i = 0; i < novels.length; i += BATCH_SIZE) {
+                const batch = novels.slice(i, i + BATCH_SIZE);
+
+                // Scrape log
+                // console.log(`Processing batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(novels.length / BATCH_SIZE)}...`);
+
+                const batchResults = await Promise.all(
+                    batch.map(novel => syncNovelData(novel.formatted_name, novel.source))
+                );
+                results.push(...batchResults);
+
+                // Small delay between batches
+                if (i + BATCH_SIZE < novels.length) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+
+            // Log summary
+            /*const successful = results.filter(r => r.success).length;
+            const updated = results.filter(r => r.updated).length;
+            const failed = results.filter(r => !r.success);
+
+            console.log(`\n=== Sync Summary ===`);
+            console.log(`Total: ${novels.length}`);
+            console.log(`Successful: ${successful}`);
+            console.log(`Updated: ${updated}`);
+            console.log(`Failed: ${failed.length}`);*/
+
+            const failed = results.filter(r => !r.success);
+            if (failed.length > 0) {
+                console.error('\nFailed novels:', failed.map(f => f.name).join(', '));
+            }
+
+            // Reload after all updates complete
             setTimeout(() => {
                 location.reload();
-            }, 0);
+            }, 500);
+
         } catch (error) {
             console.error("Error fetching or updating novels:", error);
-            return [];
+            throw error;
         }
     }
 
