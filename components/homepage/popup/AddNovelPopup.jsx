@@ -138,13 +138,13 @@ function AddNovelPopup(props) {
                     onSubmit={handleSubmit}
                     method="post"
                 >
-                    <h2 className="text-2xl font-semibold text-secondary text-center mb-6">
+                    <h2 className="text-2xl font-semibold text-secondary text-center mb-6 select-none">
                         Add New Novel
                     </h2>
 
                     <div className="flex items-center border border-gray-700 bg-navbar rounded-lg px-2 py-2 focus-within:border-primary transition-all max-sm:flex-col max-sm:items-stretch gap-2">
                         <input
-                            className="flex-1 bg-transparent border-none text-secondary px-2 py-1 leading-tight focus:outline-none caret-primary placeholder-gray-500 disabled:opacity-60"
+                            className="select-none flex-1 bg-transparent border-none text-secondary px-2 py-1 leading-tight focus:outline-none caret-primary placeholder-gray-500 disabled:opacity-60"
                             type="text"
                             value={link}
                             onChange={handleChange}
