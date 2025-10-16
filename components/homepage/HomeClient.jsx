@@ -98,6 +98,7 @@ function HomeClient({ novelList, userNovel }) {
         return filtered;
     }, [novelList, searchTerm, statusFilter, sortOption, unObj]);
 
+
     return (
         <main>
             <div className={"flex justify-between w-full mb-5 relative top-[76px] max-sm:top-[70px]"}>
@@ -131,5 +132,6 @@ function HomeClient({ novelList, userNovel }) {
         </main>
     );
 }
+
 
 export default HomeClient;

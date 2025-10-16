@@ -1,15 +1,11 @@
 "use client";
 import { useState } from "react";
 
-function NovelSearchFilter({
-                               onSearchChange,
-                               onStatusFilter,
-                               onSortChange,
-                               currentStatus,
-                               currentSort,
-                           }) {
+
+function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, currentStatus, currentSort}) {
     const [searchTerm, setSearchTerm] = useState("");
     const [showFilters, setShowFilters] = useState(false);
+
 
     const handleSearchChange = (e) => {
         const value = e.target.value;
@@ -21,6 +17,7 @@ function NovelSearchFilter({
         setSearchTerm("");
         onSearchChange("");
     };
+
 
     return (
         <div className="w-full space-y-4 relative top-[76px] max-sm:top-[70px] mb-4 px-2 sm:px-0">
@@ -179,5 +176,6 @@ function NovelSearchFilter({
         </div>
     );
 }
+
 
 export default NovelSearchFilter;
