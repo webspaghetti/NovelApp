@@ -1,6 +1,6 @@
 "use client"
 import sourceConfig from "@/config/sourceConfig"
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
 import AnimatedIconButton from "@/components/general/AnimatedIconButton";
@@ -8,13 +8,133 @@ import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMont
 import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
 
 
-function SyncNovelsButton() {
+function SyncNovelsButton({ novelList }) {
     const [overlayTrigger, setOverlayTrigger] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [selectedNovels, setSelectedNovels] = useState(new Set());
+    const [searchTerm, setSearchTerm] = useState("");
+    const [statusFilter, setStatusFilter] = useState("all");
+    const [sortOption, setSortOption] = useState("default");
 
-    async function handleButtonClick() {
-        setOverlayTrigger(true); // Show the loading overlay
+
+    // Filter and sort novels
+    const filteredAndSortedNovels = useMemo(() => {
+        let filtered = novelList.filter(novel => {
+            const matchesSearch = novel.name.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesStatus = statusFilter === "all" || novel.status === statusFilter;
+            return matchesSearch && matchesStatus;
+        });
+
+        // Sort
+        filtered.sort((a, b) => {
+            switch (sortOption) {
+                case "name-asc":
+                    return a.name.localeCompare(b.name);
+                case "name-desc":
+                    return b.name.localeCompare(a.name);
+                case "update-newest":
+                    return new Date(b.latest_update || 0) - new Date(a.latest_update || 0);
+                case "update-oldest":
+                    return new Date(a.latest_update || 0) - new Date(b.latest_update || 0);
+                case "chapters-asc":
+                    return (a.chapter_count || 0) - (b.chapter_count || 0);
+                case "chapters-desc":
+                    return (b.chapter_count || 0) - (a.chapter_count || 0);
+                default:
+                    return 0;
+            }
+        });
+
+        return filtered;
+    }, [novelList, searchTerm, statusFilter, sortOption]);
+
+    // Initialize selected novels when dialog opens
+    function handleDialogOpen() {
+        const initialSelected = new Set(
+            novelList
+                .filter(novel => novel.status !== 'Completed')
+                .map(novel => novel.formatted_name)
+        );
+        setSelectedNovels(initialSelected);
+        setSearchTerm("");
+        setStatusFilter("all");
+        setSortOption("default");
+        setIsDialogOpen(true);
+    }
+
+    function toggleNovel(formattedName) {
+        setSelectedNovels(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(formattedName)) {
+                newSet.delete(formattedName);
+            } else {
+                newSet.add(formattedName);
+            }
+            return newSet;
+        });
+    }
+
+    function handleSelectByStatus(status) {
+        const novelsWithStatus = novelList
+            .filter(novel => novel.status === status)
+            .map(novel => novel.formatted_name);
+
+        setSelectedNovels(prev => {
+            const newSet = new Set(prev);
+            novelsWithStatus.forEach(name => newSet.add(name));
+            return newSet;
+        });
+    }
+
+    function handleUnselectByStatus(status) {
+        const novelsWithStatus = new Set(
+            novelList
+                .filter(novel => novel.status === status)
+                .map(novel => novel.formatted_name)
+        );
+
+        setSelectedNovels(prev => {
+            const newSet = new Set(prev);
+            novelsWithStatus.forEach(name => newSet.delete(name));
+            return newSet;
+        });
+    }
+
+    function handleSelectAll() {
+        setSelectedNovels(new Set(novelList.map(novel => novel.formatted_name)));
+    }
+
+    function handleUnselectAll() {
+        setSelectedNovels(new Set());
+    }
+
+    function handleSelectFiltered() {
+        setSelectedNovels(prev => {
+            const newSet = new Set(prev);
+            filteredAndSortedNovels.forEach(novel => newSet.add(novel.formatted_name));
+            return newSet;
+        });
+    }
+
+    function handleUnselectFiltered() {
+        const filteredNames = new Set(filteredAndSortedNovels.map(n => n.formatted_name));
+        setSelectedNovels(prev => {
+            const newSet = new Set(prev);
+            filteredNames.forEach(name => newSet.delete(name));
+            return newSet;
+        });
+    }
+
+    function clearSearch() {
+        setSearchTerm("");
+    }
+
+
+    async function handleSync() {
+        setIsDialogOpen(false);
+        setOverlayTrigger(true);
         try {
-            await fetchAndUpdateNovels();
+            await fetchAndUpdateNovels(Array.from(selectedNovels));
         } catch (error) {
             console.error("Error in fetching and updating novels:", error);
         } finally {
@@ -22,14 +142,11 @@ function SyncNovelsButton() {
         }
     }
 
-
-    async function fetchAndUpdateNovels() {
+    async function fetchAndUpdateNovels(selectedFormattedNames) {
         try {
-            const response = await fetch('/api/novels');
-            if (!response.ok) {
-                throw new Error('Failed to fetch novels');
-            }
-            const novels = await response.json();
+            const novelsToSync = novelList.filter(novel =>
+                selectedFormattedNames.includes(novel.formatted_name)
+            );
 
             // Scrape log
             // console.log(`Starting sync for ${novels.length} novels...`);
@@ -38,8 +155,8 @@ function SyncNovelsButton() {
             const BATCH_SIZE = 5;
             const results = [];
 
-            for (let i = 0; i < novels.length; i += BATCH_SIZE) {
-                const batch = novels.slice(i, i + BATCH_SIZE);
+            for (let i = 0; i < novelsToSync.length; i += BATCH_SIZE) {
+                const batch = novelsToSync.slice(i, i + BATCH_SIZE);
 
                 // Scrape log
                 // console.log(`Processing batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(novels.length / BATCH_SIZE)}...`);
@@ -50,7 +167,7 @@ function SyncNovelsButton() {
                 results.push(...batchResults);
 
                 // Small delay between batches
-                if (i + BATCH_SIZE < novels.length) {
+                if (i + BATCH_SIZE < novelsToSync.length) {
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 }
             }
@@ -147,10 +264,12 @@ function SyncNovelsButton() {
                         throw new Error(`Failed to update: ${errorText}`);
                     }
 
-                    console.log(`✓ ${formattedName} updated successfully`);
+                    // Scrape log
+                    // console.log(`✓ ${formattedName} updated successfully`);
                     return { success: true, updated: true, name: formattedName };
                 } else {
-                    console.log(`✓ ${formattedName} is already up to date`);
+                    // Scrape log
+                    // console.log(`✓ ${formattedName} is already up-to-date`);
                     return { success: true, updated: false, name: formattedName };
                 }
             } catch (error) {
@@ -163,10 +282,235 @@ function SyncNovelsButton() {
     }
 
 
+    const statusColors = {
+        'OnGoing': 'text-yellow-400',
+        'Completed': 'text-emerald-400',
+        'Hiatus': 'text-red-400'
+    };
+
+
     return (
         <>
-            <AnimatedIconButton label={'Refresh novels'} onClick={handleButtonClick} animation={'svg-animate-rotate'} shape={'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'} />
+            <AnimatedIconButton label={'Refresh novels'} onClick={handleDialogOpen} animation={'svg-animate-rotate'} shape={'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'} />
             <LoadingOverlay trigger={overlayTrigger}/>
+
+            {isDialogOpen ? (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
+                    <div className="bg-navbar border border-gray-700 rounded-2xl p-6 shadow-2xl w-full max-w-4xl text-center animate-fadeIn max-h-[90vh] flex flex-col">
+                        <h2 className="text-lg font-semibold text-secondary mb-3 select-none">Refresh novels</h2>
+                        <p className="text-gray-400 mb-4 select-none">Select novels to refresh ({selectedNovels.size} selected)</p>
+
+                        {/* Search Bar */}
+                        <div className="relative mb-4">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+                                    <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
+                                </svg>
+                            </span>
+                            <input
+                                type="text"
+                                placeholder="Search novels by name"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full bg-main_background border border-gray-700 rounded-lg text-secondary pl-10 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-primary caret-primary placeholder-gray-500 select-none"
+                            />
+                            {searchTerm && (
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2 hover:scale-105 transition-transform">
+                                    <button
+                                        onClick={clearSearch} className="p-1 rounded-lg bg-red-600 hover:bg-red-700 border border-red-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4 sm:size-5">
+                                            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Filters Row */}
+                        <div className="grid grid-cols-2 gap-3 mb-4">
+                            <div className="relative">
+                                <label className="block text-sm font-semibold text-secondary mb-2 text-left select-none">Status</label>
+                                <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="appearance-none w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
+                                    <option value="all">All Status</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="OnGoing">On Going</option>
+                                    <option value="Hiatus">Hiatus</option>
+                                </select>
+                                <div className="pointer-events-none absolute bottom-2 right-3 text-secondary">
+                                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 12a1 1 0 01-.7-.3l-4-4a1 1 0 111.4-1.4L10 9.6l3.3-3.3a1 1 0 011.4 1.4l-4 4a1 1 0 01-.7.3z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="relative">
+                                <label className="block text-sm font-semibold text-secondary mb-2 text-left select-none">Sort By</label>
+                                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="appearance-none w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
+                                    <option value="default">Default</option>
+                                    <option value="name-asc">Name (A-Z)</option>
+                                    <option value="name-desc">Name (Z-A)</option>
+                                    <option value="update-newest">Latest Update (Newest)</option>
+                                    <option value="update-oldest">Latest Update (Oldest)</option>
+                                    <option value="chapters-asc">Chapter Count (Low to High)</option>
+                                    <option value="chapters-desc">Chapter Count (High to Low)</option>
+                                </select>
+                                <div className="pointer-events-none absolute bottom-2 right-3 text-secondary">
+                                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 12a1 1 0 01-.7-.3l-4-4a1 1 0 111.4-1.4L10 9.6l3.3-3.3a1 1 0 011.4 1.4l-4 4a1 1 0 01-.7.3z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Quick Selection Buttons small screen */}
+                        <div className="mb-4 sm:hidden">
+                            <div className="border border-gray-700 rounded-lg overflow-hidden">
+                                <div className="overflow-x-auto px-2 py-2">
+                                    <div className="flex gap-2 min-w-min">
+                                        {/* All */}
+                                        <button onClick={handleSelectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                                            Select All
+                                        </button>
+                                        <button onClick={handleUnselectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                                            Unselect All
+                                        </button>
+
+                                        {/* Filtered */}
+                                        <div className="w-px bg-gray-600" />
+                                        <button onClick={handleSelectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                                            + Filtered
+                                        </button>
+                                        <button onClick={handleUnselectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                                            - Filtered
+                                        </button>
+
+                                        {/* OnGoing */}
+                                        <div className="w-px bg-gray-600" />
+                                        <button onClick={() => handleSelectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                                            + OnGoing
+                                        </button>
+                                        <button onClick={() => handleUnselectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                                            - OnGoing
+                                        </button>
+
+                                        {/* Completed */}
+                                        <div className="w-px bg-gray-600"></div>
+                                        <button onClick={() => handleSelectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                                            + Completed
+                                        </button>
+                                        <button onClick={() => handleUnselectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                                            - Completed
+                                        </button>
+
+                                        {/* Hiatus */}
+                                        <div className="w-px bg-gray-600"></div>
+                                        <button onClick={() => handleSelectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                                            + Hiatus
+                                        </button>
+                                        <button onClick={() => handleUnselectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                                            - Hiatus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        {/* Quick Selection Buttons */}
+                        <div className="hidden sm:flex flex-wrap justify-center gap-2 mb-4">
+                            {/* All */}
+                            <button onClick={handleSelectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                                Select All
+                            </button>
+                            <button onClick={handleUnselectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                                Unselect All
+                            </button>
+
+                            {/* Filtered */}
+                            <div className="w-px bg-gray-600" />
+                            <button onClick={handleSelectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                                + Filtered
+                            </button>
+                            <button onClick={handleUnselectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                                - Filtered
+                            </button>
+
+                            {/* OnGoing */}
+                            <div className="w-px bg-gray-600" />
+                            <button onClick={() => handleSelectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                                + OnGoing
+                            </button>
+                            <button onClick={() => handleUnselectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                                - OnGoing
+                            </button>
+
+                            {/* Completed */}
+                            <div className="w-px bg-gray-600"></div>
+                            <button onClick={() => handleSelectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                                + Completed
+                            </button>
+                            <button onClick={() => handleUnselectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                                - Completed
+                            </button>
+
+                            {/* Hiatus */}
+                            <div className="w-px bg-gray-600"></div>
+                            <button onClick={() => handleSelectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                                + Hiatus
+                            </button>
+                            <button onClick={() => handleUnselectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                                - Hiatus
+                            </button>
+                        </div>
+
+                        {/* Novel List */}
+                        <div className="overflow-y-auto flex-1 mb-4 border border-gray-700 rounded-lg">
+                            {filteredAndSortedNovels.length === 0 ? (
+                                <div className="p-8 text-gray-400 text-center">No novels found</div>
+                            ) : (
+                                filteredAndSortedNovels.map((novel) => (
+                                    <div
+                                        key={novel.formatted_name}
+                                        onClick={() => toggleNovel(novel.formatted_name)}
+                                        className="flex items-center gap-3 p-3 hover:bg-gray-800/50 cursor-pointer border-b border-gray-700/50 last:border-b-0 transition-colors"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedNovels.has(novel.formatted_name)}
+                                            onChange={() => {}}
+                                            className="w-4 h-4 rounded accent-green-600 cursor-pointer"
+                                        />
+                                        <div className="flex-1 text-left">
+                                            <div className="text-white font-medium">{novel.name}</div>
+                                            <div className="text-sm text-gray-400 flex items-center gap-2">
+                                                <span className={statusColors[novel.status] || 'text-gray-400'}>
+                                                    {novel.status}
+                                                </span>
+                                                <span className={"select-none"}>•</span>
+                                                <span>{novel.latest_update || 'No update'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex justify-center gap-3">
+                            <button onClick={() => setIsDialogOpen(false)} className="px-4 py-2 rounded-lg text-secondary transition-all">
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleSync}
+                                disabled={selectedNovels.size === 0}
+                                className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-800 border-green-800 text-white font-medium transition-all disabled:opacity-50"
+                            >
+                                Refresh {selectedNovels.size > 0 ? `(${selectedNovels.size})` : ''}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ): null
+            }
         </>
     );
 }
