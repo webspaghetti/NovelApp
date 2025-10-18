@@ -444,7 +444,7 @@ function SyncNovelsButton({ novelList }) {
                             </button>
 
                             {/* Completed */}
-                            <div className="w-px bg-gray-600"></div>
+                            <div className="w-px bg-gray-600 xl:hidden"></div>
                             <button onClick={() => handleSelectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
                                 + Completed
                             </button>
