@@ -1,3 +1,6 @@
+import sourceConfig from "@/config/sourceConfig";
+
+
 async function scrapeNovelInfo(page, url, sourceName) {
     // Console log forwarding
     page.on('console', msg => {
@@ -19,34 +22,27 @@ async function scrapeNovelInfo(page, url, sourceName) {
     console.log(`Loaded ${sourceName} info page`);
 
     try {
-        const result = await page.evaluate(({ url, sourceName }) => {
+        const config = sourceConfig[sourceName];
+
+        const result = await page.evaluate(({ url, expressions }) => {
+            // Void url to convince it is used
+            void url;
             const data = {};
 
-            // Source-specific extraction logic
-            switch (sourceName){
-                case 'freewebnovel':
-                    data.novelTitle = document.querySelector('.tit').textContent.trim().replace(/\s*\((WN|Web Novel|WN KR)\)\s*$/, '');
-                    data.formattedName = url.split('/').pop().replace('.html', '');
-                    data.novelStatus = document.querySelector('.s1.s2, .s1.s3').textContent.trim();
-                    data.lastUpdate = document.querySelector('.lastupdate').textContent;
-                    data.chapterCount = document.querySelector('.ul-list5 li a').getAttribute('href').match(/chapter-(\d+)/)?.[1];
-                    data.imageUrl = 'https://freewebnovel.com' + document.querySelector('.pic img').getAttribute('src');
-                    break;
-
-                case 'lightnovelworld':
-                    data.novelTitle = document.querySelector('h1.novel-title').textContent.trim().replace(/\s*\((WN|Web Novel|WN KR)\)\s*$/, '');
-                    data.formattedName = document.querySelector('#readchapterbtn').getAttribute('href')?.split('/')[2]?.replace(/-\d+$/, '');
-                    data.novelStatus = document.querySelectorAll('.header-stats span')[3]?.querySelector('strong')?.textContent.trim();
-                    data.lastUpdate = document.querySelector('p.update').textContent.trim();
-                    data.chapterCount = document.querySelectorAll('.header-stats span')[0]?.querySelector('strong')?.textContent.trim();
-                    data.imageUrl = document.querySelector('figure.cover img').getAttribute('src');
-                    break;
+            // Execute each expression string
+            for (const [key, expression] of Object.entries(expressions)) {
+                try {
+                    data[key] = eval(String(expression));
+                } catch (error) {
+                    console.error(`Error evaluating ${key}:`, error);
+                    data[key] = null;
+                }
             }
 
             return data;
         }, {
             url,
-            sourceName
+            expressions: config.info_scraper
         });
 
         console.log(`Success: ${result.novelTitle}`);
