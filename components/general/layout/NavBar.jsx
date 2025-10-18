@@ -9,7 +9,7 @@ function NavBar({ pathname }) {
     // Check if the last section is a number
     const isSpecificPage = !isNaN(parseInt(lastSection)) && lastSection !== '';
 
-    const navbarStyles = isSpecificPage ? "relative" : "fixed top-0 z-10";
+    const navbarStyles = isSpecificPage ? "relative max-sm:hidden" : "fixed top-0 z-10";
 
 
     return (
