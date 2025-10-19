@@ -520,11 +520,19 @@ function SyncNovelsButton({ novelList, userNovel }) {
                                         <div className="flex-1 text-left">
                                             <div className="text-white font-medium">{novel.name}</div>
                                             <div className="text-sm text-gray-400 flex items-center gap-2">
-                                                <span className={statusColors[novel.status] || 'text-gray-400'}>
+                                                <span className={statusColors[novel.status]}>
                                                     {novel.status}
                                                 </span>
                                                 <span className={"select-none"}>•</span>
-                                                <span>{novel.latest_update || 'No update'}</span>
+                                                <span>{novel.latest_update}</span>
+                                                <span className={"select-none"}>•</span>
+                                                <span>{novel.chapter_count} Chapters</span>
+                                                {unObj[novel.id].last_read ? (
+                                                    <>
+                                                        <span className={"select-none"}>•</span>
+                                                        <span>Last read {dateFormatter(unObj[novel.id].last_read)}</span>
+                                                    </>
+                                                ) : null}
                                             </div>
                                         </div>
                                     </div>
