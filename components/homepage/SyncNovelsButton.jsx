@@ -8,7 +8,7 @@ import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMont
 import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
 
 
-function SyncNovelsButton({ novelList }) {
+function SyncNovelsButton({ novelList, userNovel }) {
     const [overlayTrigger, setOverlayTrigger] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedNovels, setSelectedNovels] = useState(new Set());
@@ -16,6 +16,13 @@ function SyncNovelsButton({ novelList }) {
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOption, setSortOption] = useState("default");
 
+    // Create a lookup object mapping novel IDs to user novel data
+    const unObj = useMemo(() => {
+        return userNovel.reduce((acc, item) => {
+            acc[item.novel_id] = item;
+            return acc;
+        }, {});
+    }, [userNovel]);
 
     // Filter and sort novels
     const filteredAndSortedNovels = useMemo(() => {
@@ -26,27 +33,54 @@ function SyncNovelsButton({ novelList }) {
         });
 
         // Sort
-        filtered.sort((a, b) => {
-            switch (sortOption) {
-                case "name-asc":
-                    return a.name.localeCompare(b.name);
-                case "name-desc":
-                    return b.name.localeCompare(a.name);
-                case "update-newest":
-                    return new Date(b.latest_update || 0) - new Date(a.latest_update || 0);
-                case "update-oldest":
-                    return new Date(a.latest_update || 0) - new Date(b.latest_update || 0);
-                case "chapters-asc":
-                    return (a.chapter_count || 0) - (b.chapter_count || 0);
-                case "chapters-desc":
-                    return (b.chapter_count || 0) - (a.chapter_count || 0);
-                default:
-                    return 0;
-            }
-        });
+        switch (sortOption) {
+            case "name-asc":
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case "name-desc":
+                filtered.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+            case "update-newest":
+                filtered.sort((a, b) => {
+                    const dateA = parseRelativeTime(a.latest_update);
+                    const dateB = parseRelativeTime(b.latest_update);
+                    return dateB - dateA;
+                });
+                break;
+            case "update-oldest":
+                filtered.sort((a, b) => {
+                    const dateA = parseRelativeTime(a.latest_update);
+                    const dateB = parseRelativeTime(b.latest_update);
+                    return dateA - dateB;
+                });
+                break;
+            case "chapters-asc":
+                filtered.sort((a, b) => (a.chapter_count || 0) - (b.chapter_count || 0));
+                break;
+            case "chapters-desc":
+                filtered.sort((a, b) => (b.chapter_count || 0) - (a.chapter_count || 0));
+                break;
+            case "last-read":
+                filtered.sort((a, b) => {
+                    const lastReadA = unObj[a.id]?.last_read ? new Date(unObj[a.id].last_read).getTime() : 0;
+                    const lastReadB = unObj[b.id]?.last_read ? new Date(unObj[b.id].last_read).getTime() : 0;
+                    return lastReadB - lastReadA; // descending order, most recent first
+                });
+                break;
+            case "oldest-read":
+                filtered.sort((a, b) => {
+                    const lastReadA = unObj[a.id]?.last_read ? new Date(unObj[a.id].last_read).getTime() : 0;
+                    const lastReadB = unObj[b.id]?.last_read ? new Date(unObj[b.id].last_read).getTime() : 0;
+                    return lastReadA - lastReadB; // ascending order, oldest first
+                });
+                break;
+            default:
+                // Keep original order
+                break;
+        }
 
         return filtered;
-    }, [novelList, searchTerm, statusFilter, sortOption]);
+    }, [novelList, searchTerm, statusFilter, sortOption, unObj]);
 
     // Initialize selected novels when dialog opens
     function handleDialogOpen() {

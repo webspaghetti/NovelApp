@@ -41,6 +41,20 @@ function HomeClient({ novelList, userNovel }) {
 
         // Apply sorting
         switch (sortOption) {
+            case 'last-read':
+                filtered.sort((a, b) => {
+                    const lastReadA = unObj[a.id]?.last_read ? new Date(unObj[a.id].last_read).getTime() : 0;
+                    const lastReadB = unObj[b.id]?.last_read ? new Date(unObj[b.id].last_read).getTime() : 0;
+                    return lastReadB - lastReadA; // descending order, most recent first
+                });
+                break;
+            case 'oldest-read':
+                filtered.sort((a, b) => {
+                    const lastReadA = unObj[a.id]?.last_read ? new Date(unObj[a.id].last_read).getTime() : 0;
+                    const lastReadB = unObj[b.id]?.last_read ? new Date(unObj[b.id].last_read).getTime() : 0;
+                    return lastReadA - lastReadB; // descending order, most recent first
+                });
+                break;
             case 'name-asc':
                 filtered.sort((a, b) => {
                     const nameA = unObj[a.id]?.name_alternative || a.name;
@@ -104,7 +118,7 @@ function HomeClient({ novelList, userNovel }) {
             <div className={"flex justify-between w-full mb-5 relative top-[76px] max-sm:top-[70px]"}>
                 <AddNovelButton />
                 <AnimatedIconButton label={'Search filter'} isActive={sfVisible} onClick={() => setSfVisible(!sfVisible)} animation={'svg-animate-scale'} shape={'M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75'} />
-                <SyncNovelsButton novelList={novelList}/>
+                <SyncNovelsButton novelList={novelList} userNovel={userNovel} />
             </div>
             <div hidden={!sfVisible}>
                 <NovelSearchFilter
