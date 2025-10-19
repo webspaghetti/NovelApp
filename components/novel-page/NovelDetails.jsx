@@ -39,7 +39,7 @@ function NovelDetails({ novel, userNovel }) {
                     </button>
 
                     <button
-                        className="text-secondary p-1 hover:text-accent transition"
+                        className="text-secondary p-1 disabled:opacity-60"
                         disabled={Boolean(isLoading)}
                         onClick={() => setCollapsedStyle(!collapsedStyle)}
                         title={collapsedStyle ? "Switch to expanded view" : "Switch to collapsed view"}
