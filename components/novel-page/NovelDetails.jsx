@@ -94,6 +94,11 @@ function NovelDetails({ novel, userNovel }) {
                 </span>
                 <h1 className="max-sm:text-2xl text-3xl font-bold mb-2">{userNovel.name_alternative ?? novel.name}</h1>
                 <p className="max-sm:text-base text-lg mb-2">Chapters: {novel.chapter_count}</p>
+                {userNovel.last_read !== null && (
+                    <span className={"block text-gray-400 text-sm"}> Last read: {' '}
+                        <span className={"font-bold"}>{dateFormatter(userNovel.last_read)}</span>
+                    </span>
+                )}
                 <p className={"block text-gray-400 text-sm"}> Last updated: {' '}
                     <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
                         dateFormatter(novel.latest_update)
