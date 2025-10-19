@@ -45,7 +45,7 @@ function AddNovelPopup(props) {
                 if (!response.ok) {
                     triggerShake();
                     setIsLoading(false);
-                    throw new Error('Failed to fetch novel data\nCheck your link');
+                    throw new Error('Failed to fetch novel data\nCheck your link or config file info_scraper settings');
                 }
 
                 const data = await response.json();
