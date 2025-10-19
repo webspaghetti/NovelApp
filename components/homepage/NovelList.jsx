@@ -53,11 +53,12 @@ function NovelList({ novelList, initialUserNovel  }) {
                                     </svg>
                                 )}
                             </span>
-                            <span className={"block text-gray-400 text-sm"}> Last updated: <br className={"sm:hidden"} /> <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
-                                dateFormatter(novel.latest_update)
-                            ) : (
-                                novel.latest_update
-                            )}
+                            <span className={"block text-gray-400 text-sm"}> Last updated: <br className={"sm:hidden"} />
+                                <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
+                                    dateFormatter(novel.latest_update)
+                                ) : (
+                                    novel.latest_update
+                                )}
                                 </span>
                             </span>
 
