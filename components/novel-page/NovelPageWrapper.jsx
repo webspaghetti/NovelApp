@@ -21,6 +21,7 @@ function NovelPageWrapper({ novel, userNovel }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChapter, setLoadingChapter] = useState(null);
     const [userNovelState, setUserNovelState] = useState(userNovel)
+    const [collapsedStyle, setCollapsedStyle] = useState(false)
 
 
     const value = {
@@ -28,6 +29,8 @@ function NovelPageWrapper({ novel, userNovel }) {
         setIsLoading,
         loadingChapter,
         setLoadingChapter,
+        collapsedStyle,
+        setCollapsedStyle
     };
 
 
