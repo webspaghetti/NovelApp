@@ -32,10 +32,17 @@ async function scrapeNovelInfo(page, url, sourceName) {
             // Execute each expression string
             for (const [key, expression] of Object.entries(expressions)) {
                 try {
-                    data[key] = eval(String(expression)) ?? null;
+                    const value = eval(String(expression));
+
+                    // Throw error if value is null or undefined
+                    if (value == null) {  // Checks both null and undefined
+                        throw new Error(`Field '${key}' returned null/undefined`);
+                    }
+
+                    data[key] = value;
                 } catch (error) {
-                    console.error(`Error evaluating ${key}:`, error);
-                    data[key] = null;
+                    console.error(`Error evaluating ${key}:`, error.message);
+                    throw error;  // Re-throw to stop execution
                 }
             }
 
