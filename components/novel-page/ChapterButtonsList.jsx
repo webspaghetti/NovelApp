@@ -18,8 +18,8 @@ function ChapterButtonsList({ novel, userNovel }) {
             // Find the breakpoint section that contains the current chapter
             return Math.ceil(userNovel.current_chapter / 100) * 100;
         }
-        // Default to the first section (highest chapter numbers)
-        return novel.chapter_count - (novel.chapter_count % 100) || 100;
+        // Default to the first section
+        return 100;
     }
 
     const [openSections, setOpenSections] = useState(() => new Set([getDefaultOpenSection()]));
