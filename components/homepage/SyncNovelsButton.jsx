@@ -382,6 +382,8 @@ function SyncNovelsButton({ novelList, userNovel }) {
                                 <label className="block text-sm font-semibold text-secondary mb-2 text-left select-none">Sort By</label>
                                 <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="appearance-none w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
                                     <option value="default">Default</option>
+                                    <option value="last-read">Last read</option>
+                                    <option value="oldest-read">Oldest read</option>
                                     <option value="name-asc">Name (A-Z)</option>
                                     <option value="name-desc">Name (Z-A)</option>
                                     <option value="update-newest">Latest Update (Newest)</option>
