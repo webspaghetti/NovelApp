@@ -9,7 +9,7 @@ export async function updateUsersProgress(userID, novelID, currentChapter, forma
             `UPDATE user_novel 
              SET read_chapters = IF(JSON_CONTAINS(read_chapters, ?), read_chapters,
                                    JSON_ARRAY_APPEND(read_chapters, '$', ?)), 
-                 current_chapter = ? 
+                 current_chapter = ?, last_read=NOW()
              WHERE user_id = ? AND novel_id = ?`,
             [currentChapter, currentChapter, currentChapter, userID, novelID]
         );
