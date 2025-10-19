@@ -1,4 +1,4 @@
-export function dateFormatter({dateString}) {
+export function dateFormatter(dateString) {
 
     const date = new Date(dateString);
     const day = date.getDate();
