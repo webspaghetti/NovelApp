@@ -6,6 +6,7 @@ import ChapterDetails from "@/components/chapter-page/ChapterDetails";
 import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";
 import ChapterStyleWrapper from "@/components/chapter-page/ChapterStyleWrapper";
 import BackButton from "@/components/novel-page/BackButton";
+import sanitizeHtml from "sanitize-html";
 
 
 async function fetchChapterContent(url) {
@@ -53,6 +54,24 @@ async function Page({ params }) {
     // Get chapter link and fetch content
     const link = sourceConfig[novelData.source].getChapterLink(params);
     const chapter = await fetchChapterContent(link);
+
+    if (chapter?.chapterContent) {
+        chapter.chapterContent = sanitizeHtml(chapter.chapterContent, {
+            allowedTags: ["p", "img", "strong", "em", "b", "i", "u", "a", "table"],
+            allowedAttributes: {
+                img: ["src", "alt"],
+                a: ["href"],
+                p: ["style"],
+            },
+            transformTags: {
+                // remove ad/tracker images
+                img: (tagName, attribs) => {
+                    if (attribs.src?.includes("pubadx.one")) return { tagName: "span", text: "" };
+                    return { tagName, attribs };
+                },
+            },
+        }).replace(/<p>/g, '<p style="margin: 1rem 0;">');
+    }
 
     const prevChapter = currentChapter - 1;
     const nextChapter = currentChapter + 1;
