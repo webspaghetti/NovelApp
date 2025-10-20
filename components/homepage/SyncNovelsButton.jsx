@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
 import { parseRelativeTime } from "@/app/helper-functions/parseRelativeTime";
+import { isValidDate } from "@/app/helper-functions/isValidDate";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import AnimatedIconButton from "@/components/general/AnimatedIconButton";
 import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
@@ -44,15 +45,15 @@ function SyncNovelsButton({ novelList, userNovel }) {
                 break;
             case "update-newest":
                 filtered.sort((a, b) => {
-                    const dateA = parseRelativeTime(a.latest_update);
-                    const dateB = parseRelativeTime(b.latest_update);
+                    const dateA = isValidDate(a.latest_update)? a.latest_update : parseRelativeTime(a.latest_update);
+                    const dateB = isValidDate(b.latest_update)? b.latest_update : parseRelativeTime(b.latest_update);
                     return dateB - dateA;
                 });
                 break;
             case "update-oldest":
                 filtered.sort((a, b) => {
-                    const dateA = parseRelativeTime(a.latest_update);
-                    const dateB = parseRelativeTime(b.latest_update);
+                    const dateA = isValidDate(a.latest_update)? a.latest_update : parseRelativeTime(a.latest_update);
+                    const dateB = isValidDate(b.latest_update)? b.latest_update : parseRelativeTime(b.latest_update);
                     return dateA - dateB;
                 });
                 break;
