@@ -5,12 +5,14 @@ import pool from '@/lib/db';
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const formattedName = searchParams.get('formattedName');
+    const source = searchParams.get('source');
 
     try {
         let query, params;
-        if (formattedName) {
-            query = 'SELECT * FROM novel_table WHERE formatted_name = ?';
-            params = [formattedName];
+
+        if (formattedName && source) {
+            query = 'SELECT * FROM novel_table WHERE formatted_name = ? AND source = ?';
+            params = [formattedName, source];
         } else {
             query = 'SELECT * FROM novel_table';
             params = [];
