@@ -2,12 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function BackButton({ formattedName }) {
+export default function BackButton({ formattedName, source }) {
     const router = useRouter();
 
     function handleBack(e) {
         e.preventDefault();
-        router.push(`/${formattedName}`);
+        router.push(`/${formattedName}?${source}`);
         router.refresh();
     }
 
