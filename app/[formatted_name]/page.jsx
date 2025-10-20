@@ -1,13 +1,23 @@
 import { notFound } from "next/navigation";
 import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
 import NovelPageWrapper from "@/components/novel-page/NovelPageWrapper";
+import {cookies} from "next/headers";
+import {getServerSession} from "next-auth/next";
+import {authOptions} from "@/lib/auth";
 
 
 async function getUsersNovel(userId, novelId) {
     try {
+        const cookieStore = cookies();
+        const headers = {
+            'Cookie': cookieStore.toString()
+        };
+
         const response = await fetch(
-            `${process.env.PUBLIC_API_URL}/api/user_novel?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`,
-            { cache: 'no-store' }
+            `${process.env.PUBLIC_API_URL}/api/user_novel?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`, {
+                cache: 'no-store',
+                headers: headers
+            }
         );
 
         if (!response.ok) {
@@ -25,7 +35,9 @@ async function getUsersNovel(userId, novelId) {
 
 
 async function Page({ params }) {
+async function Page({ params, searchParams }) {
     const { formatted_name } = params;
+    const source = searchParams.source;
 
     const novel = await fetchNovelByFormattedNameAndSource(formatted_name, source);
 
