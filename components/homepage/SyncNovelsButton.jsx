@@ -1,7 +1,7 @@
 "use client"
 import sourceConfig from "@/config/sourceConfig"
 import { useState, useMemo } from "react";
-import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
+import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
 import { parseRelativeTime } from "@/app/helper-functions/parseRelativeTime";
 import { isValidDate } from "@/app/helper-functions/isValidDate";
@@ -269,7 +269,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
                     updatedStatus = 'Hiatus';
                 }
 
-                const databaseNovel = await fetchNovelByFormattedName(formattedName);
+                const databaseNovel = await fetchNovelByFormattedNameAndSource(formattedName, source);
                 const parsedChapterCount = chapterCount ? parseInt(chapterCount, 10) : 0;
 
                 // Scrape log

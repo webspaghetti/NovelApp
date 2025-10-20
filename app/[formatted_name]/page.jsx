@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
+import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
 import NovelPageWrapper from "@/components/novel-page/NovelPageWrapper";
 
 
@@ -27,7 +27,7 @@ async function getUsersNovel(userId, novelId) {
 async function Page({ params }) {
     const { formatted_name } = params;
 
-    const novel = await fetchNovelByFormattedName(formatted_name);
+    const novel = await fetchNovelByFormattedNameAndSource(formatted_name, source);
 
     if (!novel) {
         notFound();

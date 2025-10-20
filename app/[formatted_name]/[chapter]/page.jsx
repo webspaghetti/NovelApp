@@ -1,7 +1,7 @@
 import sourceConfig from "@/config/sourceConfig"
 import { notFound } from "next/navigation";
 import { updateUsersProgress } from "@/app/helper-functions/updateUsersProgress";
-import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
+import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
 import ChapterDetails from "@/components/chapter-page/ChapterDetails";
 import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";
 import ChapterStyleWrapper from "@/components/chapter-page/ChapterStyleWrapper";
@@ -31,7 +31,7 @@ async function fetchChapterContent(url) {
 async function Page({ params }) {
     const { formatted_name, chapter: chapterParam } = params;
 
-    const novelData = await fetchNovelByFormattedName(formatted_name);
+    const novelData = await fetchNovelByFormattedNameAndSource(formatted_name, source);
 
     if (!novelData) {
         notFound();
