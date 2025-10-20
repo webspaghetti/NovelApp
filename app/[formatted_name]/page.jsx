@@ -38,6 +38,7 @@ async function Page({ params }) {
 async function Page({ params, searchParams }) {
     const { formatted_name } = params;
     const source = searchParams.source;
+    const source = Object.keys(searchParams || {})[0] ?? null;
 
     const novel = await fetchNovelByFormattedNameAndSource(formatted_name, source);
 

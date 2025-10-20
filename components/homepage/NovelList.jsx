@@ -36,7 +36,7 @@ function NovelList({ novelList, initialUserNovel  }) {
 
             return (
                 <div key={novel.id} className={"card glassy-animation"} style={{ height: "auto" }}>
-                    <Link href={`/${novel.formatted_name}?source=${novel.source}`}>
+                    <Link href={`/${novel.formatted_name}?${novel.source}`}>
                         <Image src={unObject.image_url_alternative ?? novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"} draggable="false" priority={true} />
 
                         <div className="m-4 max-sm:hidden">
