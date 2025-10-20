@@ -1,7 +1,7 @@
-export async function fetchNovelByFormattedName(formatted_name) {
+export async function fetchNovelByFormattedNameAndSource(formatted_name, source) {
     try {
         const apiUrl = process.env.PUBLIC_API_URL || '';
-        const response = await fetch(`${apiUrl}/api/novels?formattedName=${encodeURIComponent(formatted_name)}`);
+        const response = await fetch(`${apiUrl}/api/novels?formattedName=${encodeURIComponent(formatted_name)}&source=${encodeURIComponent(source)}`);
         if (!response.ok) {
             throw new Error('Failed to fetch novel');
         }
