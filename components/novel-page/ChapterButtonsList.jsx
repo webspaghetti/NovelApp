@@ -38,7 +38,7 @@ function ChapterButtonsList({ novel, userNovel }) {
 
     function handleChapterClick(chapterNumber) {
         setLoadingChapter(chapterNumber);
-        router.push(`/${novel.formatted_name}/${chapterNumber}`);
+        router.push(`/${novel.formatted_name}/${chapterNumber}?${novel.source}`);
     }
 
     // Render collapsed style
