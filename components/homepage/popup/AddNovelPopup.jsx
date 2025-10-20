@@ -1,7 +1,7 @@
 import sourceConfig from "@/config/sourceConfig";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { fetchNovelByFormattedName } from "@/app/helper-functions/fetchNovelByFormattedName";
+import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
 import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
 
@@ -88,7 +88,7 @@ function AddNovelPopup(props) {
                     throw new Error(novelData.message || 'Failed to create novel');
                 }
 
-                const fetchedNovel = await fetchNovelByFormattedName(formattedName);
+                const fetchedNovel = await fetchNovelByFormattedNameAndSource(formattedName, novelSource);
 
                 const userProgressResponse = await fetch('/api/user_novel', {
                     method: 'POST',
