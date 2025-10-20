@@ -30,7 +30,7 @@ async function fetchChapterContent(url) {
 
 async function Page({ params, searchParams }) {
     const { formatted_name, chapter: chapterParam } = params;
-    const source = searchParams.source;
+    const source = Object.keys(searchParams || {})[0] ?? null;
 
     const novelData = await fetchNovelByFormattedNameAndSource(formatted_name, source);
 

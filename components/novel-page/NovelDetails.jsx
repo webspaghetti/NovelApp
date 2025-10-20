@@ -107,7 +107,7 @@ function NovelDetails({ novel, userNovel }) {
                     )}
                     </span>
                 </p>
-                <Link className={`disabled:${loadingCheck} ${loadingCheck ? 'opacity-60' : ''}`} href={`/${novel.formatted_name}/${userNovel?.current_chapter || 1}`}
+                <Link className={`disabled:${loadingCheck} ${loadingCheck ? 'opacity-60' : ''}`} href={`/${novel.formatted_name}/${userNovel?.current_chapter || 1}?${novel.source}`}
                       onClick={() => {
                           setIsLoading(true);
                           setLoadingChapter(userNovel?.current_chapter || 1);
