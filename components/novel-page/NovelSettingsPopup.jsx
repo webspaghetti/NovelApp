@@ -122,6 +122,12 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
             }
         }
 
+        if (nameToSend === ''){
+            nameToSend = null;
+        } else if (imageUrlToSend === ''){
+            imageUrlToSend = null;
+        }
+
         if (!hasChanges) {
             setIsLoading(false);
             setTrigger(false);
