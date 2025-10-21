@@ -9,7 +9,7 @@ import NovelSearchFilter from "@/components/homepage/NovelSearchFilter";
 import AnimatedIconButton from "@/components/general/AnimatedIconButton";
 
 
-function HomeClient({ novelList, userNovel }) {
+function HomeClient({ novelList, userNovel, session }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     const [sortOption, setSortOption] = useState('default');
@@ -117,7 +117,7 @@ function HomeClient({ novelList, userNovel }) {
     return (
         <main>
             <div className={"flex justify-between w-full mb-5 relative top-[76px] max-sm:top-[70px]"}>
-                <AddNovelButton />
+                <AddNovelButton session={session} />
                 <AnimatedIconButton label={'Search filter'} isActive={sfVisible} onClick={() => setSfVisible(!sfVisible)} animation={'svg-animate-scale'} shape={'M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75'} />
                 <SyncNovelsButton novelList={novelList} userNovel={userNovel} />
             </div>
@@ -136,7 +136,7 @@ function HomeClient({ novelList, userNovel }) {
             <div className={'max-md:flex max-md:justify-center'}>
                 <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-4 gap-5 md:gap-10 relative top-20 max-sm:pb-3 pb-9"}>
                     {filteredAndSortedNovels.length > 0 ? (
-                        <NovelList novelList={filteredAndSortedNovels} initialUserNovel={unObj} />
+                        <NovelList novelList={filteredAndSortedNovels} initialUserNovel={unObj} session={session} />
                     ) : (
                         <div className="col-span-full text-center max-sm:text-base text-lg text-gray-400 py-10">
                             No novels found matching your filters.

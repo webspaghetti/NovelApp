@@ -4,7 +4,7 @@ import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 
-function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCount, formattedName }) {
+function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCount, formattedName, source }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingButton, setLoadingButton] = useState(null);
 

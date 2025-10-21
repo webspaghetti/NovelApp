@@ -34,6 +34,8 @@ async function fetchChapterContent(url) {
 
 
 async function Page({ params, searchParams }) {
+    const session = await getServerSession(authOptions);
+
     const { formatted_name, chapter: chapterParam } = params;
     const source = Object.keys(searchParams || {})[0] ?? null;
 
@@ -55,7 +57,7 @@ async function Page({ params, searchParams }) {
     }
 
     // Update user progress
-    await updateUsersProgress(1, novelData.id, currentChapter);
+    await updateUsersProgress(session.user.id, novelData.id, currentChapter);
 
     // Get chapter link and fetch content
     const link = sourceConfig[novelData.source].getChapterLink(params);
@@ -102,6 +104,7 @@ async function Page({ params, searchParams }) {
                         currentChapter={currentChapter}
                         chapterCount={novelData.chapter_count}
                         formattedName={formatted_name}
+                        source={novelData.source}
                     />
                 </div>
             </main>

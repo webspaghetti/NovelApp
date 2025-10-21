@@ -40,7 +40,7 @@ async function Page({ params, searchParams }) {
 
     return (
         <main className="relative pt-20">
-            <NovelPageWrapper novel={novel} userNovel={userNovel} />
+            <NovelPageWrapper novel={novel} userNovel={userNovel} session={session} />
         </main>
     );
 }

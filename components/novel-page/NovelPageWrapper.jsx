@@ -17,7 +17,7 @@ export function useNovelLoading() {
 }
 
 
-function NovelPageWrapper({ novel, userNovel }) {
+function NovelPageWrapper({ novel, userNovel, session }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChapter, setLoadingChapter] = useState(null);
     const [userNovelState, setUserNovelState] = useState(userNovel)
@@ -37,7 +37,7 @@ function NovelPageWrapper({ novel, userNovel }) {
     useEffect(() => {
         async function fetchUserNovel() {
             try {
-                const res = await fetch(`/api/user_novel?userId=1&novelId=${novel.id}`);
+                const res = await fetch(`/api/user_novel?userId=${session.user.id}&novelId=${novel.id}`);
                 if (!res.ok) throw new Error('Failed to fetch user novel');
                 const data = await res.json();
                 setUserNovelState(data[0])

@@ -43,10 +43,10 @@ async function fetchUserNovel(userId) {
 async function Home() {
     const session = await getServerSession(authOptions);
 
-    return <HomeClient novelList={novelList} userNovel={userNovel} />;
     const novelList = await fetchNovels(session.user.id);
     const userNovel = await fetchUserNovel(session.user.id);
 
+    return <HomeClient novelList={novelList} userNovel={userNovel} session={session} />;
 }
 
 export default Home;

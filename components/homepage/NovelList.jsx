@@ -6,14 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 
-function NovelList({ novelList, initialUserNovel  }) {
+function NovelList({ novelList, initialUserNovel, session  }) {
     const [userNovel, setUserNovel] = useState(initialUserNovel)
 
 
     useEffect(() => {
         async function fetchUserNovel() {
             try {
-                const res = await fetch('/api/user_novel?userId=1');
+                const res = await fetch(`/api/user_novel?userId=${session.user.id}`);
                 if (!res.ok) throw new Error('Failed to fetch user novel');
                 const data = await res.json();
                 const progressObj = data.reduce((acc, item) => {

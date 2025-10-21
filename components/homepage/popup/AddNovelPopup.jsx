@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
 
 
-function AddNovelPopup(props) {
+function AddNovelPopup({trigger, setTrigger, session}) {
     const [link, setLink] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ function AddNovelPopup(props) {
         if (event.target.classList.contains('backdrop-blur-sm') && !isLoading) {
             setLink('');
             setErrorMessage('');
-            props.setTrigger(false);
+            setTrigger(false);
         }
     }
 
@@ -96,7 +96,7 @@ function AddNovelPopup(props) {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        userId: 1,
+                        userId: session.user.id,
                         novelId: fetchedNovel.id,
                     }),
                 });
@@ -127,7 +127,7 @@ function AddNovelPopup(props) {
     }
 
 
-    return (props.trigger) ? (
+    return (trigger) ? (
         <div
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm z-30"
             onClick={handleClosing}
