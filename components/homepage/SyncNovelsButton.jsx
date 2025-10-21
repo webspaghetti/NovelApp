@@ -19,6 +19,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOption, setSortOption] = useState("default");
 
+
     // Create a lookup object mapping novel IDs to user novel data
     const unObj = useMemo(() => {
         return userNovel.reduce((acc, item) => {
@@ -29,19 +30,36 @@ function SyncNovelsButton({ novelList, userNovel }) {
 
     // Filter and sort novels
     const filteredAndSortedNovels = useMemo(() => {
-        let filtered = novelList.filter(novel => {
-            const matchesSearch = novel.name.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesStatus = statusFilter === "all" || novel.status === statusFilter;
-            return matchesSearch && matchesStatus;
-        });
+        let filtered = [...novelList];
+
+        if (searchTerm) {
+            filtered = filtered.filter(novel => {
+                const userNovelData = unObj[novel.id];
+                const nameToSearch = userNovelData?.name_alternative || novel.name;
+                return nameToSearch.toLowerCase().includes(searchTerm.toLowerCase());
+            });
+        }
+
+        if (statusFilter !== 'all') {
+            filtered = filtered.filter(novel => novel.status === statusFilter);
+        }
+
 
         // Sort
         switch (sortOption) {
             case "name-asc":
-                filtered.sort((a, b) => a.name.localeCompare(b.name));
+                filtered.sort((a, b) => {
+                    const nameA = unObj[a.id]?.name_alternative || a.name;
+                    const nameB = unObj[b.id]?.name_alternative || b.name;
+                    return nameA.localeCompare(nameB);
+                });
                 break;
             case "name-desc":
-                filtered.sort((a, b) => b.name.localeCompare(a.name));
+                filtered.sort((a, b) => {
+                    const nameA = unObj[a.id]?.name_alternative || a.name;
+                    const nameB = unObj[b.id]?.name_alternative || b.name;
+                    return nameB.localeCompare(nameA);
+                });
                 break;
             case "update-newest":
                 filtered.sort((a, b) => {
@@ -84,6 +102,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
 
         return filtered;
     }, [novelList, searchTerm, statusFilter, sortOption, unObj]);
+
 
     // Initialize selected novels when dialog opens
     function handleDialogOpen() {
@@ -178,6 +197,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
             setOverlayTrigger(false);
         }
     }
+
 
     async function fetchAndUpdateNovels(selectedFormattedNames) {
         try {
@@ -519,7 +539,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
                                             className="w-4 h-4 rounded accent-green-600 cursor-pointer"
                                         />
                                         <div className="flex-1 text-left">
-                                            <div className="text-white font-medium">{novel.name}</div>
+                                            <div className="text-white font-medium">{unObj[novel.id]?.name_alternative ?? novel.name}</div>
                                             <div className="text-sm text-gray-400 flex items-center gap-2">
                                                 <span className={statusColors[novel.status]}>
                                                     {novel.status}
