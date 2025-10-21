@@ -1,8 +1,8 @@
 import sourceConfig from "@/config/sourceConfig";
 import { useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
+import { fetchNovelByFormattedNameAndSource } from "@/app/api/novels/util/fetchNovelByFormattedNameAndSource";
+import CircularProgress from "@mui/material/CircularProgress";
 import formatLastUpdate from "@/app/helper-functions/formatLastUpdate";
 
 
