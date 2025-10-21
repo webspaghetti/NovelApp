@@ -10,15 +10,12 @@ export async function GET(request) {
     try {
         let query, params;
 
-        if (formattedName && source) {
-            query = 'SELECT * FROM novel_table WHERE formatted_name = ? AND source = ?';
-            params = [formattedName, source];
-        } else {
-            query = 'SELECT * FROM novel_table';
-            params = [];
-        }
+        // Filter by novel formatted name
+        query = 'SELECT * FROM novel_table WHERE formatted_name = ? AND source = ?';
+        params = [formattedName, source];
 
         const [rows] = await pool.query(query, params);
+
         return NextResponse.json(rows);
     } catch (error) {
         console.error('Error fetching novels:', error);
