@@ -11,7 +11,7 @@ function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCo
     return (
         <div className="flex justify-between py-4">
             {currentChapter > 1 && (
-                <Link className={`disabled:${isLoading} ${isLoading ? 'opacity-60' : ''}`} href={`/${formattedName}/${prevChapter}`} onClick={() => {
+                <Link className={`disabled:${isLoading} ${isLoading ? 'opacity-60' : ''}`} href={`/${formattedName}/${prevChapter}?${source}`} onClick={() => {
                     setIsLoading(true)
                     setLoadingButton("Previous")
                 }}>
@@ -34,7 +34,7 @@ function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCo
 
             {currentChapter < chapterCount && (
 
-                <Link className={`disabled:${isLoading} ${isLoading ? 'opacity-60' : ''}`} href={`/${formattedName}/${nextChapter}`} onClick={() => {
+                <Link className={`disabled:${isLoading} ${isLoading ? 'opacity-60' : ''}`} href={`/${formattedName}/${nextChapter}?${source}`} onClick={() => {
                     setIsLoading(true)
                     setLoadingButton("Next")
                 }}>
