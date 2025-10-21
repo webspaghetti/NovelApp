@@ -1,29 +1,52 @@
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth/next";
 import HomeClient from "@/components/homepage/HomeClient";
+import pool from "@/lib/db";
 
-// Server-Side Render
-async function fetchNovels() {
-    const res = await fetch(`${process.env.PUBLIC_API_URL}/api/novels`, { cache: 'no-store' });
-    if (!res.ok) {
-        throw new Error('Failed to fetch novels');
+async function fetchNovels(userId) {
+    try {
+        let query, params;
+
+        query = `
+                SELECT n.*
+                FROM novel_table n
+                JOIN user_novel un ON n.id = un.novel_id
+                WHERE un.user_id = ?
+            `;
+        params = [userId];
+
+        const [rows] = await pool.query(query, params);
+
+        return rows;
+    } catch (error) {
+        console.error('Error fetching novels:', error);
+        return [];
     }
-
-    return res.json();
 }
 
-async function fetchUserNovel() {
-    const res = await fetch(`${process.env.PUBLIC_API_URL}/api/user_novel?userId=1`, { cache: 'no-store' });
-    if (!res.ok) {
-        throw new Error('Failed to fetch user novel');
-    }
+async function fetchUserNovel(userId) {
+    try {
+        let query, params;
 
-    return res.json();
+        query = 'SELECT * FROM user_novel WHERE user_id = ?';
+        params = [userId];
+
+        const [rows] = await pool.query(query, params);
+
+        return rows;
+    } catch (error) {
+        console.error('Error fetching user novel:', error);
+        return null;
+    }
 }
 
 async function Home() {
-    const novelList = await fetchNovels();
-    const userNovel = await fetchUserNovel();
+    const session = await getServerSession(authOptions);
 
     return <HomeClient novelList={novelList} userNovel={userNovel} />;
+    const novelList = await fetchNovels(session.user.id);
+    const userNovel = await fetchUserNovel(session.user.id);
+
 }
 
 export default Home;

@@ -1,32 +1,21 @@
 import { notFound } from "next/navigation";
-import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+import { fetchNovelByFormattedNameAndSource } from "@/lib/commonQueries";
 import NovelPageWrapper from "@/components/novel-page/NovelPageWrapper";
-import {cookies} from "next/headers";
-import {getServerSession} from "next-auth/next";
-import {authOptions} from "@/lib/auth";
+import pool from "@/lib/db";
 
 
 async function getUsersNovel(userId, novelId) {
     try {
-        const cookieStore = cookies();
-        const headers = {
-            'Cookie': cookieStore.toString()
-        };
+        let query, params;
 
-        const response = await fetch(
-            `${process.env.PUBLIC_API_URL}/api/user_novel?userId=${encodeURIComponent(userId)}&novelId=${encodeURIComponent(novelId)}`, {
-                cache: 'no-store',
-                headers: headers
-            }
-        );
+        query = 'SELECT * FROM user_novel WHERE user_id = ? AND novel_id = ?';
+        params = [userId, novelId];
 
-        if (!response.ok) {
-            return null;
-        }
+        const [rows] = await pool.query(query, params);
 
-        const data = await response.json();
-
-        return data[0];
+        return rows[0];
     } catch (error) {
         console.error("Error fetching user info:", error);
         return null;
@@ -34,19 +23,19 @@ async function getUsersNovel(userId, novelId) {
 }
 
 
-async function Page({ params }) {
 async function Page({ params, searchParams }) {
+    const session = await getServerSession(authOptions);
     const { formatted_name } = params;
-    const source = searchParams.source;
     const source = Object.keys(searchParams || {})[0] ?? null;
 
     const novel = await fetchNovelByFormattedNameAndSource(formatted_name, source);
 
-    if (!novel) {
+
+    if (!novel || ! source) {
         notFound();
     }
 
-    const userNovel = await getUsersNovel(1, novel.id);
+    const userNovel = await getUsersNovel(session.user.id, novel.id);
 
 
     return (

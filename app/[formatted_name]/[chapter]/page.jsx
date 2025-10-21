@@ -1,7 +1,9 @@
 import sourceConfig from "@/config/sourceConfig"
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { updateUsersProgress } from "@/app/helper-functions/updateUsersProgress";
-import { fetchNovelByFormattedNameAndSource } from "@/app/helper-functions/fetchNovelByFormattedNameAndSource";
+import { getServerSession } from "next-auth/next";
+import { fetchNovelByFormattedNameAndSource, updateUsersProgress } from "@/lib/commonQueries";
+import { authOptions } from "@/lib/auth";
 import ChapterDetails from "@/components/chapter-page/ChapterDetails";
 import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";
 import ChapterStyleWrapper from "@/components/chapter-page/ChapterStyleWrapper";
@@ -10,13 +12,16 @@ import sanitizeHtml from "sanitize-html";
 
 
 async function fetchChapterContent(url) {
+    const cookieStore = cookies();
+
     const response = await fetch(`${process.env.PUBLIC_API_URL}/api/scrape`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
+            'Cookie': cookieStore.toString()
         },
         body: JSON.stringify({ url }),
-        cache: 'no-store'
+        cache: 'no-store',
     });
 
     if (!response.ok) {
