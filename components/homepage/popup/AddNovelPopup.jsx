@@ -1,5 +1,6 @@
 import sourceConfig from "@/config/sourceConfig";
 import { useState } from "react";
+import { isValidDate } from "@/app/helper-functions/isValidDate";
 import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
 import { fetchNovelByFormattedNameAndSource } from "@/app/api/novels/util/fetchNovelByFormattedNameAndSource";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -53,7 +54,7 @@ function AddNovelPopup({trigger, setTrigger, session}) {
                 const novelSource = data.source;
 
                 let updatedStatus = novelStatus;
-                let formattedLastUpdate = formatLastUpdate(lastUpdate);
+                let formattedLastUpdate = isValidDate(lastUpdate) ? lastUpdate : formatLastUpdate(lastUpdate);
 
                 if (updatedStatus === 'OnGoing' && isMoreThanTwoMonthsOld(formattedLastUpdate)) {
                     updatedStatus = 'Hiatus';
