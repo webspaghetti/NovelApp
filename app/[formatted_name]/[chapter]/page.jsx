@@ -90,7 +90,7 @@ async function Page({ params, searchParams }) {
             <main className={"px-5"}>
                 <div>
                     <div className="flex justify-start mb-5">
-                        <BackButton formattedName={formatted_name} source={source} />
+                        <BackButton formattedName={novelData.formatted_name} source={novelData.source} />
                     </div>
 
                     <h1 className="border-b-gray-400 border-b-2 text-center max-sm:text-2xl text-3xl mb-4 pb-6 chapter-title">
@@ -103,7 +103,7 @@ async function Page({ params, searchParams }) {
                         nextChapter={nextChapter}
                         currentChapter={currentChapter}
                         chapterCount={novelData.chapter_count}
-                        formattedName={formatted_name}
+                        formattedName={novelData.formatted_name}
                         source={novelData.source}
                     />
                 </div>
