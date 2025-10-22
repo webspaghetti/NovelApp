@@ -539,7 +539,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
                                             className="w-4 h-4 rounded accent-green-600 cursor-pointer"
                                         />
                                         <div className="flex-1 text-left">
-                                            <div className="text-white font-medium">{unObj[novel.id]?.name_alternative ?? novel.name}</div>
+                                            <div className="text-white font-medium line-clamp-1 overflow-hidden">{unObj[novel.id]?.name_alternative ?? novel.name}</div>
                                             <div className="text-sm text-gray-400 flex items-center gap-2">
                                                 <span className={statusColors[novel.status]}>
                                                     {novel.status}
