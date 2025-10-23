@@ -31,12 +31,15 @@ async function Page({ params, searchParams }) {
     const novel = await fetchNovelByFormattedNameAndSource(formatted_name, source);
 
 
-    if (!novel || ! source) {
+    if (!novel || !source) {
         notFound();
     }
 
     const userNovel = await getUsersNovel(session.user.id, novel.id);
 
+    if (!userNovel) {
+        notFound();
+    }
 
     return (
         <main className="relative pt-20">
