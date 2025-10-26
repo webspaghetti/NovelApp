@@ -5,7 +5,10 @@ function ChapterDetails({ chapter }) {
             {chapter.chapterContent ? (
                 <div
                     dangerouslySetInnerHTML={{
-                        __html: chapter.chapterContent.replace(/<p>/g, '<p style="margin: 1rem 0;">'),
+                        __html: chapter.chapterContent.replace(
+                            /<p\s[^>]*>/g,
+                            '<p style="margin: 16px 0; letter-spacing: normal;  word-spacing: normal; font-size: 18px; font-weight: normal; line-height: 28px;">'
+                        ),
                     }}
                 />
             ) : (
