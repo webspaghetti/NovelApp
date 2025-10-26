@@ -1,22 +1,27 @@
 "use client"
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 
 function NotFound() {
     const pathname = usePathname();
+    const searchParams = useSearchParams();
     const [location, setLocation] = useState('');
+    const [source, setSource] = useState('')
 
     useEffect(() => {
         // Extract the last section of the pathname
         const novelName = pathname.split('/')[1];
 
-        // Check if the last section is a number (using isNaN)
+        // Get the first query parameter key
+        const sourceName = Array.from(searchParams.keys())[0] || '';
+
         setLocation(novelName);
-    }, [pathname]);
+        setSource(sourceName);
+    }, [pathname, searchParams]);
 
     function handleNavigation() {
-        window.location.href = `/${location}`; // Navigate to homepage
+        window.location.href = `/${location}?${source}`;
     }
 
     return (
