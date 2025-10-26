@@ -1,4 +1,4 @@
-import { createUser, getUserByUsername } from '../../../helper-functions/authHelpers';
+import { createUser, getUserByUsername } from '@/app/helper-functions/authHelpers';
 
 export async function POST(request) {
     try {
