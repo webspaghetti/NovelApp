@@ -136,7 +136,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel }) {
 
 
         try {
-            const updateResponse = await fetch('/api/user_novel/update', {
+            const updateResponse = await fetch('/api/user_novel/settings-update', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
