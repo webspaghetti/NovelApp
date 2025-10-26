@@ -562,14 +562,14 @@ function SyncNovelsButton({ novelList, userNovel }) {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex justify-center gap-3">
-                            <button onClick={() => setIsDialogOpen(false)} className="px-4 py-2 rounded-lg text-secondary transition-all">
+                        <div className="flex justify-between gap-3">
+                            <button onClick={() => setIsDialogOpen(false)} className="px-4 py-2 rounded-lg">
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSync}
                                 disabled={selectedNovels.size === 0}
-                                className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-800 border-green-800 text-white font-medium transition-all disabled:opacity-50"
+                                className="px-4 py-2 rounded-lg bg-green-700 hover:bg-green-800 border-green-800 text-white font-medium transition-all disabled:opacity-50"
                             >
                                 Refresh {selectedNovels.size > 0 ? `(${selectedNovels.size})` : ''}
                             </button>
