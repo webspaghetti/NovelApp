@@ -30,7 +30,7 @@ export default function AlertDialog({
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 border-red-900 text-white font-medium transition-all disabled:opacity-60"
+                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 border-red-700 text-secondary font-medium transition-all disabled:opacity-60"
                         disabled={isLoading}
                     >
                         {isLoading
