@@ -135,7 +135,7 @@ function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, curren
                     </div>
 
                     {/* Sort Options */}
-                    <div className={'relative'}>
+                    <div className={"relative"}>
                         <label className="block text-sm font-semibold text-secondary mb-2">
                             Sort By
                         </label>
