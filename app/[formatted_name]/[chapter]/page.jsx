@@ -9,12 +9,8 @@ import {
     updateUsersProgress
 } from "@/lib/commonQueries";
 import { authOptions } from "@/lib/auth";
-import ChapterDetails from "@/components/chapter-page/ChapterDetails";
-import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";
-import ChapterStyleWrapper from "@/components/chapter-page/ChapterStyleWrapper";
-import BackButton from "@/components/novel-page/BackButton";
 import sanitizeHtml from "sanitize-html";
-import ChapterTitle from "@/components/chapter-page/ChapterTitle";
+import ChapterPageWrapper from "@/components/chapter-page/ChapterPageWrapper";
 
 
 async function fetchChapterContent(url) {
@@ -93,32 +89,9 @@ async function Page({ params, searchParams }) {
         }).replace(/<p>/g, '<p style="margin: 1rem 0;">');
     }
 
-    const prevChapter = currentChapter - 1;
-    const nextChapter = currentChapter + 1;
-
 
     return (
-        <ChapterStyleWrapper normalCustomizationTemplate={normalTemplate} smallCustomizationTemplate={smallTemplate}>
-            <main className={"px-5 mt-0 mb-0"}>
-                <div>
-                    <div className="flex justify-start mb-5">
-                        <BackButton formattedName={novelData.formatted_name} source={novelData.source} />
-                    </div>
-
-                    <ChapterTitle chapter={chapter} normalCustomizationTemplate={normalTemplate} smallCustomizationTemplate={smallTemplate} />
-
-                    <ChapterDetails chapter={chapter} normalCustomizationTemplate={normalTemplate} smallCustomizationTemplate={smallTemplate} />
-                    <ChapterNavigation
-                        prevChapter={prevChapter}
-                        nextChapter={nextChapter}
-                        currentChapter={currentChapter}
-                        chapterCount={novelData.chapter_count}
-                        formattedName={novelData.formatted_name}
-                        source={novelData.source}
-                    />
-                </div>
-            </main>
-        </ChapterStyleWrapper>
+        <ChapterPageWrapper chapter={chapter} currentChapter={currentChapter} novelData={novelData} userTemplateList={userTemplateList} userNovel={userNovel} />
     );
 }
 
