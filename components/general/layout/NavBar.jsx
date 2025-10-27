@@ -19,7 +19,7 @@ function NavBar({ pathname }) {
                     <Image src={"/logo.png"} alt={"NovelApp logo"} width={60} height={60} quality={100}/>
                     <h1 className={"max-sm:hidden text-2xl link_outline text-secondary"}>NovelApp</h1>
                 </div></Link>
-                <div className={"flex items-center max-sm:gap-6 gap-14"}>
+                <div className={"flex items-center max-sm:gap-6 max-md:gap-6 gap-14"}>
                     <Link href={"/"}><p className={'max-sm:hidden'}>Home</p></Link>
                     <Link href={"/about"}><p className={'max-sm:text-base'}>About</p></Link>
                     <Link href={"/templates"}><p className={'max-sm:text-base'}>Templates</p></Link>
