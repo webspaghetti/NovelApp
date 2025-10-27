@@ -1,25 +1,30 @@
 "use client";
-import { Inter } from "next/font/google";
+import { useEffect, useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
 
-export default function ChapterStyleWrapper({ children }) {
+export default function ChapterStyleWrapper({ children, normalCustomizationTemplate, smallCustomizationTemplate }) {
+    const [isSmallScreen, setIsSmallScreen] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.matchMedia("(max-width: 640px)").matches;
+        }
+        return false; // Default value for SSR
+    });
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 640px)");
+        setIsSmallScreen(mediaQuery.matches);
+    }, []);
+
+    const customizationTemplate = isSmallScreen ? JSON.parse(smallCustomizationTemplate.customization) : JSON.parse(normalCustomizationTemplate.customization);
+
+
     return (
-        <>
-            <style jsx global>{`
-                body {
-                  background-image: none;
-                  background-color: #171717;
-                  .chapter-title {
-                    color: #5e42fc;
-                  }
-                  .chapter-content {
-                    color: #FAFAFA;
-                    font-family: ${inter.style.fontFamily};
-                  }
-                }
-            `}</style>
+        <div style={{
+            backgroundColor: customizationTemplate.background.color,
+            backgroundImage: customizationTemplate.background.image !== 'none' ? `url(${customizationTemplate.background.image})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+        }}>
             {children}
-        </>
+        </div>
     );
 }

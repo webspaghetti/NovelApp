@@ -1,5 +1,24 @@
 "use client"
-function ChapterDetails({ chapter }) {
+import { useEffect, useState } from "react";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
+
+function ChapterDetails({ chapter, normalCustomizationTemplate, smallCustomizationTemplate }) {
+    const [isSmallScreen, setIsSmallScreen] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.matchMedia("(max-width: 640px)").matches;
+        }
+        return false; // Default value for SSR
+    });
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 640px)");
+        setIsSmallScreen(mediaQuery.matches);
+    }, []);
+
+    const customizationTemplate = isSmallScreen ? JSON.parse(smallCustomizationTemplate.customization) : JSON.parse(normalCustomizationTemplate.customization);
+
+
     return (
         <div className="max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2 chapter-content">
             {chapter.chapterContent ? (
@@ -7,9 +26,16 @@ function ChapterDetails({ chapter }) {
                     dangerouslySetInnerHTML={{
                         __html: chapter.chapterContent.replace(
                             /<p\s[^>]*>/g,
-                            '<p style="margin: 16px 0; letter-spacing: normal;  word-spacing: normal; font-size: 18px; font-weight: normal; line-height: 28px;">'
+                            `<p style="margin: ${customizationTemplate.text_spacing.block_spacing} 0; line-height: ${customizationTemplate.text_spacing.line_height}; word-spacing: ${customizationTemplate.text_spacing.word_spacing}; letter-spacing: ${customizationTemplate.text_spacing.letter_spacing};">`
                         ),
                     }}
+                    className={`text_outline ${customizationTemplate.text.outline}`} style={{
+                    '--shadow-color': customizationTemplate.text.outline_color,
+                    fontFamily: customizationTemplate.text.family === 'Inter' ? inter.style.fontFamily : customizationTemplate.text.family,
+                    fontSize: customizationTemplate.text.size,
+                    fontWeight: customizationTemplate.text.weight,
+                    color: customizationTemplate.chapter_content_color,
+                }}
                 />
             ) : (
                 <div className="flex flex-col justify-center items-center text-center text-xl">
