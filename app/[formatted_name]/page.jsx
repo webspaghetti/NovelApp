@@ -17,8 +17,8 @@ async function Page({ params, searchParams }) {
         notFound();
     }
 
-    const userNovel = await getUsersNovel(session.user.id, novel.id);
     const userNovel = await getUserNovel(session.user.id, novel.id);
+    const userTemplateList = await getUserTemplates(session.user.id);
 
     if (!userNovel) {
         notFound();
@@ -26,7 +26,7 @@ async function Page({ params, searchParams }) {
 
     return (
         <main className="relative pt-20">
-            <NovelPageWrapper novel={novel} userNovel={userNovel} session={session} />
+            <NovelPageWrapper novel={novel} userNovel={userNovel} session={session} userTemplateList={userTemplateList} />
         </main>
     );
 }

@@ -10,7 +10,7 @@ import NovelSettingsPopup from "@/components/novel-page/NovelSettingsPopup";
 import CircularProgress from "@mui/material/CircularProgress";
 
 
-function NovelDetails({ novel, userNovel }) {
+function NovelDetails({ novel, userNovel, userTemplateList }) {
     const { isLoading, setIsLoading, loadingChapter, setLoadingChapter, collapsedStyle, setCollapsedStyle } = useNovelLoading();
 
     const loadingCheck = isLoading || loadingChapter !== null;
@@ -159,7 +159,7 @@ function NovelDetails({ novel, userNovel }) {
                 </div>
             </div>
 
-            <NovelSettingsPopup trigger={popupTrigger} setTrigger={setPopupTrigger} novel={novel} userNovel={userNovel} />
+            <NovelSettingsPopup trigger={popupTrigger} setTrigger={setPopupTrigger} novel={novel} userNovel={userNovel} userTemplateList={userTemplateList} />
         </div>
     );
 }

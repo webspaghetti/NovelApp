@@ -17,7 +17,7 @@ export function useNovelLoading() {
 }
 
 
-function NovelPageWrapper({ novel, userNovel, session }) {
+function NovelPageWrapper({ novel, userNovel, session, userTemplateList }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChapter, setLoadingChapter] = useState(null);
     const [userNovelState, setUserNovelState] = useState(userNovel)
@@ -51,7 +51,7 @@ function NovelPageWrapper({ novel, userNovel, session }) {
 
     return (
         <NovelLoadingContext.Provider value={value}>
-            <NovelDetails novel={novel} userNovel={userNovelState} />
+            <NovelDetails novel={novel} userNovel={userNovelState} userTemplateList={userTemplateList} />
             <ChapterButtonsList novel={novel} userNovel={userNovelState} />
         </NovelLoadingContext.Provider>
     );
