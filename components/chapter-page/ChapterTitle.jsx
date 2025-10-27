@@ -1,24 +1,4 @@
-"use client"
-import { useEffect, useState } from "react";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
-
-function ChapterTitle({ chapter, normalCustomizationTemplate, smallCustomizationTemplate }) {
-    const [isSmallScreen, setIsSmallScreen] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return window.matchMedia("(max-width: 640px)").matches;
-        }
-        return false; // Default value for SSR
-    });
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(max-width: 640px)");
-        setIsSmallScreen(mediaQuery.matches);
-    }, []);
-
-    const customizationTemplate = isSmallScreen ? JSON.parse(smallCustomizationTemplate.customization) : JSON.parse(normalCustomizationTemplate.customization);
-
-
+function ChapterTitle({ chapter, customizationTemplate, inter }) {
     return (
         <h1 className={`text-center pb-6 text_outline ${customizationTemplate.title.outline}`} style={{
             '--shadow-color': customizationTemplate.title.outline_color,

@@ -1,24 +1,4 @@
-"use client"
-import { useEffect, useState } from "react";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
-
-function ChapterDetails({ chapter, normalCustomizationTemplate, smallCustomizationTemplate }) {
-    const [isSmallScreen, setIsSmallScreen] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return window.matchMedia("(max-width: 640px)").matches;
-        }
-        return false; // Default value for SSR
-    });
-    useEffect(() => {
-        const mediaQuery = window.matchMedia("(max-width: 640px)");
-        setIsSmallScreen(mediaQuery.matches);
-    }, []);
-
-    const customizationTemplate = isSmallScreen ? JSON.parse(smallCustomizationTemplate.customization) : JSON.parse(normalCustomizationTemplate.customization);
-
-
+function ChapterDetails({ chapter, customizationTemplate, inter }) {
     return (
         <div className="max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2 chapter-content">
             {chapter.chapterContent ? (
