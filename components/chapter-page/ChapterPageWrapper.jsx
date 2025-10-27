@@ -1,6 +1,6 @@
 "use client"
 import { Inter } from "next/font/google";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BackButton from "@/components/novel-page/BackButton";
 import ChapterTitle from "@/components/chapter-page/ChapterTitle";
 import ChapterDetails from "@/components/chapter-page/ChapterDetails";
@@ -15,6 +15,7 @@ function ChapterPageWrapper({ novelData, chapter, currentChapter, userTemplateLi
     const prevChapter = currentChapter - 1;
     const nextChapter = currentChapter + 1;
 
+    // Find templates first
     const normalTemplate = userTemplateList.find(t => t.id === userNovel.normal_template_id);
     const smallTemplate = userTemplateList.find(t => t.id === userNovel.small_template_id);
 
@@ -22,14 +23,35 @@ function ChapterPageWrapper({ novelData, chapter, currentChapter, userTemplateLi
         if (typeof window !== 'undefined') {
             return window.matchMedia("(max-width: 640px)").matches;
         }
-        return false; // Default value for SSR
+        return false;
     });
+
+    // Memoize the parsed templates
+    const normalTemplateData = useMemo(() =>
+            JSON.parse(normalTemplate.customization),
+        [normalTemplate]
+    );
+
+    const smallTemplateData = useMemo(() =>
+            JSON.parse(smallTemplate.customization),
+        [smallTemplate]
+    );
+
+    // This will update automatically when isSmallScreen changes
+    const customizationTemplate = isSmallScreen ? smallTemplateData : normalTemplateData;
+
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 640px)");
         setIsSmallScreen(mediaQuery.matches);
+
+        function handleChange(e) {
+            setIsSmallScreen(e.matches);
+        }
+
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
     }, []);
 
-    const customizationTemplate = isSmallScreen ? JSON.parse(smallTemplate.customization) : JSON.parse(normalTemplate.customization);
 
     return (
         <ChapterStyleWrapper customizationTemplate={customizationTemplate}>
