@@ -2,13 +2,19 @@ import sourceConfig from "@/config/sourceConfig"
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
-import { fetchNovelByFormattedNameAndSource, updateUsersProgress } from "@/lib/commonQueries";
+import {
+    fetchNovelByFormattedNameAndSource,
+    getUserNovel,
+    getUserTemplates,
+    updateUsersProgress
+} from "@/lib/commonQueries";
 import { authOptions } from "@/lib/auth";
 import ChapterDetails from "@/components/chapter-page/ChapterDetails";
 import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";
 import ChapterStyleWrapper from "@/components/chapter-page/ChapterStyleWrapper";
 import BackButton from "@/components/novel-page/BackButton";
 import sanitizeHtml from "sanitize-html";
+import ChapterTitle from "@/components/chapter-page/ChapterTitle";
 
 
 async function fetchChapterContent(url) {
@@ -56,6 +62,12 @@ async function Page({ params, searchParams }) {
         notFound();
     }
 
+    const userNovel = await getUserNovel(session.user.id, novelData.id);
+    const userTemplateList = await getUserTemplates(session.user.id);
+
+    const normalTemplate = userTemplateList.find(t => t.id === userNovel.normal_template_id);
+    const smallTemplate = userTemplateList.find(t => t.id === userNovel.small_template_id);
+
     // Update user progress
     await updateUsersProgress(session.user.id, novelData.id, currentChapter);
 
@@ -86,8 +98,8 @@ async function Page({ params, searchParams }) {
 
 
     return (
-        <ChapterStyleWrapper>
-            <main className={"px-5"}>
+        <ChapterStyleWrapper normalCustomizationTemplate={normalTemplate} smallCustomizationTemplate={smallTemplate}>
+            <main className={"px-5 mt-0 mb-0"}>
                 <div>
                     <div className="flex justify-start mb-5">
                         <BackButton formattedName={novelData.formatted_name} source={novelData.source} />
@@ -95,7 +107,7 @@ async function Page({ params, searchParams }) {
 
                     <ChapterTitle chapter={chapter} normalCustomizationTemplate={normalTemplate} smallCustomizationTemplate={smallTemplate} />
 
-                    <ChapterDetails chapter={chapter} />
+                    <ChapterDetails chapter={chapter} normalCustomizationTemplate={normalTemplate} smallCustomizationTemplate={smallTemplate} />
                     <ChapterNavigation
                         prevChapter={prevChapter}
                         nextChapter={nextChapter}
