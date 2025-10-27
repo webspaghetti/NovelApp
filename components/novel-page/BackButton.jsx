@@ -12,7 +12,7 @@ export default function BackButton({ formattedName, source }) {
     }
 
     return (
-        <button onClick={handleBack} className="group">
+        <button onClick={handleBack} className="group mt-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="max-sm:w-6 max-sm:h-6 w-7 h-7 sm:ml-1">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
             </svg>
