@@ -2,7 +2,7 @@ import pool from '@/lib/db';
 
 
 export async function DELETE(request) {
-    const { userId, novelId, formattedName, source } = await request.json();
+    const { userId, novelId } = await request.json();
 
     const connection = await pool.getConnection();
 
@@ -16,8 +16,8 @@ export async function DELETE(request) {
         );
 
         await connection.execute(
-            'DELETE FROM novel_table WHERE formatted_name = ? AND source = ?',
-            [formattedName, source]
+            'DELETE FROM novel_table WHERE id = ?',
+            [novelId]
         );
 
         await connection.commit();
