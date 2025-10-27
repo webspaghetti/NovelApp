@@ -1,26 +1,8 @@
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { fetchNovelByFormattedNameAndSource } from "@/lib/commonQueries";
+import { fetchNovelByFormattedNameAndSource, getUserNovel, getUserTemplates } from "@/lib/commonQueries";
 import NovelPageWrapper from "@/components/novel-page/NovelPageWrapper";
-import pool from "@/lib/db";
-
-
-async function getUsersNovel(userId, novelId) {
-    try {
-        let query, params;
-
-        query = 'SELECT * FROM user_novel WHERE user_id = ? AND novel_id = ?';
-        params = [userId, novelId];
-
-        const [rows] = await pool.query(query, params);
-
-        return rows[0];
-    } catch (error) {
-        console.error("Error fetching user info:", error);
-        return null;
-    }
-}
 
 
 async function Page({ params, searchParams }) {
@@ -36,6 +18,7 @@ async function Page({ params, searchParams }) {
     }
 
     const userNovel = await getUsersNovel(session.user.id, novel.id);
+    const userNovel = await getUserNovel(session.user.id, novel.id);
 
     if (!userNovel) {
         notFound();
