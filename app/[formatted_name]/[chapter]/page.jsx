@@ -93,9 +93,7 @@ async function Page({ params, searchParams }) {
                         <BackButton formattedName={novelData.formatted_name} source={novelData.source} />
                     </div>
 
-                    <h1 className="border-b-gray-400 border-b-2 text-center max-sm:text-2xl text-3xl mb-4 pb-6 chapter-title">
-                        {chapter.chapterTitle || "Failed to display"}
-                    </h1>
+                    <ChapterTitle chapter={chapter} normalCustomizationTemplate={normalTemplate} smallCustomizationTemplate={smallTemplate} />
 
                     <ChapterDetails chapter={chapter} />
                     <ChapterNavigation
