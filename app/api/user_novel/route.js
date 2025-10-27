@@ -31,8 +31,8 @@ export async function POST(request) {
         const { userId, novelId } = await request.json();
 
         const [result] = await pool.query(
-            'INSERT INTO user_novel (user_id, novel_id, read_chapters) VALUES (?, ?, ?)',
-            [userId, novelId, '[]']
+            'INSERT INTO user_novel (user_id, novel_id, read_chapters, normal_template_id, small_template_id) VALUES (?, ?, ?, ?, ?)',
+            [userId, novelId, '[]', 1, 2]
         );
 
         return NextResponse.json({ id: result.insertId, userId, novelId, read_chapters: '[]' }, { status: 201 });

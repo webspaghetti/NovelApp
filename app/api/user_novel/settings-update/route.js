@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function PUT(request) {
     try {
-        const { userId, novelId, nameAlternative, imageUrlAlternative } = await request.json();
+        const { userId, novelId, nameAlternative, imageUrlAlternative, normalTemplateId, smallTemplateId } = await request.json();
 
         const [result] = await pool.query(
-            'UPDATE user_novel SET name_alternative = ?, image_url_alternative = ? WHERE user_id = ? AND novel_id = ?',
-            [nameAlternative, imageUrlAlternative, userId, novelId]
+            'UPDATE user_novel SET name_alternative = ?, image_url_alternative = ?, normal_template_id = ?, small_template_id = ? WHERE user_id = ? AND novel_id = ?',
+            [nameAlternative, imageUrlAlternative, normalTemplateId, smallTemplateId, userId, novelId]
         );
 
         if (result.affectedRows === 0) {
