@@ -144,10 +144,16 @@ function ColorsTab({ settings, setSettings, handleRestore }){
                 {/* Preview */}
                 <div className="mt-6 p-4 border border-gray-700 rounded-lg" style={{ backgroundColor: settings.background.color }}>
                     <p className="text-xs text-gray-400 mb-3 select-none">Preview:</p>
-                    <h3 className="text-xl font-bold mb-3" style={{ color: settings.chapter_title_color }}>
+                    <h3 className={`text_outline ${settings.title.outline} text-xl font-bold mb-3`} style={{
+                        color: settings.chapter_title_color,
+                        '--shadow-color': settings.title.outline_color,
+                    }}>
                         Chapter 42: The Adventure Begins
                     </h3>
-                    <p style={{ color: settings.chapter_content_color }}>
+                    <p className={`text_outline ${settings.text.outline}`} style={{
+                        color: settings.chapter_content_color,
+                        '--shadow-color': settings.text.outline_color,
+                    }}>
                         This is sample chapter content. You can see how the title and content colors will appear in your reading interface.
                     </p>
                 </div>
