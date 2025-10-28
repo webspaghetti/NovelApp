@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Inter } from "next/font/google";
 import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "@/components/general/AlertDialog";
