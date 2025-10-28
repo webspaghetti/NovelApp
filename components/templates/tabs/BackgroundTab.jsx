@@ -10,6 +10,12 @@ function BackgroundTab({ settings, setSettings, handleRestore }){
     }
 
 
+    const sizePresets = ['cover', 'contain', 'auto'];
+    const attachmentOptions = ['fixed', 'scroll', 'local'];
+    const positionPresets = ['center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right'];
+    const repeatOptions = ['no-repeat', 'repeat', 'repeat-x', 'repeat-y', 'space', 'round'];
+
+
     return (
         <>
             <h1 className={"text-center text-secondary thin_link_outline mb-3 sm:hidden"}>Background</h1>
@@ -61,6 +67,130 @@ function BackgroundTab({ settings, setSettings, handleRestore }){
                     <p className="text-xs text-gray-500 mt-1">Enter &quot;none&quot; for no image, or a URL to an image</p>
                 </div>
 
+                {/* Background Size */}
+                <div>
+                    <label className="block text-sm font-semibold text-secondary mb-2 select-none">Background Size</label>
+                    <div className="flex max-sm:flex-col flex-row gap-2">
+                        <input
+                            type="text"
+                            value={settings.background.size}
+                            onChange={(e) => updateBackground('size', e.target.value)}
+                            placeholder="cover"
+                            className="flex-1 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary caret-primary"
+                        />
+                        <div className="flex gap-2">
+                            <select
+                                value={sizePresets.includes(settings.background.size) ? settings.background.size : 'custom'}
+                                onChange={(e) => {
+                                    if (e.target.value !== 'custom') {
+                                        updateBackground('size', e.target.value);
+                                    }
+                                }}
+                                className="flex-1 sm:w-32 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                                <option value="custom" disabled>Custom</option>
+                                {sizePresets.map(size => (
+                                    <option key={size} value={size}>{size}</option>
+                                ))}
+                            </select>
+                            {/* Restore button */}
+                            <button className="text-secondary p-2 hover:scale-100 border-2" onClick={() => handleRestore("background.size")}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">e.g., &quot;cover&quot;, &quot;contain&quot;, &quot;100px 200px&quot;, &quot;50% auto&quot;</p>
+                </div>
+
+                {/* Background Position */}
+                <div>
+                    <label className="block text-sm font-semibold text-secondary mb-2 select-none">Background Position</label>
+                    <div className="flex max-sm:flex-col flex-row gap-2">
+                        <input
+                            type="text"
+                            value={settings.background.position}
+                            onChange={(e) => updateBackground('position', e.target.value)}
+                            placeholder="center"
+                            className="flex-1 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary caret-primary"
+                        />
+                        <div className="flex gap-2">
+                            <select
+                                value={positionPresets.includes(settings.background.position) ? settings.background.position : 'custom'}
+                                onChange={(e) => {
+                                    if (e.target.value !== 'custom') {
+                                        updateBackground('position', e.target.value);
+                                    }
+                                }}
+                                className="flex-1 sm:w-32 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                                <option value="custom" disabled>Custom</option>
+                                {positionPresets.map(pos => (
+                                    <option key={pos} value={pos}>{pos}</option>
+                                ))}
+                            </select>
+                            {/* Restore button */}
+                            <button className="text-secondary p-2 hover:scale-100 border-2" onClick={() => handleRestore("background.position")}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                    <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">e.g., &quot;center&quot;, &quot;top left&quot;, &quot;50% 50%&quot;</p>
+                </div>
+
+                {/* Background Attachment */}
+                <div>
+                    <label className="block text-sm font-semibold text-secondary mb-2 select-none">Background Attachment</label>
+                    <div className="flex gap-2">
+                        <select
+                            value={settings.background.attachment}
+                            onChange={(e) => updateBackground('attachment', e.target.value)}
+                            className="flex-1 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            {attachmentOptions.map(option => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
+                        {/* Restore button */}
+                        <button className="text-secondary p-2 hover:scale-100 border-2" onClick={() => handleRestore("background.attachment")}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">fixed: stays in place, scroll: moves with content, local: scrolls with element</p>
+                </div>
+
+                {/* Background Repeat */}
+                <div>
+                    <label className="block text-sm font-semibold text-secondary mb-2 select-none">Background Repeat</label>
+                    <div className="flex gap-2">
+                        <select
+                            value={settings.background.repeat}
+                            onChange={(e) => updateBackground('repeat', e.target.value)}
+                            className="flex-1 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                            {repeatOptions.map(option => (
+                                <option key={option} value={option}>{option}</option>
+                            ))}
+                        </select>
+                        {/* Restore button */}
+                        <button className="text-secondary p-2 hover:scale-100 border-2" onClick={() => handleRestore("background.repeat")}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">no-repeat: once, repeat: tile, repeat-x/y: horizontal/vertical, space: with gaps, round: stretched</p>
+                </div>
+
                 {/* Quick color presets */}
                 <div>
                     <p className="text-sm font-semibold text-secondary mb-2 select-none">Quick Color Presets</p>
@@ -106,14 +236,31 @@ function BackgroundTab({ settings, setSettings, handleRestore }){
                 </div>
 
                 {/* Preview */}
-                <div className="mt-6 max-sm:p-4 p-8 border border-gray-700 rounded-lg" style={{
-                    backgroundColor: settings.background.color,
-                    backgroundImage: settings.background.image !== 'none' ? `url(${settings.background.image})` : 'none',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                }}>
-                    <p className="text-xs text-gray-400 mb-2 select-none">Preview:</p>
-                    <p style={{ color: settings.chapter_content_color }}>This is how your background will look.</p>
+                <div>
+                    <p className="text-sm font-semibold text-secondary mb-2 select-none">Preview</p>
+                    <div
+                        className="border border-gray-700 rounded-lg overflow-auto"
+                        style={{
+                            height: '300px',
+                            backgroundColor: settings.background.color,
+                            backgroundImage: settings.background.image !== 'none' ? `url(${settings.background.image})` : 'none',
+                            backgroundSize: settings.background.size,
+                            backgroundPosition: settings.background.position,
+                            backgroundAttachment: settings.background.attachment,
+                            backgroundRepeat: settings.background.repeat
+                        }}>
+                        <div className="max-sm:p-4 p-8" style={{ minHeight: '500px' }}>
+                            <p className="text-xs text-gray-400 mb-2 select-none">Preview:</p>
+                            <div style={{ color: settings.chapter_content_color }}>
+                                <p className="mb-4">This is how your background will look with the current settings.</p>
+                                <p className="mb-4">Background Size: {settings.background.size || 'cover'}</p>
+                                <p className="mb-4">Background Position: {settings.background.position || 'center'}</p>
+                                <p className="mb-4">Background Attachment: {settings.background.attachment || 'scroll'}</p>
+                                <p className="mb-4">Scroll down to see how the background behaves with different attachment values.</p>
+                                <div className="h-32"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
