@@ -96,7 +96,7 @@ function BackgroundTab({ settings, setSettings, handleRestore }){
                             <button
                                 key={preset.name}
                                 onClick={() => updateBackground('color', preset.color)}
-                                className="relative px-3 py-2 max-sm:text-xs text-sm rounded-lg border border-gray-700 hover:scale-105 hover:shadow-md transition-all duration-150 text-secondary thin_link_outline"
+                                className="relative px-3 py-2 max-sm:text-xs text-sm rounded-lg border border-gray-700 hover:scale-[1.02] hover:shadow-md transition-all duration-150 text-secondary thin_link_outline"
                                 style={{ backgroundColor: preset.color }}
                             >
                                 {preset.name}
