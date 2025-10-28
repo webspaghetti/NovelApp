@@ -206,7 +206,7 @@ function AddNewTemplate({ userId, userTemplateList }) {
 
             {isDialogOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
-                    <div className="bg-gradient-to-b from-main_background to-[#070707] border border-gray-700 sm:rounded-2xl max-sm:px-4 p-6 shadow-2xl max-sm:min-w-[100vw] sm:w-full max-w-7xl animate-fadeIn max-sm:max-h-[100vh] max-h-[90vh] flex flex-col">
+                    <div className="bg-gradient-to-b from-main_background to-[#070707] border border-gray-700 sm:rounded-2xl max-sm:px-3 p-6 shadow-2xl max-sm:min-w-[100vw] sm:w-full max-w-7xl animate-fadeIn max-sm:max-h-[100vh] max-h-[90vh] flex flex-col">
                         <div className={"flex gap-2 text-secondary items-center max-sm:justify-center"}>
                             <h2 className="text-2xl font-bold mb-2 text-secondary select-none">Create Reader Template</h2>
                             {isSmallScreen ?
