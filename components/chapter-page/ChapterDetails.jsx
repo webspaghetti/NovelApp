@@ -1,6 +1,8 @@
 function ChapterDetails({ chapter, customizationTemplate, inter }) {
     return (
-        <div className="max-sm:text-base text-lg pb-4 border-b-gray-400 border-b-2 chapter-content">
+        <div className="max-sm:text-base text-lg pb-4 chapter-content" style={{
+            borderBottom: `${customizationTemplate.text.separator_width} solid ${customizationTemplate.text.separator_color}`,
+        }}>
             {chapter.chapterContent ? (
                 <div
                     dangerouslySetInnerHTML={{
