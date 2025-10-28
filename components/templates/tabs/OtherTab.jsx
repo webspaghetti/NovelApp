@@ -134,13 +134,16 @@ function OtherTab({ settings, setSettings, inter }){
                 {/* Preview */}
                 <div>
                     <p className="text-xs text-gray-400 mb-1 select-none">Final Preview:</p>
-                    <div className="p-4 border border-gray-700 rounded-lg" style={{
+                    <div className="p-4 border border-gray-700 rounded-lg overflow-auto" style={{
+                        height: '300px',
                         backgroundColor: settings.background.color,
                         backgroundImage: settings.background.image !== 'none' ? `url(${settings.background.image})` : 'none',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center'
+                        backgroundSize: settings.background.size,
+                        backgroundPosition: settings.background.position,
+                        backgroundAttachment: settings.background.attachment,
+                        backgroundRepeat: settings.background.repeat
                     }}>
-                        <div>
+                        <div className="max-sm:p-4 p-8" style={{ minHeight: '500px' }}>
                             <h3 className={`text_outline ${settings.title.outline}`} style={{
                                 '--shadow-color': settings.title.outline_color,
                                 fontFamily: settings.title.family === 'Inter' ? inter.style.fontFamily : settings.title.family,
@@ -176,6 +179,38 @@ function OtherTab({ settings, setSettings, inter }){
                                     letterSpacing: settings.text_spacing.letter_spacing
                                 }}>
                                     This is the second paragraph. The block spacing controls the gap between these paragraphs.
+                                </p>
+                                <p style={{
+                                    margin: `${settings.text_spacing.block_spacing} 0`,
+                                    lineHeight: settings.text_spacing.line_height,
+                                    wordSpacing: settings.text_spacing.word_spacing,
+                                    letterSpacing: settings.text_spacing.letter_spacing
+                                }}>
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
+                                </p>
+                                <p style={{
+                                    margin: `${settings.text_spacing.block_spacing} 0`,
+                                    lineHeight: settings.text_spacing.line_height,
+                                    wordSpacing: settings.text_spacing.word_spacing,
+                                    letterSpacing: settings.text_spacing.letter_spacing
+                                }}>
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
+                                </p>
+                                <p style={{
+                                    margin: `${settings.text_spacing.block_spacing} 0`,
+                                    lineHeight: settings.text_spacing.line_height,
+                                    wordSpacing: settings.text_spacing.word_spacing,
+                                    letterSpacing: settings.text_spacing.letter_spacing
+                                }}>
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
+                                </p>
+                                <p style={{
+                                    margin: `${settings.text_spacing.block_spacing} 0`,
+                                    lineHeight: settings.text_spacing.line_height,
+                                    wordSpacing: settings.text_spacing.word_spacing,
+                                    letterSpacing: settings.text_spacing.letter_spacing
+                                }}>
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
                                 </p>
                             </div>
                         </div>
