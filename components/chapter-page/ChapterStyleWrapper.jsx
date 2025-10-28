@@ -3,9 +3,10 @@ export default function ChapterStyleWrapper({ children, customizationTemplate })
         <div style={{
             backgroundColor: customizationTemplate.background.color,
             backgroundImage: customizationTemplate.background.image !== 'none' ? `url(${customizationTemplate.background.image})` : 'none',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed'
+            backgroundSize: customizationTemplate.background.size,
+            backgroundPosition: customizationTemplate.background.position,
+            backgroundAttachment: customizationTemplate.background.attachment,
+            backgroundRepeat: customizationTemplate.background.repeat
         }}>
             {children}
         </div>
