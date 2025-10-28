@@ -29,7 +29,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
                 <div className="absolute top-0 max-sm:hidden max-md:right-1 right-16 flex gap-2">
                     <button
                         className="text-secondary p-1 disabled:opacity-60 order-1 max-sm:order-2"
-                        disabled={Boolean(isLoading)}
+                        disabled={Boolean(loadingCheck)}
                         onClick={() => setCollapsedStyle(!collapsedStyle)}
                         title={collapsedStyle ? "Switch to expanded view" : "Switch to collapsed view"}
                     >
@@ -46,7 +46,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
 
                     <button
                         className="text-secondary p-1 disabled:opacity-60 order-2 max-sm:order-1"
-                        disabled={Boolean(isLoading)}
+                        disabled={Boolean(loadingCheck)}
                         onClick={() => setPopupTrigger(true)}
                         title="Settings"
                     >
@@ -131,7 +131,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
                 <div className={"w-full flex justify-between pt-4 sm:hidden"}>
                     <button
                         className="text-secondary p-1 disabled:opacity-60 order-1 max-sm:order-2"
-                        disabled={Boolean(isLoading)}
+                        disabled={Boolean(loadingCheck)}
                         onClick={() => setCollapsedStyle(!collapsedStyle)}
                         title={collapsedStyle ? "Switch to expanded view" : "Switch to collapsed view"}
                     >
@@ -148,7 +148,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
 
                     <button
                         className="text-secondary p-1 disabled:opacity-60 order-2 max-sm:order-1"
-                        disabled={Boolean(isLoading)}
+                        disabled={Boolean(loadingCheck)}
                         onClick={() => setPopupTrigger(true)}
                         title="Settings"
                     >
