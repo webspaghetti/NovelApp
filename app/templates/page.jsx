@@ -15,7 +15,7 @@ async function Page() {
     return (
         <>
             <NavBar />
-            <div className="min-h-screen bg-main_background max-sm:mt-16 max-lg:mt-16 p-4 sm:p-6 lg:p-8">
+            <div className="min-h-screen max-sm:mt-16 max-lg:mt-16 p-4 sm:p-6 lg:p-8">
                 <div className="max-w-5xl mx-auto mt-8 sm:mt-12 lg:mt-20">
                     {/* Header */}
                     <div className="mb-6 sm:mb-8">
@@ -35,7 +35,7 @@ async function Page() {
                                 <h2 className="text-lg sm:text-xl font-semibold text-gray-200 mb-1">
                                     Reader Customization
                                 </h2>
-                                <p className="text-xs sm:text-sm text-gray-500">
+                                <p className="text-xs sm:text-sm text-gray-400">
                                     Control how your reading content appears
                                 </p>
                             </div>
@@ -64,7 +64,7 @@ async function Page() {
                                 <h2 className="text-lg sm:text-xl font-semibold text-gray-200 mb-1">
                                     Overall Page Customization
                                 </h2>
-                                <p className="text-xs sm:text-sm text-gray-500">
+                                <p className="text-xs sm:text-sm text-gray-400">
                                     Customize the entire page layout and styling
                                 </p>
                             </div>
