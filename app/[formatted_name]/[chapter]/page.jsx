@@ -1,5 +1,5 @@
 import sourceConfig from "@/config/sourceConfig"
-import { cookies } from "next/headers";
+import {cookies, headers} from "next/headers";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import {
@@ -36,6 +36,9 @@ async function fetchChapterContent(url) {
 
 
 async function Page({ params, searchParams }) {
+    const userAgent = headers().get('user-agent') || '';
+    const isMobile = /mobile/i.test(userAgent);
+
     const session = await getServerSession(authOptions);
 
     const { formatted_name, chapter: chapterParam } = params;
@@ -91,7 +94,7 @@ async function Page({ params, searchParams }) {
 
 
     return (
-        <ChapterPageWrapper chapter={chapter} currentChapter={currentChapter} novelData={novelData} userTemplateList={userTemplateList} userNovel={userNovel} />
+        <ChapterPageWrapper chapter={chapter} currentChapter={currentChapter} novelData={novelData} userTemplateList={userTemplateList} userNovel={userNovel} isMobile={isMobile} />
     );
 }
 
