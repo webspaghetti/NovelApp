@@ -12,7 +12,7 @@ import NavBar from "@/components/general/layout/NavBar";
 const inter = Inter({ subsets: ["latin"] });
 
 
-function ChapterPageWrapper({ novelData, chapter, currentChapter, userTemplateList, userNovel }) {
+function ChapterPageWrapper({ novelData, chapter, currentChapter, userTemplateList, userNovel, isMobile }) {
     const prevChapter = currentChapter - 1;
     const nextChapter = currentChapter + 1;
 
@@ -20,12 +20,7 @@ function ChapterPageWrapper({ novelData, chapter, currentChapter, userTemplateLi
     const normalTemplate = userTemplateList.find(t => t.id === userNovel.normal_template_id);
     const smallTemplate = userTemplateList.find(t => t.id === userNovel.small_template_id);
 
-    const [isSmallScreen, setIsSmallScreen] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return window.matchMedia("(max-width: 640px)").matches;
-        }
-        return false;
-    });
+    const [isSmallScreen, setIsSmallScreen] = useState(isMobile);
 
     // Memoize the parsed templates
     const normalTemplateData = useMemo(() =>
