@@ -208,12 +208,12 @@ function AddNewTemplate({ userTemplateList }) {
         <>
             <button
                 aria-label="Delete Reader Customization Template"
-                className="group relative px-4 py-6 sm:px-6 sm:py-8 text-sm text-gray-400 flex flex-col items-center justify-center bg-main_background border-2 border-gray-700 rounded-xl hover:border-blue-500/50 hover:bg-gray-800/50 transition-all duration-300"
+                className="group relative px-4 py-6 sm:px-6 sm:py-8 text-sm text-gray-400 flex flex-col items-center justify-center bg-main_background border-2 border-gray-700 rounded-xl sm:hover:border-blue-500/50 sm:hover:bg-gray-800/50 transition-all duration-300"
                 onClick={() => setIsSelectorOpen(true)}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12 sm:size-16 mb-2 sm:mb-3 group-hover:scale-105 group-hover:text-blue-500 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12 sm:size-16 mb-2 sm:mb-3 sm:group-hover:scale-105 sm:group-hover:text-blue-500 transition-all duration-300">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                <span className="text-xs font-medium group-hover:text-blue-500 transition-colors">
+                <span className="text-xs font-medium sm:group-hover:text-blue-500 transition-colors">
                     Edit Template
                 </span>
             </button>

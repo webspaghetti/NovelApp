@@ -195,12 +195,12 @@ function AddNewTemplate({ userId, userTemplateList }) {
         <>
             <button
                 aria-label="Add Reader Customization Template"
-                className="group relative max-sm:px-4 max-sm:py-6 px-6 py-8 text-sm text-gray-400 flex flex-col items-center justify-center bg-main_background border-2 border-dashed border-gray-700 rounded-xl hover:border-green-500/50 hover:bg-gray-800/50 transition-all duration-300"
+                className="group relative max-sm:px-4 max-sm:py-6 px-6 py-8 text-sm text-gray-400 flex flex-col items-center justify-center bg-main_background border-2 border-dashed border-gray-700 rounded-xl sm:hover:border-green-500/50 sm:hover:bg-gray-800/50 transition-all duration-300"
                 onClick={() => setIsDialogOpen(true)}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="max-sm:size-12 size-16 max-sm:mb-2 mb-3 group-hover:scale-105 group-hover:text-green-500 transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="max-sm:size-12 size-16 max-sm:mb-2 mb-3 sm:group-hover:scale-105 sm:group-hover:text-green-500 transition-all duration-300">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-                <span className="text-xs font-medium group-hover:text-green-500 transition-colors">
+                <span className="text-xs font-medium sm:group-hover:text-green-500 transition-colors">
                     Create Template
                 </span>
             </button>
