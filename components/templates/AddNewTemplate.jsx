@@ -12,6 +12,7 @@ import OtherTab from "@/components/templates/tabs/OtherTab";
 import TitleSpacingTab from "@/components/templates/tabs/TitleSpacingTab";
 import InputDialog from "@/components/general/InputDialog";
 import TabsButtons from "@/components/templates/general/TabsButtons";
+import NavigationTab from "@/components/templates/tabs/NavigationTab";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -260,6 +261,11 @@ function AddNewTemplate({ userId, userTemplateList }) {
                             {/* Background Tab */}
                             {activeTab === 'background' && (
                                 <BackgroundTab settings={settings} setSettings={setSettings} handleRestore={handleRestore} />
+                            )}
+
+                            {/* Navigation Tab */}
+                            {activeTab === 'navigation' && (
+                                <NavigationTab settings={settings} setSettings={setSettings} handleRestore={handleRestore} editMode={false} />
                             )}
 
                             {/* Other Tab */}
