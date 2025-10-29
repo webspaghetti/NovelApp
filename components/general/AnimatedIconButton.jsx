@@ -2,7 +2,7 @@ function AnimatedIconButton({ onClick, label, animation, shape, isActive }){
     return (
         <button
             onClick={onClick}
-            className={`group flex items-center text-secondary md:pl-4 ${animation} relative max-sm:bg-primary ${isActive ? 'bg-primary text-secondary' : ''}`}
+            className={`group flex items-center text-secondary md:pl-4 ${animation} relative ${isActive ? 'bg-primary text-secondary' : ''}`}
             aria-label={label}
         >
             <svg
@@ -19,7 +19,7 @@ function AnimatedIconButton({ onClick, label, animation, shape, isActive }){
                     d={shape}
                 />
             </svg>
-            <span className={`max-sm:hidden overflow-hidden opacity-0 max-w-0 group-hover:max-w-xs group-hover:opacity-100 transition-all duration-1000 ease-in-out ${isActive? 'max-w-xs opacity-100' : ''}`}>
+            <span className={`max-sm:hidden overflow-hidden opacity-0 max-w-0 sm:group-hover:max-w-xs sm:group-hover:opacity-100 transition-all duration-1000 ease-in-out ${isActive? 'max-w-xs opacity-100' : ''}`}>
                 <span className="pl-2 whitespace-nowrap">{label}</span>
             </span>
         </button>
