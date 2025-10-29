@@ -157,7 +157,7 @@ function AddNovelPopup({trigger, setTrigger, session}) {
                         {!isLoading ? (
                             <button
                                 type="submit"
-                                className="flex justify-center items-center bg-primary hover:bg-opacity-80 text-secondary font-semibold rounded-lg shadow-sm transition-all px-3 py-2 sm:px-4 sm:py-2 max-sm:w-full"
+                                className="flex justify-center items-center bg-primary sm:hover:bg-opacity-80 text-secondary font-semibold rounded-lg shadow-sm transition-all px-3 py-2 sm:px-4 sm:py-2 max-sm:w-full"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

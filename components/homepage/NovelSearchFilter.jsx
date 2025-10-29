@@ -47,10 +47,10 @@ function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, curren
                         className="select-none w-full bg-transparent border-none text-secondary pl-10 pr-10 py-2 leading-tight focus:outline-none caret-primary placeholder-gray-500"
                     />
                     {searchTerm && (
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 hover:scale-105 transition-transform">
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 sm:hover:scale-105 transition-transform">
                             <button
                                 onClick={clearSearch}
-                                className="p-1 rounded-lg bg-red-600 hover:bg-red-700 border border-red-600"
+                                className="p-1 rounded-lg bg-red-600 sm:hover:bg-red-700 border border-red-600"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, curren
                 {/* Filter Toggle Button */}
                 <button
                     onClick={() => setShowFilters(!showFilters)}
-                    className="flex items-center justify-center gap-2 px-3 py-2 bg-primary hover:bg-opacity-80 text-secondary font-semibold rounded-lg shadow-sm transition-all text-base normal-case"
+                    className="flex items-center justify-center gap-2 px-3 py-2 bg-primary sm:hover:bg-opacity-80 text-secondary font-semibold rounded-lg shadow-sm transition-all text-base normal-case"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
