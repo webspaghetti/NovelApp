@@ -294,7 +294,7 @@ function AddNewTemplate({ userTemplateList }) {
 
                             {/* Other Tab */}
                             {activeTab === 'other' && (
-                                <OtherTabEdit settings={settings} setSettings={setSettings} inter={inter} templateName={templateName} setTemplateName={setTemplateName} originalTemplateName={originalTemplateName} />
+                                <OtherTabEdit settings={settings} setSettings={setSettings} handleRestore={handleRestore} inter={inter} templateName={templateName} setTemplateName={setTemplateName} originalTemplateName={originalTemplateName} />
                             )}
                         </div>
 
