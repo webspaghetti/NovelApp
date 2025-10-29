@@ -21,31 +21,120 @@ p > a {
 }
 
 .link_outline {
-  text-shadow: -2px -2px 1px #5e42fc,
-  -2px -1px 1px #5e42fc,
-  -2px 0 1px #5e42fc,
-  -2px 1px 1px #5e42fc,
-  -2px 2px 1px #5e42fc,
-  -1px -2px 1px #5e42fc,
-  -1px -1px 1px #5e42fc,
-  -1px 0 1px #5e42fc,
-  -1px 1px 1px #5e42fc,
-  -1px 2px 1px #5e42fc,
-  0 -2px 1px #5e42fc,
-  0 -1px 1px #5e42fc,
-  0 0 1px #5e42fc,
-  0 1px 1px #5e42fc,
-  0 2px 1px #5e42fc,
-  1px -2px 1px #5e42fc,
-  1px -1px 1px #5e42fc,
-  1px 0 1px #5e42fc,
-  1px 1px 1px #5e42fc,
+  --outline-color: #5e42fc;
+  text-shadow: -2px -2px 1px var(--outline-color),
+  -2px -1px 1px var(--outline-color),
+  -2px 0 1px var(--outline-color),
+  -2px 1px 1px var(--outline-color),
+  -2px 2px 1px var(--outline-color),
+  -1px -2px 1px var(--outline-color),
+  -1px -1px 1px var(--outline-color),
+  -1px 0 1px var(--outline-color),
+  -1px 1px 1px var(--outline-color),
+  -1px 2px 1px var(--outline-color),
+  0 -2px 1px var(--outline-color),
+  0 -1px 1px var(--outline-color),
+  0 0 1px var(--outline-color),
+  0 1px 1px var(--outline-color),
+  0 2px 1px var(--outline-color),
+  1px -2px 1px var(--outline-color),
+  1px -1px 1px var(--outline-color),
+  1px 0 1px var(--outline-color),
+  1px 1px 1px var(--outline-color),
+  1px 2px 1px var(--outline-color),
+  2px -2px 1px var(--outline-color),
+  2px -1px 1px var(--outline-color),
+  2px 0 1px var(--outline-color),
+  2px 1px 1px var(--outline-color),
+  2px 2px 1px var(--outline-color);}
+
+.thin_link_outline{
+  text-shadow: -1px 2px 1px #5e42fc,
   1px 2px 1px #5e42fc,
-  2px -2px 1px #5e42fc,
-  2px -1px 1px #5e42fc,
-  2px 0 1px #5e42fc,
-  2px 1px 1px #5e42fc,
-  2px 2px 1px #5e42fc;}
+  -1px 1px 1px #5e42fc,
+  1px 1px 1px #5e42fc,
+  -1px 0 1px #5e42fc,
+  1px 0 1px #5e42fc,
+  -1px -1px 1px #5e42fc,
+  1px -1px 1px #5e42fc;}
+
+.navbar_outline_base {
+  text-shadow: none;
+  transition: text-shadow 1000ms ease-out;
+}
+
+@media (min-width: 640px) {
+  .navbar_outline_base:hover {
+    text-shadow: -2px -2px 1px var(--outline-color),
+    -2px -1px 1px var(--outline-color),
+    -2px 0 1px var(--outline-color),
+    -2px 1px 1px var(--outline-color),
+    -2px 2px 1px var(--outline-color),
+    -1px -2px 1px var(--outline-color),
+    -1px -1px 1px var(--outline-color),
+    -1px 0 1px var(--outline-color),
+    -1px 1px 1px var(--outline-color),
+    -1px 2px 1px var(--outline-color),
+    0 -2px 1px var(--outline-color),
+    0 -1px 1px var(--outline-color),
+    0 0 1px var(--outline-color),
+    0 1px 1px var(--outline-color),
+    0 2px 1px var(--outline-color),
+    1px -2px 1px var(--outline-color),
+    1px -1px 1px var(--outline-color),
+    1px 0 1px var(--outline-color),
+    1px 1px 1px var(--outline-color),
+    1px 2px 1px var(--outline-color),
+    2px -2px 1px var(--outline-color),
+    2px -1px 1px var(--outline-color),
+    2px 0 1px var(--outline-color),
+    2px 1px 1px var(--outline-color),
+    2px 2px 1px var(--outline-color);
+    transition: text-shadow 100ms ease-out;
+  }
+}
+
+.text_outline.thin {
+  --shadow-color: #000000; /* Default color */
+  text-shadow:
+          -1px 2px 1px var(--shadow-color),
+          1px 2px 1px var(--shadow-color),
+          -1px 1px 1px var(--shadow-color),
+          1px 1px 1px var(--shadow-color),
+          -1px 0 1px var(--shadow-color),
+          1px 0 1px var(--shadow-color),
+          -1px -1px 1px var(--shadow-color),
+          1px -1px 1px var(--shadow-color);
+}
+.text_outline.thick {
+  --shadow-color: #000000; /* Default color */
+  text-shadow:
+          -2px -2px 1px var(--shadow-color),
+          -2px -1px 1px var(--shadow-color),
+          -2px 0 1px var(--shadow-color),
+          -2px 1px 1px var(--shadow-color),
+          -2px 2px 1px var(--shadow-color),
+          -1px -2px 1px var(--shadow-color),
+          -1px -1px 1px var(--shadow-color),
+          -1px 0 1px var(--shadow-color),
+          -1px 1px 1px var(--shadow-color),
+          -1px 2px 1px var(--shadow-color),
+          0 -2px 1px var(--shadow-color),
+          0 -1px 1px var(--shadow-color),
+          0 0 1px var(--shadow-color),
+          0 1px 1px var(--shadow-color),
+          0 2px 1px var(--shadow-color),
+          1px -2px 1px var(--shadow-color),
+          1px -1px 1px var(--shadow-color),
+          1px 0 1px var(--shadow-color),
+          1px 1px 1px var(--shadow-color),
+          1px 2px 1px var(--shadow-color),
+          2px -2px 1px var(--shadow-color),
+          2px -1px 1px var(--shadow-color),
+          2px 0 1px var(--shadow-color),
+          2px 1px 1px var(--shadow-color),
+          2px 2px 1px var(--shadow-color);
+}
 
 .h1_outline{
   text-shadow: -2px -2px 1px #FAFAFA,
