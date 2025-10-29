@@ -74,47 +74,61 @@ export default function ResetPassword() {
 
 
     return (
-        <div className={"max-w-md mx-auto max-sm:my-32 my-24 p-6 bg-black/40 border-2 border-secondary/10 shadow-lg rounded-lg"}>
-            <h1 className={"max-sm:text-2xl text-3xl font-bold text-center mb-6 text-secondary link_outline select-none"}>Reset Password</h1>
-            <p className={"text-center mb-6 text-secondary select-none"}>Please set a new password for your account.</p>
-            <form onSubmit={handleSubmit}>
-                <div className={"mb-6"}>
-                    <label className={"block max-sm:text-base text-lg font-semibold mb-2 text-secondary"}>New Password</label>
-                    <div className={"border border-gray-700 bg-navbar rounded-lg px-2 py-2 focus-within:border-primary"}>
-                        <input
-                            type="password"
-                            value={newPassword}
-                            placeholder="Enter new password"
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                            disabled={isLoading}
-                            className={"w-full select-none flex-1 bg-transparent border-none text-secondary px-2 py-1 leading-tight focus:outline-none caret-primary placeholder-gray-500 disabled:opacity-60"}
-                        />
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="max-w-md w-full mx-2 p-6 bg-black/40 border-2 border-secondary/10 shadow-lg rounded-lg">
+                <h1 className="max-sm:text-2xl text-3xl font-bold text-center mb-6 text-secondary link_outline select-none">
+                    Reset Password
+                </h1>
+                <p className="text-center mb-6 text-secondary select-none">
+                    Please set a new password for your account.
+                </p>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-6">
+                        <label className="block max-sm:text-base text-lg font-semibold mb-2 text-secondary">
+                            New Password
+                        </label>
+                        <div className="border border-gray-700 bg-navbar rounded-lg px-2 py-2 focus-within:border-primary">
+                            <input
+                                type="password"
+                                value={newPassword}
+                                placeholder="Enter new password"
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                                disabled={isLoading}
+                                className="w-full select-none flex-1 bg-transparent border-none text-secondary px-2 py-1 leading-tight focus:outline-none caret-primary placeholder-gray-500 disabled:opacity-60"
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className={"mb-6"}>
-                    <label className={"block max-sm:text-base text-lg font-semibold mb-2 text-secondary"}>Confirm New Password</label>
-                    <div className={"border border-gray-700 bg-navbar rounded-lg px-2 py-2 focus-within:border-primary"}>
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            placeholder="Confirm new password"
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                            disabled={isLoading}
-                            className={"w-full select-none flex-1 bg-transparent border-none text-secondary px-2 py-1 leading-tight focus:outline-none caret-primary placeholder-gray-500 disabled:opacity-60"}
-                        />
+                    <div className="mb-6">
+                        <label className="block max-sm:text-base text-lg font-semibold mb-2 text-secondary">
+                            Confirm New Password
+                        </label>
+                        <div className="border border-gray-700 bg-navbar rounded-lg px-2 py-2 focus-within:border-primary">
+                            <input
+                                type="password"
+                                value={confirmPassword}
+                                placeholder="Confirm new password"
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                                disabled={isLoading}
+                                className="w-full select-none flex-1 bg-transparent border-none text-secondary px-2 py-1 leading-tight focus:outline-none caret-primary placeholder-gray-500 disabled:opacity-60"
+                            />
+                        </div>
                     </div>
-                </div>
-                {error && <div className={"text-red-500 mb-6 select-none text-center"}>{error}</div>}
-                <button
-                    type="submit"
-                    disabled={isLoading}
-                    className={"w-full justify-center p-3 text-secondary rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60"}
-                >
-                    {isLoading ? <CircularProgress sx={{color: "#FAFAFA"}} size={28} thickness={8} /> : 'Reset Password'}
-                </button>
-            </form>
+                    {error && <div className="text-red-500 mb-6 select-none text-center">{error}</div>}
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full justify-center p-3 text-secondary rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60"
+                    >
+                        {isLoading ? (
+                            <CircularProgress sx={{ color: "#FAFAFA" }} size={28} thickness={8} />
+                        ) : (
+                            'Reset Password'
+                        )}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }
