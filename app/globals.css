@@ -136,33 +136,6 @@ p > a {
           2px 2px 1px var(--shadow-color);
 }
 
-.h1_outline{
-  text-shadow: -2px -2px 1px #FAFAFA,
-  -2px -1px 1px #FAFAFA,
-  -2px 0 1px #FAFAFA,
-  -2px 1px 1px #FAFAFA,
-  -2px 2px 1px #FAFAFA,
-  -1px -2px 1px #FAFAFA,
-  -1px -1px 1px #FAFAFA,
-  -1px 0 1px #FAFAFA,
-  -1px 1px 1px #FAFAFA,
-  -1px 2px 1px #FAFAFA,
-  0 -2px 1px #FAFAFA,
-  0 -1px 1px #FAFAFA,
-  0 0 1px #FAFAFA,
-  0 1px 1px #FAFAFA,
-  0 2px 1px #FAFAFA,
-  1px -2px 1px #FAFAFA,
-  1px -1px 1px #FAFAFA,
-  1px 0 1px #FAFAFA,
-  1px 1px 1px #FAFAFA,
-  1px 2px 1px #FAFAFA,
-  2px -2px 1px #FAFAFA,
-  2px -1px 1px #FAFAFA,
-  2px 0 1px #FAFAFA,
-  2px 1px 1px #FAFAFA,
-  2px 2px 1px #FAFAFA;}
-
 /* Custom Scrollbar for Chrome, Edge, and Safari */
 ::-webkit-scrollbar {
   width: 12px;
