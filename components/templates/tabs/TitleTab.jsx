@@ -136,14 +136,14 @@ function TitleTab({ settings, setSettings, handleRestore, fontWeightOptions, out
                                 type="color"
                                 value={settings.title.outline_color}
                                 onChange={(e) => updateTitle('outline_color', e.target.value)}
-                                className="w-12 h-10 rounded border border-gray-700 cursor-pointer"
+                                className="w-12 h-10 flex-shrink-0 rounded border border-gray-700 cursor-pointer"
                             />
                             <input
                                 type="text"
                                 value={settings.title.outline_color}
                                 onChange={(e) => updateTitle('outline_color', e.target.value)}
                                 placeholder="#000000"
-                                className="flex-1 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary caret-primary"
+                                className="flex-1 min-w-0 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary caret-primary"
                             />
                             {/* Restore button */}
                             <button className="text-secondary p-2 hover:scale-100 border-2" onClick={() => handleRestore("title.outline_color")}>
