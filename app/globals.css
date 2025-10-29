@@ -154,20 +154,24 @@ button {
 }
 
 /* svg styles */
-.svg-animate-rotate svg {
-  transition: transform 1s ease;
-  transform: rotate(0deg);
-}
-.svg-animate-rotate:hover svg {
-  transform: rotate(540deg);
-}
+@media (min-width: 640px) {
+  .svg-animate-rotate svg {
+    transition: transform 1s ease;
+    transform: rotate(0deg);
+  }
 
-.svg-animate-scale svg {
-  transition: transform 0.5s ease;
-  transform: scale(1);
-}
-.svg-animate-scale:hover svg {
-  transform: scale(1.2);
+  .svg-animate-rotate:hover svg {
+    transform: rotate(540deg);
+  }
+
+  .svg-animate-scale svg {
+    transition: transform 0.5s ease;
+    transform: scale(1);
+  }
+
+  .svg-animate-scale:hover svg {
+    transform: scale(1.2);
+  }
 }
 
 /* card styles */
