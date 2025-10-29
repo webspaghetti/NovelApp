@@ -1,9 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useState } from "react";
 
-export default function BackButton({ formattedName, source }) {
+
+function BackButton({ formattedName, source, customizationTemplate }) {
     const router = useRouter();
+    const [isHovered, setIsHovered] = useState(false);
 
     function handleBack(e) {
         e.preventDefault();
@@ -11,14 +14,30 @@ export default function BackButton({ formattedName, source }) {
         router.refresh();
     }
 
+
     return (
-        <button onClick={handleBack} className="group mt-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="max-sm:w-6 max-sm:h-6 w-7 h-7 sm:ml-1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+        <button onClick={handleBack}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                className={"mt-2 sm:hover:scale-[1.02]"}
+                style={{
+                    backgroundColor: isHovered
+                        ? customizationTemplate.menu.navigation_buttons.background_color_hover
+                        : customizationTemplate.menu.navigation_buttons.background_color,
+                    border: `${customizationTemplate.menu.navigation_buttons.border_width} solid ${customizationTemplate.menu.navigation_buttons.border_color}`,
+                    borderRadius: customizationTemplate.menu.navigation_buttons.border_radius,
+                    margin: customizationTemplate.menu.navigation_buttons.margin,
+                    padding: customizationTemplate.menu.navigation_buttons.padding
+                }}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={customizationTemplate.menu.navigation_buttons.icon_stroke_size} stroke={`${customizationTemplate.menu.navigation_buttons.icon_color}`} style={{
+                width: customizationTemplate.menu.navigation_buttons.icon_size,
+                height: customizationTemplate.menu.navigation_buttons.icon_size
+            }}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
-            <span className="max-sm:hidden overflow-hidden opacity-0 max-w-0 group-hover:max-w-xs group-hover:opacity-100 transition-all duration-1000 ease-in-out">
-                <span className="pl-2 whitespace-nowrap">Back</span>
-            </span>
         </button>
     );
 }
+
+
+export default BackButton;
