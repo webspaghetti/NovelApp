@@ -4,9 +4,12 @@ import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 
-function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCount, formattedName, source }) {
+function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCount, formattedName, source, customizationTemplate }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingButton, setLoadingButton] = useState(null);
+    const [isHoveredNext, setIsHoveredNext] = useState(false);
+    const [isHoveredPrevious, setIsHoveredPrevious] = useState(false);
+
 
     return (
         <div className="flex justify-between py-4">
@@ -15,17 +18,30 @@ function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCo
                     setIsLoading(true)
                     setLoadingButton("Previous")
                 }}>
-                    <button className='md:pr-5 max-sm:py-4 max-sm:px-6 group' aria-label={"Previous chapter"} disabled={isLoading}>
+                    <button aria-label={"Previous chapter"}
+                            className={"sm:hover:scale-[1.02]"}
+                            disabled={isLoading}
+                            onMouseEnter={() => setIsHoveredPrevious(true)}
+                            onMouseLeave={() => setIsHoveredPrevious(false)}
+                            style={{
+                        backgroundColor: isHoveredPrevious
+                            ? customizationTemplate.menu.navigation_buttons.background_color_hover
+                            : customizationTemplate.menu.navigation_buttons.background_color,
+                        border: `${customizationTemplate.menu.navigation_buttons.border_width} solid ${customizationTemplate.menu.navigation_buttons.border_color}`,
+                        borderRadius: customizationTemplate.menu.navigation_buttons.border_radius,
+                        margin: customizationTemplate.menu.navigation_buttons.margin,
+                        padding: customizationTemplate.menu.navigation_buttons.padding
+                    }}>
                         {isLoading && loadingButton === "Previous" ? (
-                            <CircularProgress sx={{color: "#FAFAFA"}} size={20} thickness={8} />
+                            <CircularProgress sx={{color: customizationTemplate.menu.navigation_buttons.icon_color}} size={customizationTemplate.menu.navigation_buttons.icon_size} thickness={customizationTemplate.menu.navigation_buttons.progress_bar_thickness} />
                         ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={customizationTemplate.menu.navigation_buttons.icon_stroke_size} stroke={`${customizationTemplate.menu.navigation_buttons.icon_color}`} style={{
+                                width: customizationTemplate.menu.navigation_buttons.icon_size,
+                                height: customizationTemplate.menu.navigation_buttons.icon_size
+                            }}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>
                         )}
-                        <span className="max-sm:hidden overflow-hidden opacity-0 max-w-0 group-hover:max-w-xs group-hover:opacity-100 transition-all duration-1000 ease-in-out">
-                            <span className="pl-2 whitespace-nowrap">Previous chapter</span>
-                        </span>
                     </button>
                 </Link>
             )}
@@ -38,14 +54,27 @@ function ChapterNavigation({ prevChapter, nextChapter, currentChapter, chapterCo
                     setIsLoading(true)
                     setLoadingButton("Next")
                 }}>
-                    <button className='md:pl-5 max-sm:py-4 max-sm:px-6 group' aria-label={"Next chapter"} disabled={isLoading}>
-                        <span className="max-sm:hidden overflow-hidden opacity-0 max-w-0 group-hover:max-w-xs group-hover:opacity-100 transition-all duration-1000 ease-in-out">
-                            <span className="pl-2 whitespace-nowrap">Next chapter</span>
-                        </span>
+                    <button aria-label={"Next chapter"}
+                            className={"sm:hover:scale-[1.02]"}
+                            disabled={isLoading}
+                            onMouseEnter={() => setIsHoveredNext(true)}
+                            onMouseLeave={() => setIsHoveredNext(false)}
+                            style={{
+                                backgroundColor: isHoveredNext
+                                    ? customizationTemplate.menu.navigation_buttons.background_color_hover
+                                    : customizationTemplate.menu.navigation_buttons.background_color,
+                                border: `${customizationTemplate.menu.navigation_buttons.border_width} solid ${customizationTemplate.menu.navigation_buttons.border_color}`,
+                                borderRadius: customizationTemplate.menu.navigation_buttons.border_radius,
+                                margin: customizationTemplate.menu.navigation_buttons.margin,
+                                padding: customizationTemplate.menu.navigation_buttons.padding
+                            }}>
                         {isLoading && loadingButton === "Next" ? (
-                            <CircularProgress sx={{color: "#FAFAFA"}} size={20} thickness={8} />
+                            <CircularProgress sx={{color: customizationTemplate.menu.navigation_buttons.icon_color}} size={customizationTemplate.menu.navigation_buttons.icon_size} thickness={customizationTemplate.menu.navigation_buttons.progress_bar_thickness} />
                         ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={customizationTemplate.menu.navigation_buttons.icon_stroke_size} stroke={`${customizationTemplate.menu.navigation_buttons.icon_color}`} style={{
+                                width: customizationTemplate.menu.navigation_buttons.icon_size,
+                                height: customizationTemplate.menu.navigation_buttons.icon_size
+                            }}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         )}
