@@ -64,8 +64,6 @@ async function Page({ params, searchParams }) {
     const userNovel = await getUserNovel(session.user.id, novelData.id);
     const userTemplateList = await getUserTemplates(session.user.id);
 
-    const normalTemplate = userTemplateList.find(t => t.id === userNovel.normal_template_id);
-    const smallTemplate = userTemplateList.find(t => t.id === userNovel.small_template_id);
 
     // Update user progress
     await updateUsersProgress(session.user.id, novelData.id, currentChapter);
