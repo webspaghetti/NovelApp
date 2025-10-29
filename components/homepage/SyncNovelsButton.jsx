@@ -348,7 +348,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
 
     return (
         <>
-            <AnimatedIconButton label={'Refresh novels'} onClick={handleDialogOpen} animation={'svg-animate-rotate'} shape={'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'} />
+            <AnimatedIconButton label={'Refresh novels'} isActive={isDialogOpen} onClick={handleDialogOpen} animation={'svg-animate-rotate'} shape={'M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'} />
             <LoadingOverlay trigger={overlayTrigger}/>
 
             {isDialogOpen ? (
@@ -372,9 +372,9 @@ function SyncNovelsButton({ novelList, userNovel }) {
                                 className="w-full bg-main_background border border-gray-700 rounded-lg text-secondary pl-10 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-primary caret-primary placeholder-gray-500 select-none"
                             />
                             {searchTerm && (
-                                <div className="absolute right-3 top-1/2 -translate-y-1/2 hover:scale-105 transition-transform">
+                                <div className="absolute right-3 top-1/2 -translate-y-1/2 sm:hover:scale-105 transition-transform">
                                     <button
-                                        onClick={clearSearch} className="p-1 rounded-lg bg-red-600 hover:bg-red-700 border border-red-600">
+                                        onClick={clearSearch} className="p-1 rounded-lg bg-red-600 sm:hover:bg-red-700 border border-red-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4 sm:size-5">
                                             <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd"/>
                                         </svg>
@@ -426,46 +426,46 @@ function SyncNovelsButton({ novelList, userNovel }) {
                                 <div className="overflow-x-auto px-2 py-2">
                                     <div className="flex gap-2 min-w-min">
                                         {/* All */}
-                                        <button onClick={handleSelectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                                        <button onClick={handleSelectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 sm:hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
                                             Select All
                                         </button>
-                                        <button onClick={handleUnselectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                                        <button onClick={handleUnselectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 sm:hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
                                             Unselect All
                                         </button>
 
                                         {/* Filtered */}
                                         <div className="w-px bg-gray-600" />
-                                        <button onClick={handleSelectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                                        <button onClick={handleSelectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 sm:hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
                                             + Filtered
                                         </button>
-                                        <button onClick={handleUnselectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                                        <button onClick={handleUnselectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 sm:hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
                                             - Filtered
                                         </button>
 
                                         {/* OnGoing */}
                                         <div className="w-px bg-gray-600" />
-                                        <button onClick={() => handleSelectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                                        <button onClick={() => handleSelectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 sm:hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
                                             + OnGoing
                                         </button>
-                                        <button onClick={() => handleUnselectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                                        <button onClick={() => handleUnselectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 sm:hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
                                             - OnGoing
                                         </button>
 
                                         {/* Completed */}
                                         <div className="w-px bg-gray-600"></div>
-                                        <button onClick={() => handleSelectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                                        <button onClick={() => handleSelectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 sm:hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
                                             + Completed
                                         </button>
-                                        <button onClick={() => handleUnselectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                                        <button onClick={() => handleUnselectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 sm:hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
                                             - Completed
                                         </button>
 
                                         {/* Hiatus */}
                                         <div className="w-px bg-gray-600"></div>
-                                        <button onClick={() => handleSelectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                                        <button onClick={() => handleSelectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 sm:hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
                                             + Hiatus
                                         </button>
-                                        <button onClick={() => handleUnselectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                                        <button onClick={() => handleUnselectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 sm:hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
                                             - Hiatus
                                         </button>
                                     </div>
@@ -477,46 +477,46 @@ function SyncNovelsButton({ novelList, userNovel }) {
                         {/* Quick Selection Buttons */}
                         <div className="hidden sm:flex flex-wrap justify-center gap-2 mb-4">
                             {/* All */}
-                            <button onClick={handleSelectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                            <button onClick={handleSelectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 sm:hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
                                 Select All
                             </button>
-                            <button onClick={handleUnselectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
+                            <button onClick={handleUnselectAll} className="px-3 py-2 text-sm rounded-lg border-2 border-secondary bg-gray-700 sm:hover:bg-gray-600 text-secondary transition-all whitespace-nowrap">
                                 Unselect All
                             </button>
 
                             {/* Filtered */}
                             <div className="w-px bg-gray-600" />
-                            <button onClick={handleSelectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                            <button onClick={handleSelectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 sm:hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
                                 + Filtered
                             </button>
-                            <button onClick={handleUnselectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
+                            <button onClick={handleUnselectFiltered} className="px-3 py-2 text-sm rounded-lg border-2 border-purple-400 bg-purple-900/30 sm:hover:bg-purple-900/50 text-purple-400 transition-all whitespace-nowrap">
                                 - Filtered
                             </button>
 
                             {/* OnGoing */}
                             <div className="w-px bg-gray-600" />
-                            <button onClick={() => handleSelectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                            <button onClick={() => handleSelectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 sm:hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
                                 + OnGoing
                             </button>
-                            <button onClick={() => handleUnselectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
+                            <button onClick={() => handleUnselectByStatus('OnGoing')} className="px-3 py-2 text-sm rounded-lg border-2 border-yellow-400 bg-yellow-900/30 sm:hover:bg-yellow-900/50 text-yellow-400 transition-all whitespace-nowrap">
                                 - OnGoing
                             </button>
 
                             {/* Completed */}
                             <div className="w-px bg-gray-600 xl:hidden"></div>
-                            <button onClick={() => handleSelectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                            <button onClick={() => handleSelectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 sm:hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
                                 + Completed
                             </button>
-                            <button onClick={() => handleUnselectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
+                            <button onClick={() => handleUnselectByStatus('Completed')} className="px-3 py-2 text-sm rounded-lg border-2 border-green-400 bg-green-900/30 sm:hover:bg-green-900/50 text-green-400 transition-all whitespace-nowrap">
                                 - Completed
                             </button>
 
                             {/* Hiatus */}
                             <div className="w-px bg-gray-600"></div>
-                            <button onClick={() => handleSelectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                            <button onClick={() => handleSelectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 sm:hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
                                 + Hiatus
                             </button>
-                            <button onClick={() => handleUnselectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
+                            <button onClick={() => handleUnselectByStatus('Hiatus')} className="px-3 py-2 text-sm rounded-lg border-2 border-red-400 bg-red-900/30 sm:hover:bg-red-900/50 text-red-400 transition-all whitespace-nowrap">
                                 - Hiatus
                             </button>
                         </div>
@@ -530,7 +530,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
                                     <div
                                         key={novel.formatted_name}
                                         onClick={() => toggleNovel(novel.formatted_name)}
-                                        className="flex items-center gap-3 p-3 hover:bg-gray-800/50 cursor-pointer border-b border-gray-700/50 last:border-b-0 transition-colors"
+                                        className="flex items-center gap-3 p-3 sm:hover:bg-gray-800/50 cursor-pointer border-b border-gray-700/50 last:border-b-0 transition-colors"
                                     >
                                         <input
                                             type="checkbox"
@@ -569,7 +569,7 @@ function SyncNovelsButton({ novelList, userNovel }) {
                             <button
                                 onClick={handleSync}
                                 disabled={selectedNovels.size === 0}
-                                className="px-4 py-2 rounded-lg bg-green-700 hover:bg-green-800 border-green-800 text-white font-medium transition-all disabled:opacity-50"
+                                className="px-4 py-2 rounded-lg bg-green-700 sm:hover:bg-green-800 border-green-800 text-white font-medium transition-all disabled:opacity-50"
                             >
                                 Refresh {selectedNovels.size > 0 ? `(${selectedNovels.size})` : ''}
                             </button>

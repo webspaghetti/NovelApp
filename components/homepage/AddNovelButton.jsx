@@ -10,7 +10,7 @@ function AddNovelButton({ session }) {
 
     return (
         <>
-            <AnimatedIconButton label={'Add novel'} onClick={() => setPopupTrigger(true)} animation={'svg-animate-scale'} shape={'M12 4.5v15m7.5-7.5h-15'} />
+            <AnimatedIconButton label={'Add novel'} isActive={popupTrigger} onClick={() => setPopupTrigger(true)} animation={'svg-animate-scale'} shape={'M12 4.5v15m7.5-7.5h-15'} />
             <AddNovelPopup trigger={popupTrigger} setTrigger={setPopupTrigger} session={session} />
         </>
     );
