@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { fetchNovelByFormattedNameAndSource, getUserNovel, getUserTemplates } from "@/lib/commonQueries";
 import NovelPageWrapper from "@/components/novel-page/NovelPageWrapper";
+import NavBar from "@/components/general/layout/NavBar";
 
 
 async function Page({ params, searchParams }) {
@@ -25,9 +26,12 @@ async function Page({ params, searchParams }) {
     }
 
     return (
-        <main className="relative pt-20">
-            <NovelPageWrapper novel={novel} userNovel={userNovel} session={session} userTemplateList={userTemplateList} />
-        </main>
+        <>
+            <NavBar />
+            <main className="relative pt-20">
+                <NovelPageWrapper novel={novel} userNovel={userNovel} session={session} userTemplateList={userTemplateList} />
+            </main>
+        </>
     );
 }
 

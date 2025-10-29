@@ -1,6 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
 import HomeClient from "@/components/homepage/HomeClient";
+import NavBar from "@/components/general/layout/NavBar";
 import pool from "@/lib/db";
 
 async function fetchNovels(userId) {
@@ -46,7 +47,12 @@ async function Home() {
     const novelList = await fetchNovels(session.user.id);
     const userNovel = await fetchUserNovel(session.user.id);
 
-    return <HomeClient novelList={novelList} userNovel={userNovel} session={session} />;
+    return (
+        <>
+            <NavBar />
+            <HomeClient novelList={novelList} userNovel={userNovel} session={session} />;
+        </>
+    );
 }
 
 export default Home;

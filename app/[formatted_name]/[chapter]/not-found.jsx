@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import NavBar from "@/components/general/layout/NavBar";
 
 
 function NotFound() {
@@ -24,14 +25,18 @@ function NotFound() {
         window.location.href = `/${location}?${source}`;
     }
 
+
     return (
-        <main className={"text-center"}>
-            <h2 className={"text-5xl"}>Chapter Not Found</h2>
-            <p className={'text-lg'}>We couldn&apos;t find the chapter you were looking for.</p>
-            <div className={"flex justify-center my-5"}>
-                <button onClick={handleNavigation}>Go back to the Gallery</button>
-            </div>
-        </main>
+        <>
+            <NavBar />
+            <main className={"text-center relative top-20"}>
+                <h2 className={"text-5xl"}>Chapter Not Found</h2>
+                <p className={'text-lg'}>We couldn&apos;t find the chapter you were looking for.</p>
+                <div className={"flex justify-center my-5"}>
+                    <button onClick={handleNavigation}>Go back to the Gallery</button>
+                </div>
+            </main>
+        </>
     );
 }
 

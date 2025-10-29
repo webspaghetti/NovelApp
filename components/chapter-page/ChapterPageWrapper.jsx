@@ -6,6 +6,7 @@ import ChapterTitle from "@/components/chapter-page/ChapterTitle";
 import ChapterDetails from "@/components/chapter-page/ChapterDetails";
 import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";
 import ChapterStyleWrapper from "@/components/chapter-page/ChapterStyleWrapper";
+import NavBar from "@/components/general/layout/NavBar";
 
 
 const inter = Inter({ subsets: ["latin"] });
