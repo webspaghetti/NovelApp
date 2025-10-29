@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function OtherTab({ settings, setSettings, inter, templateName, setTemplateName, originalTemplateName }){
+function OtherTab({ settings, setSettings, handleRestore, inter, templateName, setTemplateName, originalTemplateName }){
     return (
         <>
             <h1 className={"text-center text-secondary thin_link_outline mb-3 sm:hidden"}>Other</h1>
@@ -37,23 +37,32 @@ function OtherTab({ settings, setSettings, inter, templateName, setTemplateName,
                         <label className="block text-sm font-semibold text-secondary mb-1 select-none">Infinite Scrolling</label>
                         <p className="text-xs text-gray-500">Automatically load next chapter when reaching the bottom</p>
                     </div>
-                    <button
-                        onClick={() =>
-                            setSettings((prev) => ({
-                                ...prev,
-                                infinite_scrolling: !prev.infinite_scrolling,
-                            }))
-                        }
-                        className={`p-0 border-0 font-normal normal-case relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                            settings.infinite_scrolling ? 'bg-primary' : 'bg-gray-700'
-                        }`}
-                    >
-                        <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.infinite_scrolling ? 'translate-x-6' : 'translate-x-1'
+                    <div className={"flex justify-center items-center gap-2"}>
+                        <button
+                            onClick={() =>
+                                setSettings((prev) => ({
+                                    ...prev,
+                                    infinite_scrolling: !prev.infinite_scrolling,
+                                }))
+                            }
+                            className={`p-0 border-0 font-normal normal-case relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                                settings.infinite_scrolling ? 'bg-primary' : 'bg-gray-700'
                             }`}
-                        />
-                    </button>
+                        >
+                            <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                    settings.infinite_scrolling ? 'translate-x-6' : 'translate-x-1'
+                                }`}
+                            />
+                        </button>
+                        {/* Restore button */}
+                        <button className="text-secondary p-2 hover:scale-100 border-2" onClick={() => handleRestore("infinite_scrolling")}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div className="flex items-center justify-between p-4 border border-gray-700 rounded-lg bg-main_background">
@@ -61,23 +70,32 @@ function OtherTab({ settings, setSettings, inter, templateName, setTemplateName,
                         <label className="block text-sm font-semibold text-secondary mb-1 select-none">Horizontal reading</label>
                         <p className="text-xs text-gray-500">Mode that changes the reading direction to be horizontal</p>
                     </div>
-                    <button
-                        onClick={() =>
-                            setSettings((prev) => ({
-                                ...prev,
-                                horizontal_reading: !prev.horizontal_reading,
-                            }))
-                        }
-                        className={`p-0 border-0 font-normal normal-case relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                            settings.horizontal_reading ? 'bg-primary' : 'bg-gray-700'
-                        }`}
-                    >
-                        <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                                settings.horizontal_reading ? 'translate-x-6' : 'translate-x-1'
+                    <div className={"flex justify-center items-center gap-2"}>
+                        <button
+                            onClick={() =>
+                                setSettings((prev) => ({
+                                    ...prev,
+                                    horizontal_reading: !prev.horizontal_reading,
+                                }))
+                            }
+                            className={`p-0 border-0 font-normal normal-case relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                                settings.horizontal_reading ? 'bg-primary' : 'bg-gray-700'
                             }`}
-                        />
-                    </button>
+                        >
+                            <span
+                                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                                    settings.horizontal_reading ? 'translate-x-6' : 'translate-x-1'
+                                }`}
+                            />
+                        </button>
+                        {/* Restore button */}
+                        <button className="text-secondary p-2 hover:scale-100 border-2" onClick={() => handleRestore("horizontal_reading")}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                                <path fillRule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 {/* Export/Import Settings */}
