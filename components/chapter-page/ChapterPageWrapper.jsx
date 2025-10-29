@@ -50,28 +50,32 @@ function ChapterPageWrapper({ novelData, chapter, currentChapter, userTemplateLi
 
 
     return (
-        <ChapterStyleWrapper customizationTemplate={customizationTemplate}>
-            <main className={"px-5 mt-0 mb-0"}>
-                <div>
-                    <div className="flex justify-start mb-5">
-                        <BackButton formattedName={novelData.formatted_name} source={novelData.source} />
+        <>
+            <NavBar customizationTemplate={customizationTemplate} />
+            <ChapterStyleWrapper customizationTemplate={customizationTemplate}>
+                <main className={"px-5 mt-0 mb-0"}>
+                    <div>
+                        <div className="flex justify-start mb-5">
+                            <BackButton formattedName={novelData.formatted_name} source={novelData.source} customizationTemplate={customizationTemplate} />
+                        </div>
+
+                        <ChapterTitle chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
+
+                        <ChapterDetails chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
+                        <ChapterNavigation
+                            prevChapter={prevChapter}
+                            nextChapter={nextChapter}
+                            currentChapter={currentChapter}
+                            chapterCount={novelData.chapter_count}
+                            formattedName={novelData.formatted_name}
+                            source={novelData.source}
+                            customizationTemplate={customizationTemplate}
+                        />
                     </div>
-
-                    <ChapterTitle chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
-
-                    <ChapterDetails chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
-                    <ChapterNavigation
-                        prevChapter={prevChapter}
-                        nextChapter={nextChapter}
-                        currentChapter={currentChapter}
-                        chapterCount={novelData.chapter_count}
-                        formattedName={novelData.formatted_name}
-                        source={novelData.source}
-                    />
-                </div>
-            </main>
-        </ChapterStyleWrapper>
-    )
+                </main>
+            </ChapterStyleWrapper>
+        </>
+    );
 }
 
 
