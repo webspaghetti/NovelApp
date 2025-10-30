@@ -7,6 +7,7 @@ import ChapterDetails from "@/components/chapter-page/ChapterDetails";
 import ChapterNavigation from "@/components/chapter-page/ChapterNavigation";
 import ChapterStyleWrapper from "@/components/chapter-page/ChapterStyleWrapper";
 import NavBar from "@/components/general/layout/NavBar";
+import HorizontalReader from "@/components/chapter-page/HorizontalReader";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -53,25 +54,38 @@ function ChapterPageWrapper({ novelData, chapter, currentChapter, userTemplateLi
         <>
             <NavBar customizationTemplate={customizationTemplate} />
             <ChapterStyleWrapper customizationTemplate={customizationTemplate}>
-                <main className={"px-5 mt-0 mb-0"}>
-                    <div>
-                        <div className="flex justify-start mb-5">
-                            <BackButton formattedName={novelData.formatted_name} source={novelData.source} customizationTemplate={customizationTemplate} />
-                        </div>
+                <main className={`mt-0 mb-0 ${customizationTemplate.horizontal_reading ? "px-1 mx-1 max-w-full" : "px-5 overflow-x-hidden"}`}>
 
-                        <ChapterTitle chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
-
-                        <ChapterDetails chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
-                        <ChapterNavigation
-                            prevChapter={prevChapter}
-                            nextChapter={nextChapter}
-                            currentChapter={currentChapter}
-                            chapterCount={novelData.chapter_count}
-                            formattedName={novelData.formatted_name}
-                            source={novelData.source}
+                    {customizationTemplate.horizontal_reading ? (
+                        <HorizontalReader
+                            chapter={chapter}
+                            novelData={novelData}
                             customizationTemplate={customizationTemplate}
+                            inter={inter}
+                            prevChapter={prevChapter} nextChapter={nextChapter}
+                            currentChapter={currentChapter}
                         />
-                    </div>
+                    ) : (
+                        <div>
+                            <div className="flex justify-start mb-5">
+                                <BackButton formattedName={novelData.formatted_name} source={novelData.source} customizationTemplate={customizationTemplate} />
+                            </div>
+
+                            <ChapterTitle chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
+
+                            <ChapterDetails chapter={chapter} customizationTemplate={customizationTemplate} inter={inter} />
+                            <ChapterNavigation
+                                prevChapter={prevChapter}
+                                nextChapter={nextChapter}
+                                currentChapter={currentChapter}
+                                chapterCount={novelData.chapter_count}
+                                formattedName={novelData.formatted_name}
+                                source={novelData.source}
+                                customizationTemplate={customizationTemplate}
+                            />
+                        </div>
+                    )
+                    }
                 </main>
             </ChapterStyleWrapper>
         </>
