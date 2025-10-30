@@ -27,7 +27,7 @@ function HorizontalReader({ chapter, novelData, customizationTemplate, inter, pr
     }
 
     return (
-        <div className="h-screen overflow-x-auto overflow-y-hidden pt-4 px-1">
+        <div className="horizontal-reader-container h-screen overflow-x-auto overflow-y-hidden pt-4 px-1">
             <div
                 style={{
                     columnWidth: '60ch',
