@@ -6,8 +6,18 @@ import scrapeNovelInfo from "@/app/api/scrape/util/scrapeNovelInfo";
 
 
 let browserInstance = null;
+let requestCount = 0;
+const MAX_REQUESTS_BEFORE_RESTART = 50;
 
 async function getBrowser() {
+    // Restart browser periodically to avoid memory leaks
+    if (browserInstance && requestCount >= MAX_REQUESTS_BEFORE_RESTART) {
+        console.log('Restarting browser after', requestCount, 'requests');
+        await browserInstance.close().catch(() => {});
+        browserInstance = null;
+        requestCount = 0;
+    }
+
     if (!browserInstance || !browserInstance.isConnected()) {
         browserInstance = await chromium.launch({
             headless: true,
@@ -18,7 +28,10 @@ async function getBrowser() {
                 '--no-sandbox',
             ]
         });
+        requestCount = 0;
     }
+
+    requestCount++;
     return browserInstance;
 }
 
