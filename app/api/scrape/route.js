@@ -108,10 +108,10 @@ export async function POST(req) {
         }
 
         console.log(`Successfully scraped ${url}`);
-         return NextResponse.json({
-             content: result,
-             source: novelSource
-         });
+        return NextResponse.json({
+            content: result,
+            source: novelSource
+        });
 
     } catch (error) {
         console.error('Scraping error:', error.message);
