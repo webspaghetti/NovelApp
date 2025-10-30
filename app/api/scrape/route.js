@@ -3,6 +3,7 @@ import { chromium } from 'playwright';
 import { NextResponse } from 'next/server';
 import scrapeChapter from "@/app/api/scrape/util/scrapeChapter";
 import scrapeNovelInfo from "@/app/api/scrape/util/scrapeNovelInfo";
+import chapterCache from "@/lib/chapterCache";
 
 
 let browserInstance = null;
@@ -38,6 +39,14 @@ async function getBrowser() {
 
 export async function POST(req) {
     const { url } = await req.json();
+
+    // Check cache first (only for chapter pages, not novel info pages)
+    const cachedContent = chapterCache.get(url);
+    if (cachedContent) {
+        console.log(`Cache hit for: ${url}`);
+        return NextResponse.json(cachedContent);
+    }
+
     console.log(`Scraping ${url}`);
 
     let context;
@@ -93,9 +102,20 @@ export async function POST(req) {
 
             if (url.includes(config.info_identifier) && !url.includes(config.chapter_identifier)) {
                 result = await scrapeNovelInfo(page, url, novelSource);
+                // Don't cache novel info pages
 
             } else if (url.includes(config.chapter_identifier)) {
                 result = await scrapeChapter(page, url, novelSource);
+
+                // Cache chapter content
+                const responseData = {
+                    content: result,
+                    source: novelSource
+                };
+                chapterCache.set(url, responseData);
+                console.log(`Successfully scraped and cached ${url}`);
+
+                return NextResponse.json(responseData);
 
             } else {
                 console.error(`Invalid ${novelSource} URL format`);
