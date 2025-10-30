@@ -16,7 +16,7 @@ import ChapterPageWrapper from "@/components/chapter-page/ChapterPageWrapper";
 async function fetchChapterContent(url) {
     const cookieStore = cookies();
 
-    const response = await fetch(`${process.env.PUBLIC_API_URL}/api/scrape`, {
+    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/scrape`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
