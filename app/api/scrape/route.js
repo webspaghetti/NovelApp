@@ -87,8 +87,8 @@ export async function POST(req) {
             const config = sourceConfig[novelSource].link_identifier
 
             if (!config) {
-                console.error(`Unknown source: ${novelSource}. Available sources: ${Object.keys(PAGE_CONFIGS).join(', ')}`);
-                return;
+                console.error(`Unknown source: ${novelSource}. Available sources: ${Object.keys(sourceConfig).join(', ')}`);
+                return NextResponse.json({ error: 'Unknown source' }, { status: 400 });
             }
 
             if (url.includes(config.info_identifier) && !url.includes(config.chapter_identifier)) {
@@ -99,12 +99,12 @@ export async function POST(req) {
 
             } else {
                 console.error(`Invalid ${novelSource} URL format`);
-                return;
+                return NextResponse.json({ error: 'Invalid URL format' }, { status: 400 });
             }
 
         } else {
             console.error(`Invalid URL`);
-            return;
+            return NextResponse.json({ error: 'Invalid URL' }, { status: 400 });
         }
 
         console.log(`Successfully scraped ${url}`);
