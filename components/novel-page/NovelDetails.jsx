@@ -2,7 +2,7 @@
 import sourceConfig from "@/config/sourceConfig"
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { isValidDate } from "@/app/helper-functions/isValidDate";
 import { dateFormatter } from "@/app/helper-functions/dateFormatter";
 import { useNovelLoading } from "@/components/novel-page/NovelPageWrapper";
@@ -17,6 +17,47 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
 
     const [popupTrigger, setPopupTrigger] = useState(false);
     const progressPercentage = userNovel.current_chapter / novel.chapter_count * 100;
+    const hasPrefetchedRef = useRef(false);
+
+    // Determine which chapter to prefetch
+    const chapterToPrefetch = userNovel?.current_chapter || 1;
+
+    // Prefetch the chapter user will read
+    useEffect(() => {
+        const prefetchChapter = async () => {
+            if (hasPrefetchedRef.current) return;
+            hasPrefetchedRef.current = true;
+
+            try {
+                console.log(`Prefetching chapter ${chapterToPrefetch} from novel page`);
+
+                const response = await fetch('/api/prefetch-chapter', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        formatted_name: novel.formatted_name,
+                        chapter: chapterToPrefetch,
+                        source: novel.source
+                    }),
+                });
+
+                if (response.ok) {
+                    console.log(`Successfully prefetched chapter ${chapterToPrefetch}`);
+                } else {
+                    console.warn(`Failed to prefetch chapter ${chapterToPrefetch}:`, response.status);
+                }
+            } catch (error) {
+                console.error(`Error prefetching chapter ${chapterToPrefetch}:`, error);
+            }
+        };
+
+        // Prefetch after a short delay to not block initial page load
+        const timeoutId = setTimeout(prefetchChapter, 500);
+
+        return () => clearTimeout(timeoutId);
+    }, [chapterToPrefetch, novel.formatted_name, novel.source]);
 
 
     return (
@@ -107,10 +148,10 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
                     )}
                     </span>
                 </p>
-                <Link className={`disabled:${loadingCheck} ${loadingCheck ? 'opacity-60' : ''}`} href={`/${novel.formatted_name}/${userNovel?.current_chapter || 1}?${novel.source}`}
+                <Link className={`disabled:${loadingCheck} ${loadingCheck ? 'opacity-60' : ''}`} href={`/${novel.formatted_name}/${chapterToPrefetch}?${novel.source}`}
                       onClick={() => {
                           setIsLoading(true);
-                          setLoadingChapter(userNovel?.current_chapter || 1);
+                          setLoadingChapter(chapterToPrefetch);
                       }}
                 >
                     <button className={`my-2 py-2 px-6 rounded-lg max-sm:px-4 shadow-md ${loadingCheck ? 'flex justify-center items-center gap-2' : ''}`} disabled={Boolean(isLoading)}>
