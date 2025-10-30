@@ -18,14 +18,24 @@ async function scrapeChapter(page, url, sourceName) {
             !text.includes('CORS') &&
             !text.includes('GroupMarkerNotSet') &&
             !text.includes('iframe') &&
-            msg.type() !== 'error' || msg.type() === 'log'
+            (type !== 'error' || type === 'log')
         ) {
             console.log('Browser:', text + ' -' + type);
         }
     });
 
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
-    await page.waitForLoadState('load');
+    // Single navigation with timeout
+    await page.goto(url, {
+        waitUntil: 'domcontentloaded',
+        timeout: 30000
+    });
+
+    // Wait for your actual content instead of generic load state
+    await page.waitForSelector(config.selectors.content, {
+        state: 'attached',
+        timeout: 15000
+    });
+
     console.log(`Loaded ${sourceName}`);
 
 
