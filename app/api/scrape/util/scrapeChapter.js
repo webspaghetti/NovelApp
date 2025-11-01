@@ -68,7 +68,6 @@ async function scrapeChapter(page, url, sourceName) {
         ? config.watermarkPatterns.map(pattern => generateWatermarkRegex(pattern))
         : [];
 
-    console.log(generatedWatermarkPatterns)
 
     try {
         // Extract content from the page first
