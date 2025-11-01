@@ -24,6 +24,7 @@
     "react-dom": "^18",
     "sanitize-html": "^2.17.0",
     "sharp": "^0.33.3",
+    "unhomoglyph": "^1.0.6",
     "words-to-numbers": "^1.5.1"
   },
   "devDependencies": {
