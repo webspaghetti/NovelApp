@@ -1,6 +1,31 @@
 import sourceConfig from "@/config/sourceConfig"
 import commonPatternsConfig from "@/config/commonPatternsConfig";
+import unhomoglyph from 'unhomoglyph';
 
+function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function generateWatermarkRegex(pattern) {
+    // Don't normalize the pattern - use it as-is to preserve original characters
+    const lowerPattern = pattern.toLowerCase();
+    const chars = [...lowerPattern];
+
+    // Build regex parts - for 'm', also match 'rn' sequence
+    const regexParts = chars.map((char) => {
+        if (char === 'm') {
+            // Match either 'm' or 'rn' (since they are used interchangeably)
+            return `[^\\s<>]*?(?:m|rn)`;
+        } else {
+            return `[^\\s<>]*?(?:${escapeRegex(char)})`;
+        }
+    });
+
+    // Join parts and add anchors
+    const regexPattern = regexParts.join('') + '[^\\s<>]*?(?=\\s*<\\/p>|\\s*$)';
+
+    return new RegExp(regexPattern, 'gi');
+}
 
 async function scrapeChapter(page, url, sourceName) {
     const config = sourceConfig[sourceName].chapter_scraper;
@@ -38,10 +63,16 @@ async function scrapeChapter(page, url, sourceName) {
 
     console.log(`Loaded ${sourceName}`);
 
+    // Generate regex patterns from watermark strings
+    const generatedWatermarkPatterns = config.watermarkPatterns
+        ? config.watermarkPatterns.map(pattern => generateWatermarkRegex(pattern))
+        : [];
+
+    console.log(generatedWatermarkPatterns)
 
     try {
-        // Pass config into the browser context
-        const result = await page.evaluate(({ selectors, watermarkPatterns, commonPatterns }) => {
+        // Extract content from the page first
+        const rawContent = await page.evaluate(({ selectors }) => {
             const titleElement = document.querySelector(selectors.title);
             const contentElement = document.querySelector(selectors.content);
 
@@ -54,43 +85,47 @@ async function scrapeChapter(page, url, sourceName) {
             }
 
             const chapterTitle = titleElement.textContent.trim();
-            let chapterContent = contentElement.innerHTML.trim();
-
-            // Combine source-specific and common patterns
-            const allPatterns = [...watermarkPatterns, ...commonPatterns];
-
-            // Apply cleanup patterns
-            allPatterns.forEach(pattern => {
-                // Reconstruct RegExp from pattern object
-                const regex = new RegExp(pattern.source, pattern.flags);
-                chapterContent = chapterContent.replace(regex, '');
-            });
-
-            // Additional cleanup steps
-            chapterContent = chapterContent
-                .replace(/<br\s*\/?>/gi, '\n')
-                .replace(/&nbsp;/g, ' ')
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .trim()
-                .replace(/\n{3,}/g, '\n\n');
-
+            const chapterContent = contentElement.innerHTML.trim();
 
             return {
                 chapterTitle,
                 chapterContent
             };
         }, {
-            selectors: config.selectors,
-            // Convert RegExp to plain objects for serialization
-            watermarkPatterns: config.watermarkPatterns.map(p => ({ source: p.source, flags: p.flags })),
-            commonPatterns: commonPatternsConfig.map(p => ({ source: p.source, flags: p.flags }))
+            selectors: config.selectors
         });
 
-        console.log(`Success: ${result.chapterTitle}`);
-        return result;
+        // Normalize homoglyphs in Node.js context where unhomoglyph is available
+        let chapterContent = unhomoglyph(rawContent.chapterContent);
+
+        // Combine source-specific and common patterns
+        const allPatterns = [
+            ...generatedWatermarkPatterns,
+            ...commonPatternsConfig
+        ];
+
+        // Apply cleanup patterns
+        allPatterns.forEach(pattern => {
+            chapterContent = chapterContent.replace(pattern, '');
+        });
+
+        // HTML cleanup step
+        chapterContent = chapterContent
+            .replace(/<br\s*\/?>/gi, '\n')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .trim()
+            .replace(/\n{3,}/g, '\n\n');
+
+        console.log(`Success: ${rawContent.chapterTitle}`);
+
+        return {
+            chapterTitle: rawContent.chapterTitle,
+            chapterContent
+        };
 
     } catch (error) {
         console.error(`Error scraping ${sourceName}:`, error);
