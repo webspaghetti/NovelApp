@@ -36,3 +36,9 @@ yarn-error.log*
 
 # tests
 app/test/
+
+# pwa
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
+public/workbox-*.js
