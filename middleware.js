@@ -5,6 +5,7 @@ const publicRoutes = [
     '/login',
     '/register',
     '/background_img.png',
+    '/logo.png',
 ];
 
 const publicApiRoutes = [
