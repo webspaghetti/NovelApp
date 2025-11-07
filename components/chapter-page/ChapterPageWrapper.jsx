@@ -219,7 +219,8 @@ function ChapterPageWrapper({ novelData, chapter: initialChapter, currentChapter
                 body: JSON.stringify({
                     novelId: novelData.id,
                     chapter: chapterNum,
-                    formattedName: novelData.formatted_name
+                    formattedName: novelData.formatted_name,
+                    source: novelData.source
                 })
             });
         } catch (error) {

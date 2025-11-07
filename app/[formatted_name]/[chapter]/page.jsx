@@ -66,7 +66,7 @@ async function Page({ params, searchParams }) {
 
 
     // Update user progress
-    await updateUsersProgress(session.user.id, novelData.id, currentChapter);
+    await updateUsersProgress(session.user.id, novelData.id, currentChapter, source);
 
     // Get chapter link and fetch content
     const link = sourceConfig[novelData.source].getChapterLink(params);

@@ -15,16 +15,16 @@ export async function POST(request) {
             );
         }
 
-        const { novelId, chapter, formattedName } = await request.json();
+        const { novelId, chapter, formattedName, source } = await request.json();
 
-        if (!novelId || !chapter || !formattedName) {
+        if (!novelId || !chapter || !formattedName || !source) {
             return NextResponse.json(
                 { error: 'Missing required parameters' },
                 { status: 400 }
             );
         }
 
-        await updateUsersProgress(session.user.id, novelId, chapter, formattedName);
+        await updateUsersProgress(session.user.id, novelId, chapter, formattedName, source);
 
         return NextResponse.json({ success: true });
 
