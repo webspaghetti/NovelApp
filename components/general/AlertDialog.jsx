@@ -17,7 +17,7 @@ export default function AlertDialog({
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
-            <div className="bg-navbar border border-gray-700 rounded-2xl p-6 shadow-2xl w-full max-w-sm text-center animate-fadeIn">
+            <div className="bg-gradient-to-b from-main_background to-[#070707] border border-gray-700 rounded-2xl p-6 shadow-2xl w-full max-w-sm text-center animate-fadeIn">
                 <h2 className="text-lg font-semibold text-secondary mb-3">{title}</h2>
                 {message && <p className="text-gray-400 mb-6">{message}</p>}
 
@@ -31,7 +31,7 @@ export default function AlertDialog({
                     </button>
                     <button
                         onClick={onConfirm}
-                        className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 border-red-700 text-secondary font-medium transition-all disabled:opacity-60"
+                        className="px-4 py-2 rounded-lg bg-red-700 hover:bg-red-800 border-red-800 text-secondary font-medium transition-all disabled:opacity-60"
                         disabled={isLoading}
                     >
                         {isLoading
