@@ -43,6 +43,7 @@ function OtherTab({ settings, setSettings, handleRestore, inter, templateName, s
                                 setSettings((prev) => ({
                                     ...prev,
                                     infinite_scrolling: !prev.infinite_scrolling,
+                                    horizontal_reading: !prev.infinite_scrolling ? false : prev.horizontal_reading,
                                 }))
                             }
                             className={`p-0 border-0 font-normal normal-case relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
@@ -76,6 +77,7 @@ function OtherTab({ settings, setSettings, handleRestore, inter, templateName, s
                                 setSettings((prev) => ({
                                     ...prev,
                                     horizontal_reading: !prev.horizontal_reading,
+                                    infinite_scrolling: !prev.horizontal_reading ? false : prev.infinite_scrolling,
                                 }))
                             }
                             className={`p-0 border-0 font-normal normal-case relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
