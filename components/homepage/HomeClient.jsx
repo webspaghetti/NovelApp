@@ -1,5 +1,5 @@
 "use client"
-import {useState, useMemo, useEffect} from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { parseRelativeTime } from "@/app/helper-functions/parseRelativeTime";
 import { isValidDate } from "@/app/helper-functions/isValidDate";
 import NovelList from "@/components/homepage/NovelList";
