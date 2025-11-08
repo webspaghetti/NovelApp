@@ -144,7 +144,7 @@ function ColorsTab({ settings, setSettings, handleRestore }){
                 {/* Preview */}
                 <div className="mt-6 p-4 border border-gray-700 rounded-lg" style={{ backgroundColor: settings.background.color }}>
                     <p className="text-xs text-gray-400 mb-3 select-none">Preview:</p>
-                    <h3 className={`text_outline ${settings.title.outline} text-xl font-bold mb-3`} style={{
+                    <h3 className={`text_outline text-center ${settings.title.outline} text-xl font-bold mb-3`} style={{
                         color: settings.chapter_title_color,
                         '--shadow-color': settings.title.outline_color,
                     }}>

@@ -159,7 +159,7 @@ function TitleTab({ settings, setSettings, handleRestore, fontWeightOptions, out
                 {/* Preview */}
                 <div className="mt-6 p-4 border border-gray-700 rounded-lg bg-main_background">
                     <p className="text-xs text-gray-400 mb-2 select-none">Preview:</p>
-                    <h3 className={`text_outline ${settings.title.outline}`} style={{
+                    <h3 className={`text_outline text-center ${settings.title.outline}`} style={{
                         '--shadow-color': settings.title.outline_color,
                         fontFamily: settings.title.family === 'Inter' ? inter.style.fontFamily : settings.title.family,
                         fontSize: settings.title.size,

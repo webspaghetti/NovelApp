@@ -124,7 +124,7 @@ function TitleSpacingTab({ settings, setSettings, handleRestore, spacingPresets,
                         fontSize: settings.text.size,
                         color: settings.chapter_content_color
                     }}>
-                        <h3 className={`text_outline ${settings.title.outline}`} style={{
+                        <h3 className={`text_outline text-center ${settings.title.outline}`} style={{
                             '--shadow-color': settings.title.outline_color,
                             fontFamily: settings.title.family === 'Inter' ? inter.style.fontFamily : settings.title.family,
                             fontSize: settings.title.size,
