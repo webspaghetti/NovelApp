@@ -3,16 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { Inter } from "next/font/google";
 import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "@/components/general/AlertDialog";
-import TextTab from "@/components/templates/tabs/TextTab";
-import TitleTab from "@/components/templates/tabs/TitleTab";
-import BackgroundTab from "@/components/templates/tabs/BackgroundTab";
-import ColorsTab from "@/components/templates/tabs/ColorsTab";
-import TextSpacingTab from "@/components/templates/tabs/TextSpacingTab";
-import OtherTab from "@/components/templates/tabs/OtherTab";
-import TitleSpacingTab from "@/components/templates/tabs/TitleSpacingTab";
+import TextTab from "@/components/templates/tabs/reader/TextTab";
+import TitleTab from "@/components/templates/tabs/reader/TitleTab";
+import BackgroundTab from "@/components/templates/tabs/reader/BackgroundTab";
+import ColorsTab from "@/components/templates/tabs/reader/ColorsTab";
+import TextSpacingTab from "@/components/templates/tabs/reader/TextSpacingTab";
+import OtherTab from "@/components/templates/tabs/reader/OtherTab";
+import TitleSpacingTab from "@/components/templates/tabs/reader/TitleSpacingTab";
 import InputDialog from "@/components/general/InputDialog";
-import TabsButtons from "@/components/templates/general/TabsButtons";
-import NavigationTab from "@/components/templates/tabs/NavigationTab";
+import TabsReaderButtons from "@/components/templates/general/TabsReaderButtons";
+import NavigationTab from "@/components/templates/tabs/reader/NavigationTab";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -228,7 +228,7 @@ function AddNewReaderTemplate({ userId, userTemplateList }) {
 
 
                         {/* Tabs */}
-                        <TabsButtons activeTab={activeTab} setActiveTab={setActiveTab} isLoading={isLoading} />
+                        <TabsReaderButtons activeTab={activeTab} setActiveTab={setActiveTab} isLoading={isLoading} />
 
 
                         {/* Content Area */}
