@@ -25,9 +25,7 @@ export async function GET(request) {
 
 export async function POST(request) {
     try {
-        const { userId, templateName, readerCustomization } = await request.json();
-
-        const type = "reader";
+        const { userId, templateName, readerCustomization, type } = await request.json();
 
         const [result] = await pool.query(
             'INSERT INTO templates (user_id, type, name, customization) VALUES (?, ?, ?, ?)',
