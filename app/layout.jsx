@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/auth/AuthProvider";
+import OfflineSyncProvider from "@/components/offline/OfflineSyncProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -97,6 +98,7 @@ function RootLayout({ children }) {
         <body className={inter.className}>
             <AuthProvider>
                 {children}
+                <OfflineSyncProvider />
             </AuthProvider>
         </body>
     </html>
