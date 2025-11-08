@@ -4,13 +4,13 @@ import AddNovelPopup from "@/components/homepage/popup/AddNovelPopup";
 import AnimatedIconButton from "@/components/general/AnimatedIconButton";
 
 
-function AddNovelButton({ session }) {
+function AddNovelButton({ session, isOnline }) {
     const [popupTrigger, setPopupTrigger] = useState(false);
 
 
     return (
         <>
-            <AnimatedIconButton label={'Add novel'} isActive={popupTrigger} onClick={() => setPopupTrigger(true)} animation={'svg-animate-scale'} shape={'M12 4.5v15m7.5-7.5h-15'} />
+            <AnimatedIconButton label={'Add novel'} isActive={popupTrigger} onClick={() => setPopupTrigger(true)} animation={'svg-animate-scale'} shape={'M12 4.5v15m7.5-7.5h-15'} isDisabled={!isOnline} />
             <AddNovelPopup trigger={popupTrigger} setTrigger={setPopupTrigger} session={session} />
         </>
     );

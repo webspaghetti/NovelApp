@@ -117,9 +117,9 @@ function HomeClient({ novelList, userNovel, session }) {
     return (
         <main>
             <div className={"flex justify-between w-full mb-5 relative top-[76px] max-sm:top-[70px]"}>
-                <AddNovelButton session={session} />
-                <AnimatedIconButton label={'Search filter'} isActive={sfVisible} onClick={() => setSfVisible(!sfVisible)} animation={'svg-animate-scale'} shape={'M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75'} />
-                <SyncNovelsButton novelList={novelList} userNovel={userNovel} />
+                <AddNovelButton session={session} isOnline={isOnline} />
+                <AnimatedIconButton label={'Search filter'} isActive={sfVisible} onClick={() => setSfVisible(!sfVisible)} animation={'svg-animate-scale'} shape={'M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75'} isDisabled={false} />
+                <SyncNovelsButton novelList={novelList} userNovel={userNovel} isOnline={isOnline} />
             </div>
             <div hidden={!sfVisible}>
                 <NovelSearchFilter
