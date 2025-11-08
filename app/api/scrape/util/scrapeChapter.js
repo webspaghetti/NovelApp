@@ -27,6 +27,76 @@ function generateWatermarkRegex(pattern) {
     return new RegExp(regexPattern, 'gi');
 }
 
+function findAndCleanWatermarks(rawContent, patterns) {
+    // Create a normalized version for detection
+    const normalizedContent = unhomoglyph(rawContent);
+
+    // Find matches in normalized content, but extract from original using the matched text
+    const matchedTexts = new Set();
+
+    patterns.forEach(pattern => {
+        let match;
+        pattern.lastIndex = 0;
+
+        while ((match = pattern.exec(normalizedContent)) !== null) {
+            // Store the matched normalized text
+            matchedTexts.add(match[0]);
+        }
+    });
+
+    if (matchedTexts.size === 0) {
+        return {
+            cleanedContent: rawContent,
+            removedCount: 0,
+            removedRanges: []
+        };
+    }
+
+    // Now find these patterns in the ORIGINAL content by searching for sequences
+    // that normalize to the matched text
+    let cleanedContent = rawContent;
+    const removedRanges = [];
+
+    matchedTexts.forEach(normalizedMatch => {
+        // Create a sliding window to find where this normalized pattern appears in original
+        const normalizedMatchLower = normalizedMatch.toLowerCase();
+
+        // Search through original content
+        let searchPos = 0;
+        while (searchPos < cleanedContent.length) {
+            // Try increasingly longer substrings from searchPos
+            let found = false;
+            for (let len = normalizedMatch.length; len <= normalizedMatch.length * 4; len++) {
+                const candidate = cleanedContent.substring(searchPos, searchPos + len);
+                const normalizedCandidate = unhomoglyph(candidate).toLowerCase();
+
+                if (normalizedCandidate === normalizedMatchLower) {
+                    // Found it! Remove this section
+                    removedRanges.push({
+                        position: searchPos,
+                        length: len,
+                        preview: candidate.substring(0, 50)
+                    });
+
+                    cleanedContent = cleanedContent.slice(0, searchPos) + cleanedContent.slice(searchPos + len);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                searchPos++;
+            }
+        }
+    });
+
+    return {
+        cleanedContent,
+        removedCount: removedRanges.length,
+        removedRanges
+    };
+}
+
 async function scrapeChapter(page, url, sourceName) {
     const config = sourceConfig[sourceName].chapter_scraper;
 
@@ -70,7 +140,7 @@ async function scrapeChapter(page, url, sourceName) {
 
 
     try {
-        // Extract content from the page first
+        // Extract RAW content without any normalization
         const rawContent = await page.evaluate(({ selectors }) => {
             const titleElement = document.querySelector(selectors.title);
             const contentElement = document.querySelector(selectors.content);
@@ -94,21 +164,17 @@ async function scrapeChapter(page, url, sourceName) {
             selectors: config.selectors
         });
 
-        // Normalize homoglyphs in Node.js context where unhomoglyph is available
-        let chapterContent = unhomoglyph(rawContent.chapterContent);
+        // Clean watermarks using position-based approach (only for watermark patterns)
+        const { cleanedContent, removedCount, removedRanges } =
+            findAndCleanWatermarks(rawContent.chapterContent, generatedWatermarkPatterns);
 
-        // Combine source-specific and common patterns
-        const allPatterns = [
-            ...generatedWatermarkPatterns,
-            ...commonPatternsConfig
-        ];
-
-        // Apply cleanup patterns
-        allPatterns.forEach(pattern => {
+        // Apply common cleanup patterns (simple regex replace)
+        let chapterContent = cleanedContent;
+        commonPatternsConfig.forEach(pattern => {
             chapterContent = chapterContent.replace(pattern, '');
         });
 
-        // HTML cleanup step
+        // HTML entity cleanup
         chapterContent = chapterContent
             .replace(/<br\s*\/?>/gi, '\n')
             .replace(/&nbsp;/g, ' ')
@@ -120,10 +186,19 @@ async function scrapeChapter(page, url, sourceName) {
             .replace(/\n{3,}/g, '\n\n');
 
         console.log(`Success: ${rawContent.chapterTitle}`);
+        // Watermark logging
+        /*if (removedCount > 0) {
+            console.log(`Removed ${removedCount} watermark(s)`);
+            console.log('Removed watermarks:', removedRanges);
+        }*/
 
         return {
             chapterTitle: rawContent.chapterTitle,
-            chapterContent
+            chapterContent,
+            metadata: {
+                watermarksRemoved: removedCount,
+                cleaningDetails: removedRanges
+            }
         };
 
     } catch (error) {
