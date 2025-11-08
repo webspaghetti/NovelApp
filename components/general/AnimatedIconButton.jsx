@@ -1,8 +1,9 @@
-function AnimatedIconButton({ onClick, label, animation, shape, isActive }){
+function AnimatedIconButton({ onClick, label, animation, shape, isActive, isDisabled }){
     return (
         <button
             onClick={onClick}
-            className={`group flex items-center text-secondary md:pl-4 ${animation} relative ${isActive ? 'bg-primary text-secondary' : ''}`}
+            disabled={isDisabled}
+            className={`group flex items-center text-secondary md:pl-4 ${animation} disabled:opacity-60 relative ${isActive ? 'bg-primary text-secondary' : ''}`}
             aria-label={label}
         >
             <svg
