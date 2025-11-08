@@ -6,8 +6,36 @@ import Image from "next/image";
 import Link from "next/link";
 
 
-function NovelList({ novelList, initialUserNovel, session  }) {
-    const [userNovel, setUserNovel] = useState(initialUserNovel)
+function NovelList({ novelList, initialUserNovel, session, isOnline }) {
+    const [userNovel, setUserNovel] = useState(initialUserNovel);
+    const [cachedNovels, setCachedNovels] = useState(new Set());
+
+    // Check which novels are cached
+    useEffect(() => {
+        async function checkCachedNovels() {
+            if ('caches' in window) {
+                try {
+                    const cache = await caches.open('pages');
+                    const requests = await cache.keys();
+                    const cached = new Set();
+
+                    for (const request of requests) {
+                        const url = new URL(request.url);
+                        const pathname = url.pathname;
+                        cached.add(pathname);
+                    }
+
+                    setCachedNovels(cached);
+                } catch (error) {
+                    console.error('Error checking cache:', error);
+                }
+            }
+        }
+
+        if (!isOnline) {
+            checkCachedNovels();
+        }
+    }, [isOnline]);
 
 
     useEffect(() => {
@@ -24,12 +52,19 @@ function NovelList({ novelList, initialUserNovel, session  }) {
                 console.error('Error fetching user novel:', error);
             }
         }
-        fetchUserNovel();
-    }, [initialUserNovel]);
 
+        if (isOnline) {
+            fetchUserNovel();
+        }
+    }, [session.user.id, isOnline]);
+
+    // Filter novels based on online status and cache availability
+    const filteredNovelList = isOnline
+        ? novelList
+        : novelList.filter(novel => cachedNovels.has(`/${novel.formatted_name}`));
 
     return (
-        novelList.map((novel) => {
+        filteredNovelList.map((novel) => {
             const unObject = userNovel[novel.id];
             const currentChapter = unObject && unObject.current_chapter !== null ? unObject.current_chapter : 0;
             const progressPercentage = currentChapter / novel.chapter_count * 100;
@@ -37,12 +72,11 @@ function NovelList({ novelList, initialUserNovel, session  }) {
             return (
                 <div key={novel.id} className={"card glassy-animation"} style={{ height: "auto" }}>
                     <Link href={`/${novel.formatted_name}?${novel.source}`}>
-                        <Image src={unObject.image_url_alternative ?? novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"} draggable="false" priority={true} />
-
+                        <Image src={unObject?.image_url_alternative ?? novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"} draggable="false" priority={true} />
                         <div className="m-4 max-sm:hidden">
                             <div className="h-10 mb-2 flex items-center justify-center">
                                 <div className="text-secondary font-bold text-lg line-clamp-2 overflow-hidden">
-                                    {unObject.name_alternative ?? novel.name}
+                                    {unObject?.name_alternative ?? novel.name}
                                 </div>
                             </div>
                             <span className={"flex items-center justify-center text-gray-400 text-sm"}>
