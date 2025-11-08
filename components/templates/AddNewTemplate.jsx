@@ -99,7 +99,7 @@ function AddNewTemplate({ userId, userTemplateList }) {
         let templates;
 
         try {
-            const response = await fetch(`/api/templates?userId=${userId}`);
+            const response = await fetch(`/api/templates?userId=${encodeURIComponent(userId)}`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch customization templates');

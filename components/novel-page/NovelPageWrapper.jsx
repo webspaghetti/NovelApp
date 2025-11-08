@@ -78,7 +78,7 @@ function NovelPageWrapper({ novel, userNovel, session, userTemplateList }) {
     useEffect(() => {
         async function fetchUserNovel() {
             try {
-                const res = await fetch(`/api/user_novel?userId=${session.user.id}&novelId=${novel.id}`);
+                const res = await fetch(`/api/user_novel?userId=${encodeURIComponent(session.user.id)}&novelId=${encodeURIComponent(novel.id)}`);
                 if (!res.ok) throw new Error('Failed to fetch user novel');
                 const data = await res.json();
                 setUserNovelState(data[0]);

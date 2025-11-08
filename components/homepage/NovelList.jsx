@@ -41,7 +41,7 @@ function NovelList({ novelList, initialUserNovel, session, isOnline }) {
     useEffect(() => {
         async function fetchUserNovel() {
             try {
-                const res = await fetch(`/api/user_novel?userId=${session.user.id}`);
+                const res = await fetch(`/api/user_novel?userId=${encodeURIComponent(session.user.id)}`);
                 if (!res.ok) throw new Error('Failed to fetch user novel');
                 const data = await res.json();
                 const progressObj = data.reduce((acc, item) => {
