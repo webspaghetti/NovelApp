@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { getUserTemplates } from "@/lib/commonQueries";
 import AddNewReaderTemplate from "@/components/templates/AddNewReaderTemplate";
-import EditTemplate from "@/components/templates/EditReaderTemplate";
+import EditReaderTemplate from "@/components/templates/EditReaderTemplate";
 import NavBar from "@/components/general/layout/NavBar";
 
 
@@ -45,7 +45,7 @@ async function Page() {
                                     <label className="text-xs sm:text-sm font-medium text-gray-300 mb-2 sm:mb-3">
                                         Add New Template
                                     </label>
-                                    <AddNewReaderTemplate userId={session.user.id} userTemplateList={userTemplateList} />
+                                    <AddNewReaderTemplate userId={session.user.id} userTemplateList={readerTemplateList} />
                                 </div>
 
                                 {/* Edit Reader Template */}
@@ -53,7 +53,7 @@ async function Page() {
                                     <label className="text-xs sm:text-sm font-medium text-gray-300 mb-2 sm:mb-3">
                                         Edit Template
                                     </label>
-                                    <EditTemplate userId={session.user.id} userTemplateList={userTemplateList} />
+                                    <EditReaderTemplate userId={session.user.id} userTemplateList={readerTemplateList} />
                                 </div>
                             </div>
                         </section>
