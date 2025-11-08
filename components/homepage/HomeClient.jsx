@@ -1,5 +1,5 @@
 "use client"
-import { useState, useMemo } from 'react';
+import {useState, useMemo, useEffect} from 'react';
 import { parseRelativeTime } from "@/app/helper-functions/parseRelativeTime";
 import { isValidDate } from "@/app/helper-functions/isValidDate";
 import NovelList from "@/components/homepage/NovelList";
@@ -14,6 +14,26 @@ function HomeClient({ novelList, userNovel, session }) {
     const [statusFilter, setStatusFilter] = useState('all');
     const [sortOption, setSortOption] = useState('default');
     const [sfVisible, setSfVisible] = useState(false)
+
+    const [isOnline, setIsOnline] = useState(
+        typeof window !== 'undefined' ? navigator.onLine : true
+    );
+
+    // Track online/offline status
+    useEffect(() => {
+        setIsOnline(navigator.onLine);
+
+        const handleOnline = () => setIsOnline(true);
+        const handleOffline = () => setIsOnline(false);
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, []);
 
 
     const unObj = useMemo(() => {
@@ -133,16 +153,22 @@ function HomeClient({ novelList, userNovel, session }) {
 
             <div className="w-full h-[4px] bg-gradient-to-r from-primary via-secondary to-primary relative top-[76px] max-sm:top-[70px] mb-8 max-sm:mb-4 rounded-full" />
 
-            <div className={'max-md:flex max-md:justify-center'}>
-                <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-4 gap-5 md:gap-10 relative top-20 max-sm:pb-3 pb-9"}>
-                    {filteredAndSortedNovels.length > 0 ? (
-                        <NovelList novelList={filteredAndSortedNovels} initialUserNovel={unObj} session={session} />
-                    ) : (
-                        <div className="col-span-full text-center max-sm:text-base text-lg text-gray-400 py-10">
-                            No novels found matching your filters.
-                        </div>
-                    )}
+            {/* Offline indicator */}
+            {!isOnline && (
+                <div className="relative top-20 mt-4 mb-4 p-4 bg-yellow-600/20 border border-yellow-500/30 rounded-lg text-center">
+                    <p className="text-yellow-400 font-semibold">You are currently offline</p>
+                    <p className="text-yellow-400/70 text-sm mt-1">Only recently visited novels are available</p>
                 </div>
+            )}
+
+            <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-4 gap-5 md:gap-10 relative top-20 max-sm:pb-3 pb-9"}>
+                {filteredAndSortedNovels.length > 0 ? (
+                    <NovelList novelList={filteredAndSortedNovels} initialUserNovel={unObj} session={session} isOnline={isOnline} />
+                ) : (
+                    <div className="col-span-full text-center max-sm:text-base text-lg text-gray-400 py-10">
+                        No novels found matching your filters.
+                    </div>
+                )}
             </div>
         </main>
     );
