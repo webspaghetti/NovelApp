@@ -2,11 +2,21 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNovelLoading } from "@/components/novel-page/NovelPageWrapper";
+import { offlineCapableFetch } from "@/lib/offlineSync";
 import CircularProgress from "@mui/material/CircularProgress";
 
 
-function ChapterButtonsList({ novel, userNovel }) {
-    const { isLoading, loadingChapter, setLoadingChapter, collapsedStyle } = useNovelLoading();
+function ChapterButtonsList({ novel, userNovel, isOnline }) {
+    const {
+        isLoading,
+        loadingChapter,
+        setLoadingChapter,
+        collapsedStyle,
+        downloadMode,
+        selectedChapters,
+        setSelectedChapters,
+        downloadedChapters
+    } = useNovelLoading();
     const router = useRouter();
 
     const loadingCheck = loadingChapter !== null || isLoading;
@@ -36,9 +46,106 @@ function ChapterButtonsList({ novel, userNovel }) {
         });
     }
 
-    function handleChapterClick(chapterNumber) {
-        setLoadingChapter(chapterNumber);
-        router.push(`/${novel.formatted_name}/${chapterNumber}?${novel.source}`);
+    async function handleChapterClick(chapterNumber) {
+        if (downloadMode) {
+            // In download mode: toggle chapter selection
+            setSelectedChapters(prev => {
+                const newSet = new Set(prev);
+                if (newSet.has(chapterNumber)) {
+                    newSet.delete(chapterNumber);
+                } else {
+                    newSet.add(chapterNumber);
+                }
+                return newSet;
+            });
+        } else {
+
+            setLoadingChapter(chapterNumber);
+
+            // Navigate to appropriate page
+            if (!isOnline && downloadedChapters.has(chapterNumber)) {
+                // Offline mode: Store ALL necessary data and go to offline reader
+                sessionStorage.setItem("offlineChapter", JSON.stringify({
+                    novelId: novel.id,
+                    chapterNumber: chapterNumber,
+                    formattedName: novel.formatted_name,
+                    source: novel.source,
+                    chapterCount: novel.chapter_count,
+                }));
+
+                await offlineCapableFetch("/api/user_novel/update-progress", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        novelId: novel.id,
+                        chapter: chapterNumber,
+                        formattedName: novel.formatted_name,
+                        source: novel.source
+                    })
+                });
+                router.push("/offline-reader");
+            } else {
+                // Online mode: normal navigation
+                router.push(`/${novel.formatted_name}/${chapterNumber}?${novel.source}`);
+            }
+        }
+    }
+
+    function getButtonStyles(chapterNumber) {
+        const isSelected = selectedChapters.has(chapterNumber);
+        const isDownloaded = downloadedChapters.has(chapterNumber);
+        const isRead = readChaptersJson.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber;
+        const isCurrent = userNovel?.current_chapter === chapterNumber;
+        const isUnavailableOffline = !isOnline && !isDownloaded;
+
+        let classes = "normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary relative transition-all";
+
+        if (downloadMode) {
+            // Download mode styles
+            if (isSelected) {
+                classes += " !border-blue-500 !bg-blue-600";
+            } else if (isDownloaded) {
+                classes += " !border-2 !border-blue-500/50 !bg-blue-900/30";
+            }
+        } else {
+            // Normal mode styles
+            if (isUnavailableOffline) {
+                classes += " !bg-gray-700/50 !text-gray-500 !border-gray-600/50";
+            } else if (isRead) {
+                classes += " border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400";
+                if (isDownloaded) {
+                    classes += " !bg-blue-800 hover:bg-blue-800 !border-blue-800";
+                }
+            } else if (isCurrent) {
+                classes += " border-green-600 !bg-green-600";
+                if (isDownloaded) {
+                    classes += " border-blue-600 ring-2 ring-blue-600";
+                }
+            } else if (isDownloaded) {
+                classes += " !border-blue-600 !bg-blue-600 hover:bg-blue-600 ";
+            }
+        }
+
+        if (loadingCheck && !downloadMode) {
+            classes += " opacity-60";
+        }
+
+        return classes;
+    }
+
+    function renderButtonContent(chapterNumber) {
+        return (
+            <>
+                <p className={`max-sm:text-base ${loadingChapter === chapterNumber ? 'invisible' : ''}`}>
+                    Chapter {chapterNumber}
+                </p>
+                {loadingChapter === chapterNumber && (
+                    <span className="absolute inset-0 flex items-center justify-center">
+                        <CircularProgress sx={{color: "#FAFAFA"}} size={20} thickness={8} />
+                    </span>
+                )}
+            </>
+        );
     }
 
     // Render collapsed style
@@ -66,6 +173,14 @@ function ChapterButtonsList({ novel, userNovel }) {
 
         return (
             <div className="mt-4 pb-4">
+                {/* Offline indicator */}
+                {!isOnline && (
+                    <div className="mt-4 mb-4 p-4 bg-yellow-600/20 border border-yellow-500/30 rounded-lg text-center">
+                        <p className="text-yellow-400 font-semibold">You are currently offline</p>
+                        <p className="text-yellow-400/70 text-sm mt-1">Only downloaded chapters are available</p>
+                    </div>
+                )}
+
                 {groupedChapters.map((group) => {
                     const isOpen = openSections.has(group.breakpoint);
                     const hasCurrentChapter = userNovel?.current_chapter >= group.endChapter && userNovel?.current_chapter <= group.startChapter;
@@ -96,37 +211,16 @@ function ChapterButtonsList({ novel, userNovel }) {
 
                             {isOpen && (
                                 <div className="grid max-sm:grid-cols-3 grid-cols-5 gap-4 justify-center items-center mt-4">
-                                    {group.chapters.map((chapterNumber) => {
-                                        const buttonContent = (
-                                            <>
-                                                <p className={`max-sm:text-base ${loadingChapter === chapterNumber ? 'invisible' : ''}`}>
-                                                    Chapter {chapterNumber}
-                                                </p>
-                                                {loadingChapter === chapterNumber && (
-                                                    <span className="absolute inset-0 flex items-center justify-center">
-                                                        <CircularProgress sx={{color: "#FAFAFA"}} size={20} thickness={8} />
-                                                    </span>
-                                                )}
-                                            </>
-                                        );
-
-                                        return (
-                                            <button
-                                                key={`chapter-${chapterNumber}`}
-                                                onClick={(e) => handleChapterClick(chapterNumber)}
-                                                disabled={loadingCheck}
-                                                className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary relative ${
-                                                    readChaptersJson.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
-                                                } ${
-                                                    userNovel?.current_chapter === chapterNumber ? 'border-green-600 !bg-green-600' : ''
-                                                } ${
-                                                    loadingCheck ? 'opacity-60' : ''
-                                                }`}
-                                            >
-                                                {buttonContent}
-                                            </button>
-                                        );
-                                    })}
+                                    {group.chapters.map((chapterNumber) => (
+                                        <button
+                                            key={`chapter-${chapterNumber}`}
+                                            onClick={() => handleChapterClick(chapterNumber)}
+                                            disabled={(loadingCheck && !downloadMode) || (!isOnline && !downloadedChapters.has(chapterNumber))}
+                                            className={getButtonStyles(chapterNumber)}
+                                        >
+                                            {renderButtonContent(chapterNumber)}
+                                        </button>
+                                    ))}
                                 </div>
                             )}
                         </div>
@@ -138,64 +232,49 @@ function ChapterButtonsList({ novel, userNovel }) {
 
     // Render expanded style
     return (
-        <div className="grid max-sm:grid-cols-3 grid-cols-5 gap-4 justify-center items-center mt-4 pb-4">
-            {Array.from({ length: novel.chapter_count }, (_, index) => {
-                const chapterNumber = novel.chapter_count - index;
-                const isBreakpoint = (chapterNumber % 100) === 0;
+        <div>
+            {/* Offline indicator */}
+            {!isOnline && (
+                <div className="mt-4 mb-4 p-4 bg-yellow-600/20 border border-yellow-500/30 rounded-lg text-center">
+                    <p className="text-yellow-400 font-semibold">You are currently offline</p>
+                    <p className="text-yellow-400/70 text-sm mt-1">Only downloaded chapters are available</p>
+                </div>
+            )}
 
-                const buttonContent = (
-                    <>
-                        <p className={`max-sm:text-base ${loadingChapter === chapterNumber ? 'invisible' : ''}`}>
-                            Chapter {chapterNumber}
-                        </p>
-                        {loadingChapter === chapterNumber && (
-                            <span className="absolute inset-0 flex items-center justify-center">
-                                <CircularProgress sx={{color: "#FAFAFA"}} size={20} thickness={8} />
-                            </span>
-                        )}
-                    </>
-                );
+            <div className="grid max-sm:grid-cols-3 grid-cols-5 gap-4 justify-center items-center mt-4 pb-4">
+                {Array.from({ length: novel.chapter_count }, (_, index) => {
+                    const chapterNumber = novel.chapter_count - index;
+                    const isBreakpoint = (chapterNumber % 100) === 0;
 
-                if (isBreakpoint) {
-                    return (
-                        <React.Fragment key={`fragment${chapterNumber/100}`}>
-                            <h1 key={`breakPoint${chapterNumber/100}`} className="col-span-full max-sm:text-xl text-2xl font-bold text-center my-4 text-secondary link_outline select-none">
-                                Chapters {chapterNumber} - {chapterNumber - 99}
-                            </h1>
+                    if (isBreakpoint) {
+                        return (
+                            <React.Fragment key={`fragment${chapterNumber/100}`}>
+                                <h1 key={`breakPoint${chapterNumber/100}`} className="col-span-full max-sm:text-xl text-2xl font-bold text-center my-4 text-secondary link_outline select-none">
+                                    Chapters {chapterNumber} - {chapterNumber - 99}
+                                </h1>
+                                <button
+                                    onClick={() => handleChapterClick(chapterNumber)}
+                                    disabled={(loadingCheck && !downloadMode) || (!isOnline && !downloadedChapters.has(chapterNumber))}
+                                    className={getButtonStyles(chapterNumber)}
+                                >
+                                    {renderButtonContent(chapterNumber)}
+                                </button>
+                            </React.Fragment>
+                        );
+                    } else {
+                        return (
                             <button
-                                onClick={(e) => handleChapterClick(chapterNumber)}
-                                disabled={loadingCheck}
-                                className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary relative ${
-                                    readChaptersJson.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
-                                } ${
-                                    userNovel?.current_chapter === chapterNumber ? 'border-green-600 !bg-green-600' : ''
-                                } ${
-                                    loadingCheck ? 'opacity-60' : ''
-                                }`}
+                                key={`chapter-${chapterNumber}`}
+                                onClick={() => handleChapterClick(chapterNumber)}
+                                disabled={(loadingCheck && !downloadMode) || (!isOnline && !downloadedChapters.has(chapterNumber))}
+                                className={getButtonStyles(chapterNumber)}
                             >
-                                {buttonContent}
+                                {renderButtonContent(chapterNumber)}
                             </button>
-                        </React.Fragment>
-                    );
-                } else {
-                    return (
-                        <button
-                            key={`chapter-${chapterNumber}`}
-                            onClick={(e) => handleChapterClick(chapterNumber)}
-                            disabled={loadingCheck}
-                            className={`normal-case px-4 py-2 rounded-md text-lg flex justify-center items-center bg-primary relative ${
-                                readChaptersJson.includes(chapterNumber) && userNovel?.current_chapter !== chapterNumber ? 'border-[#3d2a84] !bg-[#3d2a84] hover:bg-[#3d2a84] text-gray-400 hover:text-gray-400' : ''
-                            } ${
-                                userNovel?.current_chapter === chapterNumber ? 'border-green-600 !bg-green-600' : ''
-                            } ${
-                                loadingCheck ? 'opacity-60' : ''
-                            }`}
-                        >
-                            {buttonContent}
-                        </button>
-                    );
-                }
-            })}
+                        );
+                    }
+                })}
+            </div>
         </div>
     );
 }
