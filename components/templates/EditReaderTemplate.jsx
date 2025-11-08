@@ -60,8 +60,8 @@ function AddNewTemplate({ userTemplateList }) {
     function handleClose(){
         setIsCancelAlertOpen(false)
         setIsDialogOpen(false);
-        setActiveTab('text')
-        setSelectedTemplate("")
+        setActiveTab('text');
+        setSelectedTemplate("");
     }
 
     async function handleSave() {
