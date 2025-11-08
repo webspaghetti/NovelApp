@@ -18,7 +18,7 @@ import NavigationTab from "@/components/templates/tabs/reader/NavigationTab";
 const inter = Inter({ subsets: ["latin"] });
 
 
-function AddNewTemplate({ userTemplateList }) {
+function EditReaderTemplate({ userTemplateList }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('text');
@@ -427,4 +427,4 @@ function AddNewTemplate({ userTemplateList }) {
 }
 
 
-export default AddNewTemplate;
+export default EditReaderTemplate;
