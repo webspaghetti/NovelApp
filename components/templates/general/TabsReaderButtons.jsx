@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function TabsButtons({ activeTab, setActiveTab, isLoading }) {
+function TabsReaderButtons({ activeTab, setActiveTab, isLoading }) {
     return (
         <div className={`mb-6 ${isLoading ? 'pointer-events-none opacity-60' : ''}`} aria-disabled={isLoading}>
             <div className="rounded-xl max-sm:p-0 p-1.5 flex gap-1 overflow-x-auto">
@@ -76,4 +76,4 @@ function TabsButtons({ activeTab, setActiveTab, isLoading }) {
 }
 
 
-export default TabsButtons;
+export default TabsReaderButtons;
