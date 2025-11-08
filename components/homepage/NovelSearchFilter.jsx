@@ -144,9 +144,10 @@ function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, curren
                             onChange={(e) => onSortChange(e.target.value)}
                             className="appearance-none w-full px-3 py-2 bg-navbar border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                         >
-                            <option value="default">Default</option>
-                            <option value="last-read">Last read</option>
-                            <option value="oldest-read">Oldest read</option>
+                            <option value="added-asc">Latest Added</option>
+                            <option value="added-desc">Oldest Added</option>
+                            <option value="last-read">Last Read</option>
+                            <option value="oldest-read">Oldest Read</option>
                             <option value="name-asc">Name (A-Z)</option>
                             <option value="name-desc">Name (Z-A)</option>
                             <option value="progress-asc">Progress (Low to High)</option>

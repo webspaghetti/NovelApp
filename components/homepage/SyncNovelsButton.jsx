@@ -17,7 +17,7 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
     const [selectedNovels, setSelectedNovels] = useState(new Set());
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
-    const [sortOption, setSortOption] = useState("default");
+    const [sortOption, setSortOption] = useState("added-asc");
 
 
     // Create a lookup object mapping novel IDs to user novel data
@@ -47,6 +47,12 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
 
         // Sort
         switch (sortOption) {
+            case 'added-asc':
+                filtered.sort((a, b) => a.id - b.id);
+                break;
+            case 'added-desc':
+                filtered.sort((a, b) => b.id - a.id);
+                break;
             case "name-asc":
                 filtered.sort((a, b) => {
                     const nameA = unObj[a.id]?.name_alternative || a.name;
@@ -94,9 +100,6 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                     const lastReadB = unObj[b.id]?.last_read ? new Date(unObj[b.id].last_read).getTime() : 0;
                     return lastReadA - lastReadB; // ascending order, oldest first
                 });
-                break;
-            default:
-                // Keep original order
                 break;
         }
 
@@ -402,7 +405,8 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                             <div className="relative">
                                 <label className="block text-sm font-semibold text-secondary mb-2 text-left select-none">Sort By</label>
                                 <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="appearance-none w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
-                                    <option value="default">Default</option>
+                                    <option value="added-asc">Latest Added</option>
+                                    <option value="added-desc">Oldest Added</option>
                                     <option value="last-read">Last read</option>
                                     <option value="oldest-read">Oldest read</option>
                                     <option value="name-asc">Name (A-Z)</option>

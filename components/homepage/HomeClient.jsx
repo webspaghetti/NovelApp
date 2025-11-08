@@ -12,7 +12,7 @@ import AnimatedIconButton from "@/components/general/AnimatedIconButton";
 function HomeClient({ novelList, userNovel, session }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
-    const [sortOption, setSortOption] = useState('default');
+    const [sortOption, setSortOption] = useState('added-asc');
     const [sfVisible, setSfVisible] = useState(false)
 
     const [isOnline, setIsOnline] = useState(
@@ -62,6 +62,12 @@ function HomeClient({ novelList, userNovel, session }) {
 
         // Apply sorting
         switch (sortOption) {
+            case 'added-asc':
+                filtered.sort((a, b) => a.id - b.id);
+                break;
+            case 'added-desc':
+                filtered.sort((a, b) => b.id - a.id);
+                break;
             case 'last-read':
                 filtered.sort((a, b) => {
                     const lastReadA = unObj[a.id]?.last_read ? new Date(unObj[a.id].last_read).getTime() : 0;
