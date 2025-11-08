@@ -161,7 +161,7 @@ function HomeClient({ novelList, userNovel, session }) {
                 </div>
             )}
 
-            <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-4 gap-5 md:gap-10 relative top-20 max-sm:pb-3 pb-9"}>
+            <div className={"grid grid-cols-2 md:grid-cols-3 max-sm:gap-6 gap-10 relative top-20 max-sm:pb-3 pb-9"}>
                 {filteredAndSortedNovels.length > 0 ? (
                     <NovelList novelList={filteredAndSortedNovels} initialUserNovel={unObj} session={session} isOnline={isOnline} />
                 ) : (
