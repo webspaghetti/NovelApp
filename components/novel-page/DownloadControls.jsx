@@ -1,8 +1,10 @@
 "use client"
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNovelLoading } from "@/components/novel-page/NovelPageWrapper";
 import { saveChapter, deleteChapter, deleteChaptersByNovel } from "@/lib/indexed-db";
 import CircularProgress from "@mui/material/CircularProgress";
+import AlertDialog from "@/components/general/AlertDialog";
+import RangeDialog from "@/components/general/RangeDialog";
 import sourceConfig from "@/config/sourceConfig";
 
 
@@ -22,6 +24,11 @@ function DownloadControls({ novel, downloadControls }) {
 
 
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [error, setError] = useState(null)
+    const [showRangeDialog, setShowRangeDialog] = useState(false);
+
+    const [startRangeValue, setStartRangeValue] = useState(1)
+    const [endRangeValue, setEndRangeValue] = useState(novel.chapter_count)
 
 
     async function downloadChapters() {
@@ -190,12 +197,27 @@ function DownloadControls({ novel, downloadControls }) {
     }
 
 
-    function selectRange() {
-        const start = parseInt(prompt("Start chapter:"));
-        const end = parseInt(prompt("End chapter:"));
+    function handleRangeClose(){
+        setShowRangeDialog(false);
+        setStartRangeValue(1);
+        setEndRangeValue(novel.chapter_count);
+        setError("");
+    }
 
-        if (isNaN(start) || isNaN(end) || start < 1 || end > novel.chapter_count || start > end) {
-            alert("Invalid range");
+    function selectRange() {
+        const start = Number(startRangeValue);
+        const end = Number(endRangeValue);
+
+        if (!start || !end) {
+            setError("Please enter both values");
+            return;
+        }
+        if (start >= end) {
+            setError("Start must be less than end");
+            return;
+        }
+        if (end > novel.chapter_count) {
+            setError("End must not exceed number of chapters");
             return;
         }
 
@@ -203,7 +225,13 @@ function DownloadControls({ novel, downloadControls }) {
         for (let i = start; i <= end; i++) {
             range.add(i);
         }
+
         setSelectedChapters(range);
+        setShowRangeDialog(false);
+
+        setStartRangeValue(1);
+        setEndRangeValue(novel.chapter_count);
+        setError("");
     }
 
 
@@ -267,7 +295,7 @@ function DownloadControls({ novel, downloadControls }) {
                                     Undownloaded
                                 </button>
                                 <button
-                                    onClick={selectRange}
+                                    onClick={() => setShowRangeDialog(true)}
                                     disabled={isDownloading}
                                     className={"px-3 py-2 rounded-lg text-sm bg-navbar hover:bg-gray-800 border border-gray-700 text-secondary disabled:opacity-50 transition-all"}
                                 >
@@ -353,31 +381,31 @@ function DownloadControls({ novel, downloadControls }) {
                 </div>
             )}
 
-            {/* Delete confirmation modal */}
-            {showDeleteConfirm && (
-                <div className={"fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"} onClick={() => setShowDeleteConfirm(false)}>
-                    <div className={"bg-gradient-to-b from-main_background to-[#070707] border border-gray-700 p-6 rounded-2xl shadow-cardB max-w-md mx-4"} onClick={(e) => e.stopPropagation()}>
-                        <h3 className={"text-xl font-semibold text-secondary mb-4"}>Delete All Downloaded Chapters?</h3>
-                        <p className={"text-gray-400 mb-6"}>
-                            This will delete all {downloadedChapters.size} downloaded chapters for this novel. This action cannot be undone.
-                        </p>
-                        <div className={"flex gap-3 justify-end"}>
-                            <button
-                                onClick={() => setShowDeleteConfirm(false)}
-                                className={"px-4 py-2 rounded-lg bg-navbar hover:bg-gray-800 border border-gray-700 text-secondary transition-all"}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={deleteAllChapters}
-                                className={"px-4 py-2 rounded-lg bg-red-700 hover:bg-red-800 border border-red-800 text-white transition-all"}
-                            >
-                                Delete All
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+
+            <RangeDialog
+                isOpen={showRangeDialog}
+                title="Select Chapter Download Range"
+                message="Enter start and end values"
+                minPlaceholder="Start"
+                maxPlaceholder="End"
+                minValue={startRangeValue}
+                setMinValue={setStartRangeValue}
+                maxValue={endRangeValue}
+                setMaxValue={setEndRangeValue}
+                onConfirm={selectRange}
+                onCancel={handleRangeClose}
+                error={error}
+            />
+
+            <AlertDialog
+                isOpen={showDeleteConfirm}
+                title="Delete All Downloaded Chapters?"
+                message={`This will delete all ${downloadedChapters.size} downloaded chapters for this novel. This action cannot be undone.`}
+                confirmText="Delete All"
+                cancelText="Cancel"
+                onConfirm={deleteAllChapters}
+                onCancel={() => setShowDeleteConfirm(false)}
+            />
         </div>
     ) : null;
 }
