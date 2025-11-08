@@ -3,7 +3,7 @@ import Image from "next/image";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function NavigationTab({ settings, setSettings, handleRestore, editMode }) {
-    const [isHoveredNav, setIsHoveredNav] = useState(false);
+    const [isHoveredPrevious, setIsHoveredPrevious] = useState(false);
     const [isHoveredBack, setIsHoveredBack] = useState(false);
     const [isHoveredNext, setIsHoveredNext] = useState(false);
 
@@ -580,11 +580,11 @@ function NavigationTab({ settings, setSettings, handleRestore, editMode }) {
                             <div className="flex justify-between items-center">
                                 {/* Previous Button */}
                                 <button
-                                    onMouseEnter={() => setIsHoveredNav(true)}
-                                    onMouseLeave={() => setIsHoveredNav(false)}
+                                    onMouseEnter={() => setIsHoveredPrevious(true)}
+                                    onMouseLeave={() => setIsHoveredPrevious(false)}
                                     className="transition-all"
                                     style={{
-                                        backgroundColor: isHoveredNav
+                                        backgroundColor: isHoveredPrevious
                                             ? settings.menu.navigation_buttons.background_color_hover
                                             : settings.menu.navigation_buttons.background_color,
                                         border: `${settings.menu.navigation_buttons.border_width} solid ${settings.menu.navigation_buttons.border_color}`,
