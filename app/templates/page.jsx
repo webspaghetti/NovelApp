@@ -4,6 +4,8 @@ import { getUserTemplates } from "@/lib/commonQueries";
 import AddNewReaderTemplate from "@/components/templates/AddNewReaderTemplate";
 import EditReaderTemplate from "@/components/templates/EditReaderTemplate";
 import NavBar from "@/components/general/layout/NavBar";
+import AddNewGeneralTemplate from "@/components/templates/AddNewGeneralTemplate";
+import EditGeneralTemplate from "@/components/templates/EditGeneralTemplate";
 
 
 async function Page() {
@@ -60,11 +62,11 @@ async function Page() {
                             </div>
                         </section>
 
-                        {/* Overall Page Customization Section */}
+                        {/* General Page Customization Section */}
                         <section>
                             <div className="mb-4 sm:mb-6">
                                 <h2 className="text-lg sm:text-xl font-semibold text-gray-200 mb-1">
-                                    Overall Page Customization
+                                    General Page Customization
                                 </h2>
                                 <p className="text-xs sm:text-sm text-gray-400">
                                     Customize the entire page layout and styling
@@ -76,17 +78,7 @@ async function Page() {
                                     <label className="text-xs sm:text-sm font-medium text-gray-300 mb-2 sm:mb-3">
                                         Add New Template
                                     </label>
-                                    <button
-                                        aria-label="Add Page Customization Template"
-                                        className="group relative px-4 py-6 sm:px-6 sm:py-8 text-sm text-gray-400 flex flex-col items-center justify-center bg-main_background border-2 border-dashed border-gray-700 rounded-xl sm:hover:border-green-500 sm:hover:bg-gray-800/50 transition-all duration-300"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12 sm:size-16 mb-2 sm:mb-3 sm:group-hover:scale-105 sm:group-hover:text-green-500 transition-all duration-300">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-                                        <span className="text-xs font-medium sm:group-hover:text-green-500 transition-colors">
-                                            Create Template
-                                        </span>
-                                    </button>
+                                    <AddNewGeneralTemplate userId={session.user.id} userTemplateList={generalTemplateList} />
                                 </div>
 
                                 {/* Edit Page Template */}
@@ -94,17 +86,7 @@ async function Page() {
                                     <label className="text-xs sm:text-sm font-medium text-gray-300 mb-2 sm:mb-3">
                                         Edit Template
                                     </label>
-                                    <button
-                                        aria-label="Delete Page Customization Template"
-                                        className="group relative px-4 py-6 sm:px-6 sm:py-8 text-sm text-gray-400 flex flex-col items-center justify-center bg-main_background border-2 border-gray-700 rounded-xl sm:hover:border-blue-500/50 sm:hover:bg-gray-800/50 transition-all duration-300"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-12 sm:size-16 mb-2 sm:mb-3 sm:group-hover:scale-105 sm:group-hover:text-blue-500 transition-all duration-300">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-                                        <span className="text-xs font-medium sm:group-hover:text-blue-500 transition-colors">
-                                            Edit Template
-                                        </span>
-                                    </button>
+                                    <EditGeneralTemplate userId={session.user.id} userTemplateList={generalTemplateList} />
                                 </div>
                             </div>
                         </section>
