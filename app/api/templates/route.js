@@ -42,11 +42,11 @@ export async function POST(request) {
 
 export async function PUT(request) {
     try {
-        const { id, readerCustomization } = await request.json();
+        const { id, readerCustomization, templateName } = await request.json();
 
         const [result] = await pool.query(
-            'UPDATE templates SET customization = ? WHERE id = ?',
-            [JSON.stringify(readerCustomization), id]
+            'UPDATE templates SET customization = ?, name = ? WHERE id = ?',
+            [JSON.stringify(readerCustomization), templateName, id]
         );
 
         return NextResponse.json({ id: result.insertId, readerCustomization }, { status: 201 });
