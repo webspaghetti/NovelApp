@@ -104,7 +104,7 @@ function NovelList({ novelList, initialUserNovel, session, isOnline }) {
                         <div className="m-2 sm:hidden">
                             <div className="h-10 mb-2 flex items-center justify-center">
                                 <div className="text-secondary font-bold text-sm line-clamp-2 overflow-hidden">
-                                    {novel.name}
+                                    {unObject?.name_alternative ?? novel.name}
                                 </div>
                             </div>
                             <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
