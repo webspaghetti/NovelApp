@@ -94,7 +94,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
     }
 
     // Template handlers
-    const handleNormalTemplateChange = (e) => {
+    function handleNormalTemplateChange(e) {
         const templateId = Number(e.target.value);
 
         const newTemplate = adjustedTemplateList.find(t => t.id === templateId);
@@ -102,9 +102,9 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
         if (newTemplate?.customization) {
             setNormalUserTemplate(templateId);
         }
-    };
+    }
 
-    const handleSmallTemplateChange = (e) => {
+    function handleSmallTemplateChange(e) {
         const templateId = Number(e.target.value);
 
         const newTemplate = adjustedTemplateList.find(t => t.id === templateId);
@@ -112,7 +112,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
         if (newTemplate?.customization) {
             setSmallUserTemplate(templateId);
         }
-    };
+    }
 
     function handleDownloadButton() {
         setDownloadControls(!downloadControls);
