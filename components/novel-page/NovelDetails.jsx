@@ -10,8 +10,8 @@ import NovelSettingsPopup from "@/components/novel-page/NovelSettingsPopup";
 import CircularProgress from "@mui/material/CircularProgress";
 
 
-function NovelDetails({ novel, userNovel, userTemplateList }) {
-    const { isLoading, setIsLoading, loadingChapter, setLoadingChapter, collapsedStyle, setCollapsedStyle } = useNovelLoading();
+function NovelDetails({ novel, userNovel, userTemplateList, downloadControls, setDownloadControls, isOnline }) {
+    const { isLoading, setIsLoading, loadingChapter, setLoadingChapter, collapsedStyle, setCollapsedStyle, isDownloading } = useNovelLoading();
 
     const loadingCheck = isLoading || loadingChapter !== null;
 
@@ -87,7 +87,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
 
                     <button
                         className="text-secondary p-1 disabled:opacity-60 order-2 max-sm:order-1"
-                        disabled={Boolean(loadingCheck)}
+                        disabled={Boolean(loadingCheck) || !isOnline || isDownloading}
                         onClick={() => setPopupTrigger(true)}
                         title="Settings"
                     >
@@ -148,13 +148,13 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
                     )}
                     </span>
                 </p>
-                <Link className={`disabled:${loadingCheck} ${loadingCheck ? 'opacity-60' : ''}`} href={`/${novel.formatted_name}/${chapterToPrefetch}?${novel.source}`}
+                <Link className={`disabled:${loadingCheck} ${loadingCheck ? 'opacity-60' : ''} ${!isOnline ? "hidden" : ""}`} href={`/${novel.formatted_name}/${chapterToPrefetch}?${novel.source}`}
                       onClick={() => {
                           setIsLoading(true);
                           setLoadingChapter(chapterToPrefetch);
                       }}
                 >
-                    <button className={`my-2 py-2 px-6 rounded-lg max-sm:px-4 shadow-md ${loadingCheck ? 'flex justify-center items-center gap-2' : ''}`} disabled={Boolean(isLoading)}>
+                    <button className={`my-2 py-2 px-6 rounded-lg max-sm:px-4 shadow-md disabled:opacity-60 ${loadingCheck ? 'flex justify-center items-center gap-2' : ''}`} disabled={Boolean(isLoading) || !isOnline || isDownloading}>
                         <p className="max-sm:text-sm">
                             {userNovel?.current_chapter === null
                                 ? 'Start reading'
@@ -171,7 +171,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
                 </div>
                 <div className={"w-full flex justify-between pt-4 sm:hidden"}>
                     <button
-                        className="text-secondary p-1 disabled:opacity-60 order-1 max-sm:order-2"
+                        className="text-secondary p-1 order-1 max-sm:order-2"
                         disabled={Boolean(loadingCheck)}
                         onClick={() => setCollapsedStyle(!collapsedStyle)}
                         title={collapsedStyle ? "Switch to expanded view" : "Switch to collapsed view"}
@@ -189,7 +189,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
 
                     <button
                         className="text-secondary p-1 disabled:opacity-60 order-2 max-sm:order-1"
-                        disabled={Boolean(loadingCheck)}
+                        disabled={Boolean(loadingCheck) || !isOnline || isDownloading}
                         onClick={() => setPopupTrigger(true)}
                         title="Settings"
                     >
@@ -200,7 +200,7 @@ function NovelDetails({ novel, userNovel, userTemplateList }) {
                 </div>
             </div>
 
-            <NovelSettingsPopup trigger={popupTrigger} setTrigger={setPopupTrigger} novel={novel} userNovel={userNovel} userTemplateList={userTemplateList} />
+            <NovelSettingsPopup trigger={popupTrigger} setTrigger={setPopupTrigger} novel={novel} userNovel={userNovel} userTemplateList={userTemplateList} downloadControls={downloadControls} setDownloadControls={setDownloadControls} />
         </div>
     );
 }
