@@ -8,7 +8,7 @@ import AlertDialog from "@/components/general/AlertDialog";
 const inter = Inter({ subsets: ["latin"] });
 
 
-function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplateList }) {
+function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplateList, downloadControls, setDownloadControls }) {
     const router = useRouter();
 
     const originalName = novel.name;
@@ -113,6 +113,11 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
             setSmallUserTemplate(templateId);
         }
     };
+
+    function handleDownloadButton() {
+        setDownloadControls(!downloadControls);
+        setTrigger(false);
+    }
 
     // Restore handler
     async function handleRestore(field){
@@ -503,6 +508,29 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
                                             This is the second paragraph. The block spacing controls the gap between these paragraphs.
                                         </p>
                                     </div>
+                                </div>
+                            </div>
+
+                            {/* Download Controls button */}
+                            <div className={"mt-4"}>
+                                <div className="flex flex-row justify-between items-center mb-2">
+                                    <label className="text-gray-300 text-sm font-semibold" htmlFor="smallTemplate">
+                                        Toggle Download Controls
+                                    </label>
+                                    <button
+                                        disabled={isLoading}
+                                        className={`p-2 rounded-lg border transition-all ${
+                                            downloadControls === true
+                                                ? 'bg-primary border-primary text-secondary'
+                                                : 'bg-navbar border-gray-700 text-gray-400 hover:text-secondary'
+                                        } disabled:opacity-50`}
+                                        onClick={handleDownloadButton}
+                                        title="Download Controls"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
