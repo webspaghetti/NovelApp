@@ -69,8 +69,8 @@ function AddNewReaderTemplate({ userId, userTemplateList }) {
         setIsCancelAlertOpen(false)
         setIsDialogOpen(false);
         setSettings(defaultSettings);
-        setSelectedPreset(defaultSettings)
-        setActiveTab('text')
+        setSelectedPreset(defaultSettings);
+        setActiveTab('text');
     }
 
     async function handleSave() {
