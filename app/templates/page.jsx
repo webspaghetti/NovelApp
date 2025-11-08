@@ -10,6 +10,8 @@ async function Page() {
     const session = await getServerSession(authOptions);
 
     const userTemplateList = await getUserTemplates(session.user.id);
+    const readerTemplateList = userTemplateList.filter(template => template.type === "reader");
+    const generalTemplateList = userTemplateList.filter(template => template.type === "general");
 
 
     return (
