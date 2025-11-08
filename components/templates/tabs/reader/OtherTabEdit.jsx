@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 function OtherTab({ settings, setSettings, handleRestore, inter, templateName, setTemplateName, originalTemplateName }){
+    const [isHoveredPrevious, setIsHoveredPrevious] = useState(false);
+    const [isHoveredBack, setIsHoveredBack] = useState(false);
+    const [isHoveredNext, setIsHoveredNext] = useState(false);
+
+
     return (
         <>
             <h1 className={"text-center text-secondary thin_link_outline mb-3 sm:hidden"}>Other</h1>
@@ -180,7 +187,7 @@ function OtherTab({ settings, setSettings, handleRestore, inter, templateName, s
                 {/* Preview */}
                 <div>
                     <p className="text-xs text-gray-400 mb-1 select-none">Final Preview:</p>
-                    <div className="p-4 border border-gray-700 rounded-lg overflow-auto" style={{
+                    <div className="border border-gray-700 rounded-lg overflow-auto" style={{
                         height: '300px',
                         backgroundColor: settings.background.color,
                         backgroundImage: settings.background.image !== 'none' ? `url(${settings.background.image})` : 'none',
@@ -189,75 +196,225 @@ function OtherTab({ settings, setSettings, handleRestore, inter, templateName, s
                         backgroundAttachment: settings.background.attachment,
                         backgroundRepeat: settings.background.repeat
                     }}>
-                        <div className="max-sm:p-4 p-8" style={{ minHeight: '500px' }}>
-                            <h3 className={`text_outline ${settings.title.outline}`} style={{
-                                '--shadow-color': settings.title.outline_color,
-                                fontFamily: settings.title.family === 'Inter' ? inter.style.fontFamily : settings.title.family,
-                                fontSize: settings.title.size,
-                                fontWeight: settings.title.weight,
-                                color: settings.chapter_title_color,
-                                borderBottom: `${settings.text.separator_width} solid ${settings.text.separator_color}`,
-                                lineHeight: settings.title_spacing.line_height,
-                                wordSpacing: settings.title_spacing.word_spacing,
-                                letterSpacing: settings.title_spacing.letter_spacing
-                            }}>
-                                Chapter 42: The Adventure Begins
-                            </h3>
-                            <div className={`text_outline ${settings.text.outline}`} style={{
-                                '--shadow-color': settings.text.outline_color,
-                                fontFamily: settings.text.family === 'Inter' ? inter.style.fontFamily : settings.text.family,
-                                fontSize: settings.text.size,
-                                fontWeight: settings.text.weight,
-                                color: settings.chapter_content_color,
-                            }}>
-                                <p style={{
-                                    margin: `${settings.text_spacing.block_spacing} 0`,
-                                    lineHeight: settings.text_spacing.line_height,
-                                    wordSpacing: settings.text_spacing.word_spacing,
-                                    letterSpacing: settings.text_spacing.letter_spacing
+                        {!settings.menu.navbar_hidden && (
+                            <div
+                                className="w-full select-none px-4 py-2"
+                                style={{
+                                    backgroundColor: settings.menu.nav_color,
+                                    color: settings.menu.text_color
+                                }}
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <Image
+                                            src={"/logo.png"}
+                                            alt={"NovelApp logo"}
+                                            width={24}
+                                            height={24}
+                                            quality={100}
+                                        />
+                                        <span
+                                            className="text-sm link_outline"
+                                            style={{
+                                                color: settings.menu.text_color,
+                                                '--outline-color': settings.menu.outline_color
+                                            }}
+                                        >NovelApp</span>
+                                    </div>
+                                    <div className="flex items-center gap-4">
+                                        <span className="text-xs navbar_outline_base max-sm:hidden" style={{
+                                            color: settings.menu.text_color,
+                                            '--outline-color': settings.menu.outline_color}}>
+                                            Home
+                                        </span>
+                                        <span className="text-xs navbar_outline_base" style={{
+                                            color: settings.menu.text_color,
+                                            '--outline-color': settings.menu.outline_color
+                                        }}
+                                        >About
+                                        </span>
+                                        <span className="text-xs navbar_outline_base" style={{
+                                            color: settings.menu.text_color,
+                                            '--outline-color': settings.menu.outline_color
+                                        }}
+                                        >Templates
+                                        </span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            className="size-6 sm:hover:ring-2 max-sm:ring-2 rounded-full transition-all"
+                                            style={{
+                                                '--tw-ring-color': settings.menu.outline_color,
+                                            }}
+                                        >
+                                            <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        <div className={"p-4"}>
+                            {/* Back Button */}
+                            <div className={"mt-2"}>
+                                <button
+                                    onMouseEnter={() => setIsHoveredBack(true)}
+                                    onMouseLeave={() => setIsHoveredBack(false)}
+                                    className="transition-all"
+                                    style={{
+                                        backgroundColor: isHoveredBack
+                                            ? settings.menu.navigation_buttons.background_color_hover
+                                            : settings.menu.navigation_buttons.background_color,
+                                        border: `${settings.menu.navigation_buttons.border_width} solid ${settings.menu.navigation_buttons.border_color}`,
+                                        borderRadius: settings.menu.navigation_buttons.border_radius,
+                                        padding: settings.menu.navigation_buttons.padding
+                                    }}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={settings.menu.navigation_buttons.icon_stroke_size}
+                                        stroke={settings.menu.navigation_buttons.icon_color}
+                                        style={{
+                                            width: settings.menu.navigation_buttons.icon_size,
+                                            height: settings.menu.navigation_buttons.icon_size
+                                        }}
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div className="max-sm:p-4 px-8 pt-4" style={{ minHeight: '500px' }}>
+                                <h3 className={`text_outline text-center ${settings.title.outline}`} style={{
+                                    '--shadow-color': settings.title.outline_color,
+                                    fontFamily: settings.title.family === 'Inter' ? inter.style.fontFamily : settings.title.family,
+                                    fontSize: settings.title.size,
+                                    fontWeight: settings.title.weight,
+                                    color: settings.chapter_title_color,
+                                    borderBottom: `${settings.text.separator_width} solid ${settings.text.separator_color}`,
+                                    lineHeight: settings.title_spacing.line_height,
+                                    wordSpacing: settings.title_spacing.word_spacing,
+                                    letterSpacing: settings.title_spacing.letter_spacing
                                 }}>
-                                    This is the first paragraph. Notice the spacing between lines, words, and letters.
-                                </p>
-                                <p style={{
-                                    margin: `${settings.text_spacing.block_spacing} 0`,
-                                    lineHeight: settings.text_spacing.line_height,
-                                    wordSpacing: settings.text_spacing.word_spacing,
-                                    letterSpacing: settings.text_spacing.letter_spacing
+                                    Chapter 42: The Adventure Begins
+                                </h3>
+                                <div className={`text_outline ${settings.text.outline}`} style={{
+                                    '--shadow-color': settings.text.outline_color,
+                                    fontFamily: settings.text.family === 'Inter' ? inter.style.fontFamily : settings.text.family,
+                                    fontSize: settings.text.size,
+                                    fontWeight: settings.text.weight,
+                                    color: settings.chapter_content_color,
+                                    borderBottom: `${settings.text.separator_width} solid ${settings.text.separator_color}`
                                 }}>
-                                    This is the second paragraph. The block spacing controls the gap between these paragraphs.
-                                </p>
-                                <p style={{
-                                    margin: `${settings.text_spacing.block_spacing} 0`,
-                                    lineHeight: settings.text_spacing.line_height,
-                                    wordSpacing: settings.text_spacing.word_spacing,
-                                    letterSpacing: settings.text_spacing.letter_spacing
-                                }}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
-                                </p>
-                                <p style={{
-                                    margin: `${settings.text_spacing.block_spacing} 0`,
-                                    lineHeight: settings.text_spacing.line_height,
-                                    wordSpacing: settings.text_spacing.word_spacing,
-                                    letterSpacing: settings.text_spacing.letter_spacing
-                                }}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
-                                </p>
-                                <p style={{
-                                    margin: `${settings.text_spacing.block_spacing} 0`,
-                                    lineHeight: settings.text_spacing.line_height,
-                                    wordSpacing: settings.text_spacing.word_spacing,
-                                    letterSpacing: settings.text_spacing.letter_spacing
-                                }}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
-                                </p>
-                                <p style={{
-                                    margin: `${settings.text_spacing.block_spacing} 0`,
-                                    lineHeight: settings.text_spacing.line_height,
-                                    wordSpacing: settings.text_spacing.word_spacing,
-                                    letterSpacing: settings.text_spacing.letter_spacing
-                                }}>
-                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
-                                </p>
+                                    <p style={{
+                                        margin: `${settings.text_spacing.block_spacing} 0`,
+                                        lineHeight: settings.text_spacing.line_height,
+                                        wordSpacing: settings.text_spacing.word_spacing,
+                                        letterSpacing: settings.text_spacing.letter_spacing
+                                    }}>
+                                        This is the first paragraph. Notice the spacing between lines, words, and letters.
+                                    </p>
+                                    <p style={{
+                                        margin: `${settings.text_spacing.block_spacing} 0`,
+                                        lineHeight: settings.text_spacing.line_height,
+                                        wordSpacing: settings.text_spacing.word_spacing,
+                                        letterSpacing: settings.text_spacing.letter_spacing
+                                    }}>
+                                        This is the second paragraph. The block spacing controls the gap between these paragraphs.
+                                    </p>
+                                    <p style={{
+                                        margin: `${settings.text_spacing.block_spacing} 0`,
+                                        lineHeight: settings.text_spacing.line_height,
+                                        wordSpacing: settings.text_spacing.word_spacing,
+                                        letterSpacing: settings.text_spacing.letter_spacing
+                                    }}>
+                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
+                                    </p>
+                                    <p style={{
+                                        margin: `${settings.text_spacing.block_spacing} 0`,
+                                        lineHeight: settings.text_spacing.line_height,
+                                        wordSpacing: settings.text_spacing.word_spacing,
+                                        letterSpacing: settings.text_spacing.letter_spacing
+                                    }}>
+                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
+                                    </p>
+                                    <p style={{
+                                        margin: `${settings.text_spacing.block_spacing} 0`,
+                                        lineHeight: settings.text_spacing.line_height,
+                                        wordSpacing: settings.text_spacing.word_spacing,
+                                        letterSpacing: settings.text_spacing.letter_spacing
+                                    }}>
+                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
+                                    </p>
+                                    <p style={{
+                                        margin: `${settings.text_spacing.block_spacing} 0`,
+                                        lineHeight: settings.text_spacing.line_height,
+                                        wordSpacing: settings.text_spacing.word_spacing,
+                                        letterSpacing: settings.text_spacing.letter_spacing
+                                    }}>
+                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Praesent vitae arcu tempor neque lacinia pretium.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Chapter Navigation */}
+                            <div>
+                                <div className="flex justify-between items-center">
+                                    {/* Previous Button */}
+                                    <button
+                                        onMouseEnter={() => setIsHoveredPrevious(true)}
+                                        onMouseLeave={() => setIsHoveredPrevious(false)}
+                                        className="transition-all"
+                                        style={{
+                                            backgroundColor: isHoveredPrevious
+                                                ? settings.menu.navigation_buttons.background_color_hover
+                                                : settings.menu.navigation_buttons.background_color,
+                                            border: `${settings.menu.navigation_buttons.border_width} solid ${settings.menu.navigation_buttons.border_color}`,
+                                            borderRadius: settings.menu.navigation_buttons.border_radius,
+                                            padding: settings.menu.navigation_buttons.padding
+                                        }}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            strokeWidth={settings.menu.navigation_buttons.icon_stroke_size}
+                                            stroke={settings.menu.navigation_buttons.icon_color}
+                                            style={{
+                                                width: settings.menu.navigation_buttons.icon_size,
+                                                height: settings.menu.navigation_buttons.icon_size
+                                            }}
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                  d="M15.75 19.5 8.25 12l7.5-7.5"/>
+                                        </svg>
+                                    </button>
+
+                                    {/* Next Button with Loading State */}
+                                    <button
+                                        onMouseEnter={() => setIsHoveredNext(true)}
+                                        onMouseLeave={() => setIsHoveredNext(false)}
+                                        className="transition-all disabled:opacity-60"
+                                        disabled={true}
+                                        style={{
+                                            backgroundColor: isHoveredNext
+                                                ? settings.menu.navigation_buttons.background_color_hover
+                                                : settings.menu.navigation_buttons.background_color,
+                                            border: `${settings.menu.navigation_buttons.border_width} solid ${settings.menu.navigation_buttons.border_color}`,
+                                            borderRadius: settings.menu.navigation_buttons.border_radius,
+                                            padding: settings.menu.navigation_buttons.padding
+                                        }}
+                                    >
+                                        <CircularProgress
+                                            sx={{color: settings.menu.navigation_buttons.icon_color}}
+                                            size={settings.menu.navigation_buttons.icon_size}
+                                            thickness={settings.menu.navigation_buttons.progress_bar_thickness}
+                                        />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
