@@ -99,6 +99,7 @@ function EditReaderTemplate({ userTemplateList }) {
                 body: JSON.stringify({
                     id: editingTemplate.id,
                     readerCustomization: mergedSettings,
+                    templateName: templateName,
                 }),
             });
 
