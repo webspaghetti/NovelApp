@@ -131,6 +131,7 @@ function AddNewReaderTemplate({ userId, userTemplateList }) {
                     userId: userId,
                     templateName: templateName,
                     readerCustomization: mergedSettings,
+                    type: "reader",
                 }),
             });
 
