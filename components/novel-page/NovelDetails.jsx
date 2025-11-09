@@ -24,6 +24,7 @@ function NovelDetails({ novel, userNovel, userTemplateList, downloadControls, se
 
     // Prefetch the chapter user will read
     useEffect(() => {
+        if (!isOnline) return ;
         const prefetchChapter = async () => {
             if (hasPrefetchedRef.current) return;
             hasPrefetchedRef.current = true;
