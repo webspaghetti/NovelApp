@@ -439,7 +439,7 @@ function ChapterPageWrapper({ novelData, chapter: initialChapter, currentChapter
 
     return (
         <>
-            <NavBar customizationTemplate={customizationTemplate} />
+            <NavBar customizationTemplate={customizationTemplate} chapterPage={true} />
             <ChapterStyleWrapper customizationTemplate={customizationTemplate}>
                 <main className={`mt-0 mb-0 ${customizationTemplate.horizontal_reading ? "px-1 mx-1 max-w-full" : "px-5 overflow-x-hidden"}`}>
 
