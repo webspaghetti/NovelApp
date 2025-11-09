@@ -59,11 +59,11 @@ export async function POST(request) {
 
 export async function PUT(request) {
     try {
-        const { formattedName, chapterCount, status, latestUpdate } = await request.json();
+        const { novelId, chapterCount, status, latestUpdate } = await request.json();
 
         const [result] = await pool.query(
-            'UPDATE novel_table SET chapter_count = ?, status = ?, latest_update = ? WHERE formatted_name = ?',
-            [chapterCount, status, latestUpdate, formattedName]
+            'UPDATE novel_table SET chapter_count = ?, status = ?, latest_update = ?, last_synced_at = NOW() WHERE id = ?',
+            [chapterCount, status, latestUpdate, novelId]
         );
 
         if (result.affectedRows === 0) {

@@ -222,7 +222,7 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                 // console.log(`Processing batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(novels.length / BATCH_SIZE)}...`);
 
                 const batchResults = await Promise.all(
-                    batch.map(novel => syncNovelData(novel.formatted_name, novel.source))
+                    batch.map(novel => syncNovelData(novel.id, novel.formatted_name, novel.source))
                 );
                 results.push(...batchResults);
 
@@ -259,7 +259,7 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
         }
     }
 
-    async function syncNovelData(formattedName, source, retries = 2) {
+    async function syncNovelData(novelId, formattedName, source, retries = 2) {
         for (let attempt = 0; attempt <= retries; attempt++) {
             try {
                 // Add a small delay between attempts to avoid overwhelming the server
@@ -312,7 +312,7 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            formattedName,
+                            novelId,
                             chapterCount: parsedChapterCount,
                             status: updatedStatus,
                             latestUpdate: formattedLastUpdate,
