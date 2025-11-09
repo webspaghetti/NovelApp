@@ -1,6 +1,7 @@
 "use client"
 import { createContext, useContext, useEffect, useState } from "react";
 import { getChaptersByNovel } from "@/lib/indexed-db";
+import { getCollapsedStyleCookie, setCollapsedStyleCookie } from "@/lib/cookies";
 import NovelDetails from "@/components/novel-page/NovelDetails";
 import ChapterButtonsList from "@/components/novel-page/ChapterButtonsList";
 import DownloadControls from "@/components/novel-page/DownloadControls";
@@ -23,7 +24,11 @@ function NovelPageWrapper({ novel, userNovel, session, userTemplateList }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChapter, setLoadingChapter] = useState(null);
     const [userNovelState, setUserNovelState] = useState(userNovel);
-    const [collapsedStyle, setCollapsedStyle] = useState(false);
+
+    // Initialize collapsedStyle from cookie
+    const [collapsedStyle, setCollapsedStyleState] = useState(() => {
+        return getCollapsedStyleCookie(novel.id);
+    });
 
     // Download mode states
     const [downloadMode, setDownloadMode] = useState(false);
@@ -53,6 +58,13 @@ function NovelPageWrapper({ novel, userNovel, session, userTemplateList }) {
             window.removeEventListener('offline', handleOffline);
         };
     }, []);
+
+    // Wrapper function to update both state and cookie
+    function setCollapsedStyle(value) {
+        const newValue = typeof value === 'function' ? value(collapsedStyle) : value;
+        setCollapsedStyleState(newValue);
+        setCollapsedStyleCookie(novel.id, newValue);
+    }
 
     const value = {
         isLoading,
