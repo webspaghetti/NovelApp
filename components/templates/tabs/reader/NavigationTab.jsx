@@ -518,7 +518,7 @@ function NavigationTab({ settings, setSettings, handleRestore, editMode }) {
                                             color: settings.menu.text_color,
                                             '--outline-color': settings.menu.outline_color
                                         }}
-                                        >About
+                                        >Sources
                                         </span>
                                         <span className="text-xs navbar_outline_base" style={{
                                             color: settings.menu.text_color,
