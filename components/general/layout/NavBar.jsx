@@ -53,12 +53,12 @@ function NavBar({ customizationTemplate, chapterPage = false }) {
                             Home
                         </p>
                     </Link>
-                    <Link href={"/about"}>
+                    <Link href={"/sources"}>
                         <p
                             className="navbar_outline_base"
                             style={{'--outline-color': outlineColor}}
                         >
-                            About
+                            Sources
                         </p>
                     </Link>
                     <Link href={"/templates"}>
