@@ -530,22 +530,22 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                                             type="checkbox"
                                             checked={selectedNovels.has(novel.formatted_name)}
                                             onChange={() => {}}
-                                            className="w-4 h-4 rounded accent-green-600 cursor-pointer"
+                                            className="w-4 h-4 rounded accent-green-600 cursor-pointer flex-shrink-0"
                                         />
-                                        <div className="flex-1 text-left">
+                                        <div className="flex-1 min-w-0 text-left">
                                             <div className="text-white font-medium line-clamp-1 overflow-hidden">{unObj[novel.id]?.name_alternative ?? novel.name}</div>
-                                            <div className="text-sm text-gray-400 flex items-center gap-2">
+                                            <div className="text-sm text-gray-400 flex flex-wrap items-center gap-x-2 gap-y-1">
                                                 <span className={statusColors[novel.status]}>
                                                     {novel.status}
                                                 </span>
-                                                <span className={"select-none"}>•</span>
-                                                <span>{novel.latest_update}</span>
-                                                <span className={"select-none"}>•</span>
-                                                <span>{novel.chapter_count} Chapters</span>
+                                                <span className="select-none hidden sm:inline">•</span>
+                                                <span className="whitespace-nowrap">{novel.latest_update}</span>
+                                                <span className="select-none hidden sm:inline">•</span>
+                                                <span className="whitespace-nowrap">{novel.chapter_count} Chapters</span>
                                                 {unObj[novel.id].last_read ? (
                                                     <>
-                                                        <span className={"select-none"}>•</span>
-                                                        <span>Last read {dateFormatter(unObj[novel.id].last_read)}</span>
+                                                        <span className="select-none hidden sm:inline">•</span>
+                                                        <span className="whitespace-nowrap">Last read {dateFormatter(unObj[novel.id].last_read)}</span>
                                                     </>
                                                 ) : null}
                                             </div>
