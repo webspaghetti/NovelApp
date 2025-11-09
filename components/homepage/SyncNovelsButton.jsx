@@ -1,10 +1,10 @@
 "use client"
 import sourceConfig from "@/config/sourceConfig"
-import { useState, useMemo } from "react";
-import { dateFormatter } from "@/app/helper-functions/dateFormatter";
-import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
-import { parseRelativeTime } from "@/app/helper-functions/parseRelativeTime";
 import { isValidDate } from "@/app/helper-functions/isValidDate";
+import { dateFormatterFull } from "@/app/helper-functions/dateFormatterFull";
+import { useState, useMemo } from "react";
+import { parseRelativeTime } from "@/app/helper-functions/parseRelativeTime";
+import { isMoreThanTwoMonthsOld } from "@/app/helper-functions/isMoreThanTwoMonthsOld";
 import { fetchNovelByFormattedNameAndSource } from "@/app/api/novels/util/fetchNovelByFormattedNameAndSource";
 import LoadingOverlay from "@/components/general/LoadingOverlay";
 import AnimatedIconButton from "@/components/general/AnimatedIconButton";
@@ -554,12 +554,8 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                                                 <span className="whitespace-nowrap">{novel.latest_update}</span>
                                                 <span className="select-none hidden sm:inline">•</span>
                                                 <span className="whitespace-nowrap">{novel.chapter_count} Chapters</span>
-                                                {unObj[novel.id].last_read ? (
-                                                    <>
-                                                        <span className="select-none hidden sm:inline">•</span>
-                                                        <span className="whitespace-nowrap">Last read {dateFormatter(unObj[novel.id].last_read)}</span>
-                                                    </>
-                                                ) : null}
+                                                <span className="select-none hidden sm:inline">•</span>
+                                                <span className="whitespace-nowrap">Last Sync {dateFormatterFull(novel.last_synced_at)}</span>
                                             </div>
                                         </div>
                                     </div>
