@@ -1,6 +1,6 @@
 import React from "react";
 
-function NovelProfileCard({ novelData, title, icon, subtitle, parseReadChapters }) {
+function NovelProfileCard({ novelData, title, icon, subtitle }) {
     if (!novelData) {
         return (
             <div className="bg-gradient-to-b from-main_background to-[#070707] rounded-2xl p-6 border border-gray-800">
@@ -8,7 +8,7 @@ function NovelProfileCard({ novelData, title, icon, subtitle, parseReadChapters 
                     {icon}
                     <h3 className="text-lg font-semibold">{title}</h3>
                 </div>
-                <p className="text-gray-400">No novels yet</p>
+                <p className="text-gray-400">No novels to show</p>
             </div>
         );
     }
