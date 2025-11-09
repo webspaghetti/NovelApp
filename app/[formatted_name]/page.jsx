@@ -19,7 +19,7 @@ async function Page({ params, searchParams }) {
     }
 
     const userNovel = await getUserNovel(session.user.id, novel.id);
-    const userTemplateList = await getUserTemplates(session.user.id);
+    const userTemplateList = (await getUserTemplates(session.user.id)).filter(template => template.type === "reader");
 
     if (!userNovel) {
         notFound();
