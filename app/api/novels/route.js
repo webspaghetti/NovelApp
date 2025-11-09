@@ -45,7 +45,7 @@ export async function POST(request) {
 
         // Insert the new novel into the database
         const [result] = await pool.query(
-            'INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url, source) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO novel_table (name, formatted_name, chapter_count, status, latest_update, image_url, source, last_synced_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())',
             [name, formattedName, chapterCount, status, latestUpdate, imageUrl, source]
         );
 
