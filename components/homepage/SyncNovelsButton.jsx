@@ -390,21 +390,16 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                         <div className="grid grid-cols-2 gap-3 mb-4">
                             <div className="relative">
                                 <label className="block text-sm font-semibold text-secondary mb-2 text-left select-none">Status</label>
-                                <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="appearance-none w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
+                                <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
                                     <option value="all">All Status</option>
                                     <option value="Completed">Completed</option>
                                     <option value="OnGoing">On Going</option>
                                     <option value="Hiatus">Hiatus</option>
                                 </select>
-                                <div className="pointer-events-none absolute bottom-2 right-3 text-secondary">
-                                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 12a1 1 0 01-.7-.3l-4-4a1 1 0 111.4-1.4L10 9.6l3.3-3.3a1 1 0 011.4 1.4l-4 4a1 1 0 01-.7.3z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
                             </div>
                             <div className="relative">
                                 <label className="block text-sm font-semibold text-secondary mb-2 text-left select-none">Sort By</label>
-                                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="appearance-none w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
+                                <select value={sortOption} onChange={(e) => setSortOption(e.target.value)} className="w-full px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary select-none">
                                     <option value="added-asc">Latest Added</option>
                                     <option value="added-desc">Oldest Added</option>
                                     <option value="last-read">Last read</option>
@@ -416,11 +411,6 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                                     <option value="chapters-asc">Chapter Count (Low to High)</option>
                                     <option value="chapters-desc">Chapter Count (High to Low)</option>
                                 </select>
-                                <div className="pointer-events-none absolute bottom-2 right-3 text-secondary">
-                                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 12a1 1 0 01-.7-.3l-4-4a1 1 0 111.4-1.4L10 9.6l3.3-3.3a1 1 0 011.4 1.4l-4 4a1 1 0 01-.7.3z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
                             </div>
                         </div>
 
