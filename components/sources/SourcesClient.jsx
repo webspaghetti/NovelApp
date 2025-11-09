@@ -100,8 +100,8 @@ function SourcesClient({ templateList, userObject }){
                                             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
                                         </svg>
                                         <span className="text-sm font-medium break-all">
-                                                    {source.source.replace('https://', '')}
-                                                </span>
+                                            {source.source.replace('https://', '')}
+                                        </span>
                                     </div>
 
                                     {/* Visit button */}
@@ -126,8 +126,8 @@ function SourcesClient({ templateList, userObject }){
                                 <path d="M12 8h.01"/>
                             </svg>
                             <span className="text-gray-300 text-sm">
-                                        Currently <strong className="text-purple-400">{sources.length}</strong> novel sources active
-                                    </span>
+                                Currently <strong className="text-purple-400">{sources.length}</strong> novel sources active
+                            </span>
                         </div>
                     </div>
                 </div>
