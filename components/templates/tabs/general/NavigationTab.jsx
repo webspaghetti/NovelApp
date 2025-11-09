@@ -2,10 +2,10 @@ import React from "react";
 import Image from "next/image";
 
 function NavigationTab({ settings, setSettings, handleRestore }) {
-    function updateNavbar(key, value) {
+    function updateMenu(key, value) {
         setSettings(prev => ({
             ...prev,
-            navbar: {...prev.navbar, [key]: value}
+            menu: {...prev.menu, [key]: value}
         }));
     }
 
@@ -26,13 +26,13 @@ function NavigationTab({ settings, setSettings, handleRestore }) {
                                     <input
                                         type="color"
                                         value={settings.menu.nav_color}
-                                        onChange={(e) => updateNavbar('nav_color', e.target.value)}
+                                        onChange={(e) => updateMenu('nav_color', e.target.value)}
                                         className="w-12 h-10 flex-shrink-0 rounded border border-gray-700 cursor-pointer"
                                     />
                                     <input
                                         type="text"
                                         value={settings.menu.nav_color}
-                                        onChange={(e) => updateNavbar('nav_color', e.target.value)}
+                                        onChange={(e) => updateMenu('nav_color', e.target.value)}
                                         placeholder="#121212"
                                         className="flex-1 min-w-0 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary caret-primary"
                                     />
@@ -57,13 +57,13 @@ function NavigationTab({ settings, setSettings, handleRestore }) {
                                     <input
                                         type="color"
                                         value={settings.menu.text_color}
-                                        onChange={(e) => updateNavbar('text_color', e.target.value)}
+                                        onChange={(e) => updateMenu('text_color', e.target.value)}
                                         className="w-12 h-10 flex-shrink-0 rounded border border-gray-700 cursor-pointer"
                                     />
                                     <input
                                         type="text"
                                         value={settings.menu.text_color}
-                                        onChange={(e) => updateNavbar('text_color', e.target.value)}
+                                        onChange={(e) => updateMenu('text_color', e.target.value)}
                                         placeholder="#fafafa"
                                         className="flex-1 min-w-0 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary caret-primary"
                                     />
@@ -88,13 +88,13 @@ function NavigationTab({ settings, setSettings, handleRestore }) {
                                     <input
                                         type="color"
                                         value={settings.menu.outline_color}
-                                        onChange={(e) => updateNavbar('outline_color', e.target.value)}
+                                        onChange={(e) => updateMenu('outline_color', e.target.value)}
                                         className="w-12 h-10 flex-shrink-0 rounded border border-gray-700 cursor-pointer"
                                     />
                                     <input
                                         type="text"
                                         value={settings.menu.outline_color}
-                                        onChange={(e) => updateNavbar('outline_color', e.target.value)}
+                                        onChange={(e) => updateMenu('outline_color', e.target.value)}
                                         placeholder="#5e42cf"
                                         className="flex-1 min-w-0 px-3 py-2 bg-main_background border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary caret-primary"
                                     />
