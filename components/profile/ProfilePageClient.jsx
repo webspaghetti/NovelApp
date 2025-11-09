@@ -57,7 +57,7 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
 
 
     // Parse read_chapters if it's a string
-    const parseReadChapters = (chapters) => {
+    function parseReadChapters(chapters) {
         if (Array.isArray(chapters)) return chapters;
         if (typeof chapters === 'string') {
             try {
@@ -67,7 +67,7 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
             }
         }
         return [];
-    };
+    }
 
     // Calculate most used normal template
     const mostUsedNormalTemplate = useMemo(() => {
@@ -85,7 +85,15 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
         return adjustedTemplateList.find(t => t.id === parseInt(mostUsedId));
     }, [userNovels, adjustedTemplateList]);
 
-    const normalTemplatePreview = JSON.parse(mostUsedNormalTemplate?.customization);
+    let normalTemplatePreview = {};
+
+    try {
+        if (mostUsedNormalTemplate?.customization) {
+            normalTemplatePreview = JSON.parse(mostUsedNormalTemplate.customization);
+        }
+    } catch {
+        normalTemplatePreview = {};
+    }
 
     // Calculate most used small template
     const mostUsedSmallTemplate = useMemo(() => {
@@ -102,7 +110,15 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
         return adjustedTemplateList.find(t => t.id === parseInt(mostUsedId));
     }, [userNovels, adjustedTemplateList]);
 
-    const smallTemplatePreview = JSON.parse(mostUsedSmallTemplate?.customization);
+    let smallTemplatePreview = {};
+
+    try {
+        if (mostUsedSmallTemplate?.customization) {
+            smallTemplatePreview = JSON.parse(mostUsedSmallTemplate.customization);
+        }
+    } catch {
+        smallTemplatePreview = {};
+    }
 
     // Find last read novel with userNovel data
     const lastReadNovelData = useMemo(() => {
@@ -249,52 +265,56 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
                                 {mostUsedNormalTemplate?.name || 'No template used yet'}
                             </p>
 
-                            <div className="mt-4 p-3 sm:p-4 border border-gray-700 rounded-lg overflow-x-auto" style={{
-                                backgroundColor: normalTemplatePreview.background.color,
-                                backgroundImage: normalTemplatePreview.background.image !== 'none' ? `url(${normalTemplatePreview.background.image})` : 'none',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                            }}>
-                                <div>
-                                    <h3 className={`text_outline ${normalTemplatePreview.title.outline}`} style={{
-                                        '--shadow-color': normalTemplatePreview.title.outline_color,
-                                        fontFamily: normalTemplatePreview.title.family === 'Inter' ? inter.style.fontFamily : normalTemplatePreview.title.family,
-                                        fontSize: normalTemplatePreview.title.size,
-                                        fontWeight: normalTemplatePreview.title.weight,
-                                        color: normalTemplatePreview.chapter_title_color,
-                                        borderBottom: `${normalTemplatePreview.text.separator_width} solid ${normalTemplatePreview.text.separator_color}`,
-                                        lineHeight: normalTemplatePreview.title_spacing.line_height,
-                                        wordSpacing: normalTemplatePreview.title_spacing.word_spacing,
-                                        letterSpacing: normalTemplatePreview.title_spacing.letter_spacing
+                            {(Object.keys(normalTemplatePreview).length > 0) ?
+                                (
+                                    <div className="mt-4 p-3 sm:p-4 border border-gray-700 rounded-lg overflow-x-auto" style={{
+                                        backgroundColor: normalTemplatePreview.background.color,
+                                        backgroundImage: normalTemplatePreview.background.image !== 'none' ? `url(${normalTemplatePreview.background.image})` : 'none',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center'
                                     }}>
-                                        Chapter 42: The Adventure Begins
-                                    </h3>
-                                    <div className={`text_outline ${normalTemplatePreview.text.outline}`} style={{
-                                        '--shadow-color': normalTemplatePreview.text.outline_color,
-                                        fontFamily: normalTemplatePreview.text.family === 'Inter' ? inter.style.fontFamily : normalTemplatePreview.text.family,
-                                        fontSize: normalTemplatePreview.text.size,
-                                        fontWeight: normalTemplatePreview.text.weight,
-                                        color: normalTemplatePreview.chapter_content_color,
-                                    }}>
-                                        <p style={{
-                                            margin: `${normalTemplatePreview.text_spacing.block_spacing} 0`,
-                                            lineHeight: normalTemplatePreview.text_spacing.line_height,
-                                            wordSpacing: normalTemplatePreview.text_spacing.word_spacing,
-                                            letterSpacing: normalTemplatePreview.text_spacing.letter_spacing
-                                        }}>
-                                            This is the first paragraph. Notice the spacing between lines, words, and letters.
-                                        </p>
-                                        <p style={{
-                                            marginTop: normalTemplatePreview.text_spacing.block_spacing,
-                                            lineHeight: normalTemplatePreview.text_spacing.line_height,
-                                            wordSpacing: normalTemplatePreview.text_spacing.word_spacing,
-                                            letterSpacing: normalTemplatePreview.text_spacing.letter_spacing
-                                        }}>
-                                            This is the second paragraph. The block spacing controls the gap between these paragraphs.
-                                        </p>
+                                        <div>
+                                            <h3 className={`text_outline ${normalTemplatePreview.title.outline}`} style={{
+                                                '--shadow-color': normalTemplatePreview.title.outline_color,
+                                                fontFamily: normalTemplatePreview.title.family === 'Inter' ? inter.style.fontFamily : normalTemplatePreview.title.family,
+                                                fontSize: normalTemplatePreview.title.size,
+                                                fontWeight: normalTemplatePreview.title.weight,
+                                                color: normalTemplatePreview.chapter_title_color,
+                                                borderBottom: `${normalTemplatePreview.text.separator_width} solid ${normalTemplatePreview.text.separator_color}`,
+                                                lineHeight: normalTemplatePreview.title_spacing.line_height,
+                                                wordSpacing: normalTemplatePreview.title_spacing.word_spacing,
+                                                letterSpacing: normalTemplatePreview.title_spacing.letter_spacing
+                                            }}>
+                                                Chapter 42: The Adventure Begins
+                                            </h3>
+                                            <div className={`text_outline ${normalTemplatePreview.text.outline}`} style={{
+                                                '--shadow-color': normalTemplatePreview.text.outline_color,
+                                                fontFamily: normalTemplatePreview.text.family === 'Inter' ? inter.style.fontFamily : normalTemplatePreview.text.family,
+                                                fontSize: normalTemplatePreview.text.size,
+                                                fontWeight: normalTemplatePreview.text.weight,
+                                                color: normalTemplatePreview.chapter_content_color,
+                                            }}>
+                                                <p style={{
+                                                    margin: `${normalTemplatePreview.text_spacing.block_spacing} 0`,
+                                                    lineHeight: normalTemplatePreview.text_spacing.line_height,
+                                                    wordSpacing: normalTemplatePreview.text_spacing.word_spacing,
+                                                    letterSpacing: normalTemplatePreview.text_spacing.letter_spacing
+                                                }}>
+                                                    This is the first paragraph. Notice the spacing between lines, words, and letters.
+                                                </p>
+                                                <p style={{
+                                                    marginTop: normalTemplatePreview.text_spacing.block_spacing,
+                                                    lineHeight: normalTemplatePreview.text_spacing.line_height,
+                                                    wordSpacing: normalTemplatePreview.text_spacing.word_spacing,
+                                                    letterSpacing: normalTemplatePreview.text_spacing.letter_spacing
+                                                }}>
+                                                    This is the second paragraph. The block spacing controls the gap between these paragraphs.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                ) : null
+                            }
                         </div>
 
                         <div className="bg-gradient-to-b from-main_background to-[#070707] rounded-2xl p-6 border border-gray-800 hover:border-primary/50 transition-all duration-300">
@@ -311,52 +331,55 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
                                 {mostUsedSmallTemplate?.name || 'No template used yet'}
                             </p>
 
-                            <div className="mt-4 p-3 sm:p-4 border border-gray-700 rounded-lg overflow-x-auto" style={{
-                                backgroundColor: smallTemplatePreview.background.color,
-                                backgroundImage: smallTemplatePreview.background.image !== 'none' ? `url(${smallTemplatePreview.background.image})` : 'none',
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                            }}>
-                                <div>
-                                    <h3 className={`text_outline ${smallTemplatePreview.title.outline}`} style={{
-                                        '--shadow-color': smallTemplatePreview.title.outline_color,
-                                        fontFamily: smallTemplatePreview.title.family === 'Inter' ? inter.style.fontFamily : smallTemplatePreview.title.family,
-                                        fontSize: smallTemplatePreview.title.size,
-                                        fontWeight: smallTemplatePreview.title.weight,
-                                        color: smallTemplatePreview.chapter_title_color,
-                                        borderBottom: `${smallTemplatePreview.text.separator_width} solid ${smallTemplatePreview.text.separator_color}`,
-                                        lineHeight: smallTemplatePreview.title_spacing.line_height,
-                                        wordSpacing: smallTemplatePreview.title_spacing.word_spacing,
-                                        letterSpacing: smallTemplatePreview.title_spacing.letter_spacing
+                            {(Object.keys(normalTemplatePreview).length > 0) ?
+                                (
+                                    <div className="mt-4 p-3 sm:p-4 border border-gray-700 rounded-lg overflow-x-auto" style={{
+                                        backgroundColor: smallTemplatePreview.background.color,
+                                        backgroundImage: smallTemplatePreview.background.image !== 'none' ? `url(${smallTemplatePreview.background.image})` : 'none',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center'
                                     }}>
-                                        Chapter 42: The Adventure Begins
-                                    </h3>
-                                    <div className={`text_outline ${smallTemplatePreview.text.outline}`} style={{
-                                        '--shadow-color': smallTemplatePreview.text.outline_color,
-                                        fontFamily: smallTemplatePreview.text.family === 'Inter' ? inter.style.fontFamily : smallTemplatePreview.text.family,
-                                        fontSize: smallTemplatePreview.text.size,
-                                        fontWeight: smallTemplatePreview.text.weight,
-                                        color: smallTemplatePreview.chapter_content_color,
-                                    }}>
-                                        <p style={{
-                                            margin: `${smallTemplatePreview.text_spacing.block_spacing} 0`,
-                                            lineHeight: smallTemplatePreview.text_spacing.line_height,
-                                            wordSpacing: smallTemplatePreview.text_spacing.word_spacing,
-                                            letterSpacing: smallTemplatePreview.text_spacing.letter_spacing
-                                        }}>
-                                            This is the first paragraph. Notice the spacing between lines, words, and letters.
-                                        </p>
-                                        <p style={{
-                                            marginTop: smallTemplatePreview.text_spacing.block_spacing,
-                                            lineHeight: smallTemplatePreview.text_spacing.line_height,
-                                            wordSpacing: smallTemplatePreview.text_spacing.word_spacing,
-                                            letterSpacing: smallTemplatePreview.text_spacing.letter_spacing
-                                        }}>
-                                            This is the second paragraph. The block spacing controls the gap between these paragraphs.
-                                        </p>
+                                        <div>
+                                            <h3 className={`text_outline ${smallTemplatePreview.title.outline}`} style={{
+                                                '--shadow-color': smallTemplatePreview.title.outline_color,
+                                                fontFamily: smallTemplatePreview.title.family === 'Inter' ? inter.style.fontFamily : smallTemplatePreview.title.family,
+                                                fontSize: smallTemplatePreview.title.size,
+                                                fontWeight: smallTemplatePreview.title.weight,
+                                                color: smallTemplatePreview.chapter_title_color,
+                                                borderBottom: `${smallTemplatePreview.text.separator_width} solid ${smallTemplatePreview.text.separator_color}`,
+                                                lineHeight: smallTemplatePreview.title_spacing.line_height,
+                                                wordSpacing: smallTemplatePreview.title_spacing.word_spacing,
+                                                letterSpacing: smallTemplatePreview.title_spacing.letter_spacing
+                                            }}>
+                                                Chapter 42: The Adventure Begins
+                                            </h3>
+                                            <div className={`text_outline ${smallTemplatePreview.text.outline}`} style={{
+                                                '--shadow-color': smallTemplatePreview.text.outline_color,
+                                                fontFamily: smallTemplatePreview.text.family === 'Inter' ? inter.style.fontFamily : smallTemplatePreview.text.family,
+                                                fontSize: smallTemplatePreview.text.size,
+                                                fontWeight: smallTemplatePreview.text.weight,
+                                                color: smallTemplatePreview.chapter_content_color,
+                                            }}>
+                                                <p style={{
+                                                    margin: `${smallTemplatePreview.text_spacing.block_spacing} 0`,
+                                                    lineHeight: smallTemplatePreview.text_spacing.line_height,
+                                                    wordSpacing: smallTemplatePreview.text_spacing.word_spacing,
+                                                    letterSpacing: smallTemplatePreview.text_spacing.letter_spacing
+                                                }}>
+                                                    This is the first paragraph. Notice the spacing between lines, words, and letters.
+                                                </p>
+                                                <p style={{
+                                                    marginTop: smallTemplatePreview.text_spacing.block_spacing,
+                                                    lineHeight: smallTemplatePreview.text_spacing.line_height,
+                                                    wordSpacing: smallTemplatePreview.text_spacing.word_spacing,
+                                                    letterSpacing: smallTemplatePreview.text_spacing.letter_spacing
+                                                }}>
+                                                    This is the second paragraph. The block spacing controls the gap between these paragraphs.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                ) : null}
                         </div>
                     </div>
                 </div>
