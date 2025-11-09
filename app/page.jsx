@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
 import { fetchAllNovels, fetchAllUserNovels, fetchUserGeneralTemplates, getUserTemplates } from "@/lib/commonQueries";
@@ -12,10 +13,13 @@ async function Home() {
     const userTemplateList = (await getUserTemplates(session.user.id)).filter(template => template.type === "general");
 
     const getUserGeneralTemplates = await fetchUserGeneralTemplates(session.user.id);
+    const cookieStore = cookies();
+    const savedSort = cookieStore.get('novel-sort')?.value || 'added-asc';
+
 
     return (
         <>
-            <HomeClient novelList={novelList} userNovel={userNovels} userTemplateList={userTemplateList} session={session} userObject={getUserGeneralTemplates} />
+            <HomeClient novelList={novelList} userNovel={userNovels} userTemplateList={userTemplateList} session={session} userObject={getUserGeneralTemplates} savedSort={savedSort} />
         </>
     );
 }

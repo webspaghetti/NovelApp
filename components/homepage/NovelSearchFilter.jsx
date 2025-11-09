@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from "react";
+import { setNovelSortCookie } from "@/lib/cookies";
 
 
 function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, onTemplateChange, currentStatus, currentSort, userTemplateList, smallTemplateId, normalTemplateId}) {
@@ -51,6 +52,12 @@ function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, onTemp
             setSmallGeneralTemplate(templateId);
             onTemplateChange('small', templateId);
         }
+    }
+
+    function handleSortChange(e) {
+        const sortValue = e.target.value;
+        setNovelSortCookie(sortValue);
+        onSortChange(sortValue);
     }
 
 
@@ -212,7 +219,7 @@ function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, onTemp
                         </label>
                         <select
                             value={currentSort}
-                            onChange={(e) => onSortChange(e.target.value)}
+                            onChange={handleSortChange}
                             className="appearance-none w-full px-3 py-2 bg-navbar border border-gray-700 rounded-lg text-secondary focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                         >
                             <option value="added-asc">Latest Added</option>

@@ -12,10 +12,10 @@ import NavBar from "@/components/general/layout/NavBar";
 import BodyStyler from "@/components/general/BodyStyler";
 
 
-function HomeClient({ novelList, userNovel, userTemplateList, session, userObject }) {
+function HomeClient({ novelList, userNovel, userTemplateList, session, userObject, savedSort }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
-    const [sortOption, setSortOption] = useState('added-asc');
+    const [sortOption, setSortOption] = useState(savedSort);
     const [sfVisible, setSfVisible] = useState(false)
 
     const router = useRouter();
