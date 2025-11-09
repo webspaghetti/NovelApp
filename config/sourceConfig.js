@@ -12,12 +12,12 @@ const sourceConfig = {
             chapter_identifier: '/chapter-'
         },
         info_scraper: {
-            novelTitle: "document.querySelector('.tit').textContent.trim().replace(/\\s*\\((WN|Web Novel|WN KR)\\)\\s*$/, '')",
+            novelTitle: "document.querySelector('.tit')?.textContent?.trim().replace(/\\s*\\((WN|Web Novel|WN KR)\\)\\s*$/, '') || 'Unknown'",
             formattedName: "url.split('/').pop().replace('.html', '')",
-            novelStatus: "document.querySelector('.s1.s2, .s1.s3').textContent.trim()",
-            lastUpdate: "document.querySelector('.lastupdate').textContent",
-            chapterCount: "document.querySelector('.ul-list5 li a').getAttribute('href').match(/chapter-(\\d+)/)?.[1]",
-            imageUrl: "'https://freewebnovel.com' + document.querySelector('.pic img').getAttribute('src')"
+            novelStatus: "document.querySelector('.s1.s2, .s1.s3')?.textContent?.trim() || 'Unknown'",
+            lastUpdate: "document.querySelector('.lastupdate')?.textContent?.trim() || 'Unknown'",
+            chapterCount: "document.querySelector('.ul-list5 li a')?.getAttribute('href').match(/chapter-(\\d+)/)?.[1] || '0'",
+            imageUrl: "document.querySelector('.pic img')?.getAttribute('src') ? 'https://freewebnovel.com' + document.querySelector('.pic img').getAttribute('src') : ''"
         },
         chapter_scraper: {
             selectors: {
