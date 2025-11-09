@@ -35,14 +35,17 @@ async function scrapeNovelInfo(page, url, sourceName) {
                     const value = eval(String(expression));
 
                     // Throw error if value is null or undefined
-                    if (value == null) {  // Checks both null and undefined
+                    if (value == null) {
+                        // Log which selector failed
+                        console.error(`Field '${key}' returned null/undefined. Expression: ${expression}`);
                         throw new Error(`Field '${key}' returned null/undefined`);
                     }
 
                     data[key] = value;
                 } catch (error) {
                     console.error(`Error evaluating ${key}:`, error.message);
-                    throw error;  // Re-throw to stop execution
+                    console.error(`Expression was: ${expression}`);
+                    throw error; // Re-throw to stop execution
                 }
             }
 
