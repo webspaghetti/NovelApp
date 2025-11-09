@@ -100,8 +100,8 @@ function OtherTab({ settings, setSettings }){
                         <div
                             className="w-full select-none px-4 py-2"
                             style={{
-                                backgroundColor: settings.navbar.nav_color,
-                                color: settings.navbar.text_color
+                                backgroundColor: settings.menu.nav_color,
+                                color: settings.menu.text_color
                         }}
                         >
                             <div className="flex items-center justify-between">
@@ -116,26 +116,26 @@ function OtherTab({ settings, setSettings }){
                                     <span
                                         className="text-sm link_outline"
                                         style={{
-                                            color: settings.navbar.text_color,
-                                            '--outline-color': settings.navbar.outline_color
+                                            color: settings.menu.text_color,
+                                            '--outline-color': settings.menu.outline_color
                                     }}
                                     >NovelApp</span>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <span className="text-xs navbar_outline_base max-sm:hidden" style={{
-                                        color: settings.navbar.text_color,
-                                        '--outline-color': settings.navbar.outline_color}}>
+                                        color: settings.menu.text_color,
+                                        '--outline-color': settings.menu.outline_color}}>
                                         Home
                                     </span>
                                     <span className="text-xs navbar_outline_base" style={{
-                                        color: settings.navbar.text_color,
-                                        '--outline-color': settings.navbar.outline_color
+                                        color: settings.menu.text_color,
+                                        '--outline-color': settings.menu.outline_color
                                     }}
                                     >About
                                     </span>
                                     <span className="text-xs navbar_outline_base" style={{
-                                        color: settings.navbar.text_color,
-                                        '--outline-color': settings.navbar.outline_color
+                                        color: settings.menu.text_color,
+                                        '--outline-color': settings.menu.outline_color
                                     }}
                                     >Templates
                                     </span>
@@ -145,7 +145,7 @@ function OtherTab({ settings, setSettings }){
                                         fill="currentColor"
                                         className="size-6 sm:hover:ring-2 max-sm:ring-2 rounded-full transition-all"
                                         style={{
-                                            '--tw-ring-color': settings.navbar.outline_color,
+                                            '--tw-ring-color': settings.menu.outline_color,
                                         }}
                                     >
                                         <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clipRule="evenodd" />
