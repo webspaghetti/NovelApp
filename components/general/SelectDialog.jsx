@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SelectDialog({
                                          isOpen,
-                                         title = "Select an option",
+                                         title = "Select an Option",
                                          message = "",
                                          defaultOptionText,
                                          options = [],

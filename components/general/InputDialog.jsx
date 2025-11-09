@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function InputDialog({
                                         isOpen,
-                                        title = "Enter value",
+                                        title = "Enter Value",
                                         message = "",
                                         placeholder = "",
                                         confirmText = "Confirm",

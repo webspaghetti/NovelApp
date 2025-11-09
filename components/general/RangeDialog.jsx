@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function RangeDialog({
                                         isOpen,
-                                        title = "Select range",
+                                        title = "Select Range",
                                         message = "",
                                         minPlaceholder = "Min",
                                         maxPlaceholder = "Max",

@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function AlertDialog({
                                         isOpen,
-                                        title = "Are you sure?",
+                                        title = "Are You Sure?",
                                         message = "",
                                         confirmText = "Confirm",
                                         cancelText = "Cancel",

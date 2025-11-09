@@ -393,7 +393,7 @@ function EditReaderTemplate({ userTemplateList }) {
 
             <AlertDialog
                 isOpen={isCancelAlertOpen}
-                title="Leave without saving?"
+                title="Leave Without Saving?"
                 message="Are you sure? All changes will be lost."
                 confirmText="Leave"
                 cancelText="Cancel"
@@ -404,7 +404,7 @@ function EditReaderTemplate({ userTemplateList }) {
 
             <AlertDialog
                 isOpen={isResetAlertOpen}
-                title="Reset customization options?"
+                title="Reset Customization Options?"
                 message="Are you sure you want to reset all customizations to their original?"
                 confirmText="Reset"
                 cancelText="Cancel"

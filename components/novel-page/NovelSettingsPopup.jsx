@@ -594,7 +594,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
 
                         <AlertDialog
                             isOpen={isDialogOpen}
-                            title="Remove this novel?"
+                            title="Remove This Novel?"
                             message="This action cannot be undone."
                             confirmText="Remove"
                             cancelText="Cancel"
