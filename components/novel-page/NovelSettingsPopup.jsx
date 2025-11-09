@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
 import { Inter } from "next/font/google";
+import { useRouter } from 'next/navigation';
+import { dateFormatterFull } from "@/app/helper-functions/dateFormatterFull";
+import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import AlertDialog from "@/components/general/AlertDialog";
 
@@ -303,6 +304,9 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
                     <h2 className="text-xl sm:text-2xl font-semibold text-secondary text-center select-none">
                         Novel Settings
                     </h2>
+                    <p className={"text-xs text-gray-400 text-center"}>
+                        Last novel sync: {dateFormatterFull(novel.last_synced_at)}
+                    </p>
                 </div>
 
                 {/* Scrollable Content Area */}
