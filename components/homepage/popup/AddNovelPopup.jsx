@@ -130,10 +130,10 @@ function AddNovelPopup({trigger, setTrigger, session}) {
 
     return (trigger) ? (
         <div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm z-30"
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-30"
             onClick={handleClosing}
         >
-            <div className="relative w-[90%] max-w-lg bg-main_background border border-gray-700 rounded-2xl shadow-cardB p-6">
+            <div className="relative w-[90%] max-w-lg bg-gradient-to-b from-main_background to-[#070707] border border-gray-700 rounded-2xl shadow-cardB p-6">
                 <form
                     className={`w-full transition-all duration-300 ${shake ? 'animate-shake' : ''}`}
                     onSubmit={handleSubmit}

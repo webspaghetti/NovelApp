@@ -356,7 +356,7 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
 
             {isDialogOpen ? (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-4">
-                    <div className="bg-navbar border border-gray-700 rounded-2xl p-6 shadow-2xl w-full max-w-4xl text-center animate-fadeIn max-h-[90vh] flex flex-col">
+                    <div className="bg-gradient-to-b from-main_background to-[#070707] border border-gray-700 rounded-2xl p-6 shadow-2xl w-full max-w-4xl text-center animate-fadeIn max-h-[90vh] flex flex-col">
                         <h2 className="text-lg font-semibold text-secondary mb-3 select-none">Refresh novels</h2>
                         <p className="text-gray-400 mb-4 select-none">Select novels to refresh ({selectedNovels.size} selected)</p>
 
