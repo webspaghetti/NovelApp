@@ -1,6 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
-import NavBar from "@/components/general/layout/NavBar";
+import { fetchAllNovels, fetchAllUserNovels, fetchUserGeneralTemplates, getUserTemplates } from "@/lib/commonQueries";
 import HomeClient from "@/components/homepage/HomeClient";
 
 
@@ -15,7 +15,7 @@ async function Home() {
 
     return (
         <>
-            <NavBar />
+            <HomeClient novelList={novelList} userNovel={userNovels} userTemplateList={userTemplateList} session={session} userObject={getUserGeneralTemplates} />
         </>
     );
 }
