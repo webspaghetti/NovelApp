@@ -72,7 +72,21 @@ function NovelList({ novelList, initialUserNovel, session, isOnline }) {
             return (
                 <div key={novel.id} className={"card glassy-animation"} style={{ height: "auto" }}>
                     <Link href={`/${novel.formatted_name}?${novel.source}`}>
-                        <Image src={unObject?.image_url_alternative ?? novel.image_url} alt={`${novel.name} thumbnail`} width={1000} height={1000} quality={100} className={"w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"} draggable="false" priority={true} />
+                        <Image
+                            src={unObject?.image_url_alternative ?? novel.image_url}
+                            alt={`${novel.name} thumbnail`}
+
+                            width={301}
+                            height={402}
+
+                            quality={100}
+
+                            sizes="(max-width: 640px) 174px, 301px"
+
+                            className="w-full h-[20rem] md:h-[25rem] max-sm:h-[200px] object-cover select-none img border-b-4 border-primary"
+                            draggable="false"
+                            loading="lazy"
+                        />
                         <div className="m-4 max-sm:hidden">
                             <div className="h-10 mb-2 flex items-center justify-center">
                                 <div className="text-secondary font-bold text-lg line-clamp-2 overflow-hidden">
