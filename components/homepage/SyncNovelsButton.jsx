@@ -328,6 +328,18 @@ function SyncNovelsButton({ novelList, userNovel, isOnline }) {
                     // console.log(`✓ ${formattedName} updated successfully`);
                     return { success: true, updated: true, name: formattedName };
                 } else {
+                    const updateResponse = await fetch('/api/novels/update-sync', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            novelId
+                        }),
+                    });
+
+                    if (!updateResponse.ok) {
+                        const errorText = await updateResponse.text();
+                        throw new Error(`Failed to update sync: ${errorText}`);
+                    }
                     // Scrape log
                     // console.log(`✓ ${formattedName} is already up-to-date`);
                     return { success: true, updated: false, name: formattedName };
