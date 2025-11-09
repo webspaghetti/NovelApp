@@ -1,12 +1,46 @@
 "use client"
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { signOut } from "next-auth/react";
 import NavBar from "@/components/general/layout/NavBar";
+import BodyStyler from "@/components/general/BodyStyler";
 import AlertDialog from "@/components/general/AlertDialog";
 import NovelProfileCard from "@/components/profile/NovelProfileCard";
 
-function ProfilePageClient({ userNovels, novels, templateList, session, inter}) {
+function ProfilePageClient({ userNovels, novels, templateList, session, inter, userObject }) {
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+    const { normal_general_template_id: normalTemplateId, small_general_template_id: smallTemplateId } = userObject[0] || {};
+
+    const normalTemplate = templateList.find(t => t.id === normalTemplateId);
+    const smallTemplate = templateList.find(t => t.id === smallTemplateId);
+
+    // Memoize the parsed templates
+    const normalTemplateData = useMemo(() =>
+            JSON.parse(normalTemplate.customization),
+        [normalTemplate]
+    );
+
+    const smallTemplateData = useMemo(() =>
+            JSON.parse(smallTemplate.customization),
+        [smallTemplate]
+    );
+
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    const customizationTemplate = isSmallScreen ? smallTemplateData : normalTemplateData;
+
+    // Screen size detection
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 640px)");
+        setIsSmallScreen(mediaQuery.matches);
+
+        function handleChange(e) {
+            setIsSmallScreen(e.matches);
+        }
+
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
+    }, []);
 
     const adjustedTemplateList = templateList.map(template => {
         let newName = template.name;
@@ -139,7 +173,8 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter}) 
 
     return (
         <>
-            <NavBar />
+            <BodyStyler customizationTemplate={customizationTemplate} />
+            <NavBar customizationTemplate={customizationTemplate} />
             <main className="pt-24 max-w-7xl mx-auto px-4 pb-12">
                 {/* Profile Header */}
                 <div className="bg-gradient-to-b from-main_background to-[#070707] rounded-3xl p-8 mb-8 border border-gray-800 shadow-2xl">

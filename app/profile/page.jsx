@@ -1,8 +1,7 @@
 import { Inter } from "next/font/google";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
-import { fetchAllNovels, fetchAllUserNovels, getUserTemplates } from "@/lib/commonQueries";
-import NavBar from "@/components/general/layout/NavBar";
+import { fetchAllNovels, fetchAllUserNovels, fetchUserGeneralTemplates, getUserTemplates } from "@/lib/commonQueries";
 import ProfilePageClient from "@/components/profile/ProfilePageClient";
 
 
@@ -16,11 +15,12 @@ async function ProfilePage() {
     const userNovels = await fetchAllUserNovels(session.user.id);
     const templateList = await getUserTemplates(session.user.id);
 
+    const getUserGeneralTemplates = await fetchUserGeneralTemplates(session.user.id);
+
 
     return (
         <>
-            <NavBar />
-            <ProfilePageClient session={session} novels={novelList} userNovels={userNovels} templateList={templateList} inter={inter} />
+            <ProfilePageClient session={session} novels={novelList} userNovels={userNovels} templateList={templateList} inter={inter} userObject={getUserGeneralTemplates} />
         </>
     );
 }

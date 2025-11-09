@@ -1,10 +1,25 @@
 "use client"
-import { useState } from "react";
+import React, { useState } from "react";
 
 
-function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, currentStatus, currentSort}) {
+function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, onTemplateChange, currentStatus, currentSort, userTemplateList, smallTemplateId, normalTemplateId}) {
     const [searchTerm, setSearchTerm] = useState("");
     const [showFilters, setShowFilters] = useState(false);
+
+    const [smallGeneralTemplate, setSmallGeneralTemplate] = useState(smallTemplateId)
+    const [normalGeneralTemplate, setNormalGeneralTemplate] = useState(normalTemplateId)
+
+
+    const adjustedTemplateList = userTemplateList.map(template => {
+        let newName = template.name;
+
+        // Replace specific name
+        if (newName === 'default-general') {
+            newName = 'Default General';
+        }
+
+        return { ...template, name: newName };
+    });
 
 
     function handleSearchChange(e) {
@@ -18,9 +33,65 @@ function NovelSearchFilter({onSearchChange, onStatusFilter, onSortChange, curren
         onSearchChange("");
     }
 
+    function handleNormalTemplateChange(e) {
+        const templateId = Number(e.target.value);
+        const newTemplate = adjustedTemplateList.find(t => t.id === templateId);
+
+        if (newTemplate?.customization) {
+            setNormalGeneralTemplate(templateId);
+            onTemplateChange('normal', templateId);
+        }
+    }
+
+    function handleSmallTemplateChange(e) {
+        const templateId = Number(e.target.value);
+        const newTemplate = adjustedTemplateList.find(t => t.id === templateId);
+
+        if (newTemplate?.customization) {
+            setSmallGeneralTemplate(templateId);
+            onTemplateChange('small', templateId);
+        }
+    }
+
 
     return (
         <div className="w-full space-y-4 relative top-[76px] max-sm:top-[70px] mb-4 px-2 sm:px-0">
+            <div className={"flex justify-between max-sm:gap-10 max-md:gap-20 max-lg:gap-36 gap-52"}>
+                <div className={"flex gap-1 items-center w-full"}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 max-sm:size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                    </svg>
+                    <select
+                        id="normalTemplate"
+                        className="w-full flex-1 select-none bg-navbar border border-gray-700 rounded-lg text-secondary py-2 px-3 focus:outline-none focus:border-secondary disabled:opacity-60 text-sm sm:text-base"
+                        value={normalGeneralTemplate}
+                        onChange={handleNormalTemplateChange}
+                    >
+                        {adjustedTemplateList.map(template => (
+                            <option key={template.id} value={template.id}>
+                                {template.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className={"flex gap-1 items-center w-full"}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-9 max-sm:size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                    </svg>
+                    <select
+                        id="smallTemplate"
+                        className="w-full flex-1 select-none bg-navbar border border-gray-700 rounded-lg text-secondary py-2 px-3 focus:outline-none focus:border-secondary disabled:opacity-60 text-sm sm:text-base"
+                        value={smallGeneralTemplate}
+                        onChange={handleSmallTemplateChange}
+                    >
+                        {adjustedTemplateList.map(template => (
+                            <option key={template.id} value={template.id}>
+                                {template.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
             {/* Search + Filter Row */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 {/* Search Bar */}
