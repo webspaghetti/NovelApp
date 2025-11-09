@@ -119,7 +119,7 @@ function SourcesClient({ templateList, userObject }){
 
                     {/* Footer Info */}
                     <div className="mt-16 text-center">
-                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-full">
+                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary/10 to-pink-500/10 border border-purple-500/20 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400">
                                 <circle cx="12" cy="12" r="10"/>
                                 <path d="M12 16v-4"/>
