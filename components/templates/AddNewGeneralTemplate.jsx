@@ -33,10 +33,7 @@ function AddNewReaderTemplate({ userId, userTemplateList }) {
     }, []);
 
 
-    const smallDefaultObject = userTemplateList.find(t => t.name === 'small-default-general');
-    const normalDefaultObject = userTemplateList.find(t => t.name === 'normal-default-general');
-
-    const defaultSettings = isSmallScreen ? JSON.parse(smallDefaultObject.customization) : JSON.parse(normalDefaultObject.customization);
+    const defaultSettings = JSON.parse(userTemplateList.find(t => t.name === 'default-general').customization)
 
     const [settings, setSettings] = useState(defaultSettings);
     const [selectedPreset, setSelectedPreset] = useState(defaultSettings)
@@ -45,11 +42,9 @@ function AddNewReaderTemplate({ userId, userTemplateList }) {
     const adjustedTemplateList = userTemplateList.map(template => {
         let newName = template.name;
 
-        // Replace specific names
-        if (newName === 'normal-default-general') {
-            newName = 'Normal Default General';
-        } else if (newName === 'small-default-general') {
-            newName = 'Small Default General';
+        // Replace specific name
+        if (newName === 'default-general') {
+            newName = 'Default General';
         }
 
         return { ...template, name: newName };

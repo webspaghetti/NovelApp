@@ -44,7 +44,7 @@ function EditGeneralTemplate({ userTemplateList }) {
     const [selectedTemplate, setSelectedTemplate] = useState("")
 
     const cleanedTemplateList = userTemplateList.filter(
-        template => !['normal-default-general', 'small-default-general'].includes(template.name)
+        template => template.name !== 'default-general'
     );
 
 
