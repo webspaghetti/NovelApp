@@ -166,8 +166,13 @@ function NovelDetails({ novel, userNovel, userTemplateList, downloadControls, se
                         </span>
                     </button>
                 </Link>
-                <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl">
+                <div className="w-full bg-gray-700 h-2 mt-2 rounded-xl sm:mb-4">
                     <div className="bg-green-600 h-2 rounded-xl" style={{ width: `${progressPercentage > 0 ? Math.max(progressPercentage, 2) : 0}%` }}></div>
+                    <p className="mt-1 text-xs text-green-600 text-center font-bold">
+                        {Number.isInteger(progressPercentage)
+                            ? progressPercentage
+                            : progressPercentage.toFixed(1)}% Complete
+                    </p>
                 </div>
                 <div className={"w-full flex justify-between pt-4 sm:hidden"}>
                     <button
