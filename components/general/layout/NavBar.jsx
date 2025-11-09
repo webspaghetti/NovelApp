@@ -2,8 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 
-function NavBar({ customizationTemplate }) {
-    const isChapterPage = Boolean(customizationTemplate);
+function NavBar({ customizationTemplate, chapterPage = false }) {
+    const isChapterPage = Boolean(chapterPage);
     const navbarStyles = isChapterPage ? "relative" : "fixed top-0 z-10";
 
     if (customizationTemplate?.menu.navbar_hidden) {
