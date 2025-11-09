@@ -1,9 +1,13 @@
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
-import { fetchNovelByFormattedNameAndSource, getUserNovel, getUserTemplates } from "@/lib/commonQueries";
+import {
+    fetchNovelByFormattedNameAndSource,
+    fetchUserGeneralTemplates,
+    getUserNovel,
+    getUserTemplates
+} from "@/lib/commonQueries";
 import NovelPageWrapper from "@/components/novel-page/NovelPageWrapper";
-import NavBar from "@/components/general/layout/NavBar";
 
 
 async function Page({ params, searchParams }) {
@@ -19,18 +23,18 @@ async function Page({ params, searchParams }) {
     }
 
     const userNovel = await getUserNovel(session.user.id, novel.id);
-    const userTemplateList = (await getUserTemplates(session.user.id)).filter(template => template.type === "reader");
+    const userTemplateList = await getUserTemplates(session.user.id);
+
+    const getUserGeneralTemplates = await fetchUserGeneralTemplates(session.user.id);
 
     if (!userNovel) {
         notFound();
     }
 
+
     return (
         <>
-            <NavBar />
-            <main className="relative pt-20">
-                <NovelPageWrapper novel={novel} userNovel={userNovel} session={session} userTemplateList={userTemplateList} />
-            </main>
+            <NovelPageWrapper novel={novel} userNovel={userNovel} session={session} userTemplateList={userTemplateList} userObject={getUserGeneralTemplates} />
         </>
     );
 }

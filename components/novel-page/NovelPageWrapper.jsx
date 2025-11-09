@@ -1,10 +1,12 @@
 "use client"
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { getChaptersByNovel } from "@/lib/indexed-db";
 import { getCollapsedStyleCookie, setCollapsedStyleCookie } from "@/lib/cookies";
 import NovelDetails from "@/components/novel-page/NovelDetails";
 import ChapterButtonsList from "@/components/novel-page/ChapterButtonsList";
 import DownloadControls from "@/components/novel-page/DownloadControls";
+import NavBar from "@/components/general/layout/NavBar";
+import BodyStyler from "@/components/general/BodyStyler";
 
 
 // Create context
@@ -20,7 +22,7 @@ export function useNovelLoading() {
 }
 
 
-function NovelPageWrapper({ novel, userNovel, session, userTemplateList }) {
+function NovelPageWrapper({ novel, userNovel, session, userTemplateList, userObject }) {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingChapter, setLoadingChapter] = useState(null);
     const [userNovelState, setUserNovelState] = useState(userNovel);
@@ -38,6 +40,41 @@ function NovelPageWrapper({ novel, userNovel, session, userTemplateList }) {
     const [downloadProgress, setDownloadProgress] = useState({ current: 0, total: 0 });
 
     const [downloadControls, setDownloadControls] = useState(false)
+
+    const readerTemplateList = userTemplateList.filter(template => template.type === "reader");
+
+    const { normal_general_template_id: normalTemplateId, small_general_template_id: smallTemplateId } = userObject[0] || {};
+
+    const normalTemplate = userTemplateList.find(t => t.id === normalTemplateId);
+    const smallTemplate = userTemplateList.find(t => t.id === smallTemplateId);
+
+    // Memoize the parsed templates
+    const normalTemplateData = useMemo(() =>
+            JSON.parse(normalTemplate.customization),
+        [normalTemplate]
+    );
+
+    const smallTemplateData = useMemo(() =>
+            JSON.parse(smallTemplate.customization),
+        [smallTemplate]
+    );
+
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    const customizationTemplate = isSmallScreen ? smallTemplateData : normalTemplateData;
+
+    // Screen size detection
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 640px)");
+        setIsSmallScreen(mediaQuery.matches);
+
+        function handleChange(e) {
+            setIsSmallScreen(e.matches);
+        }
+
+        mediaQuery.addEventListener('change', handleChange);
+        return () => mediaQuery.removeEventListener('change', handleChange);
+    }, []);
 
     const [isOnline, setIsOnline] = useState(
         typeof window !== 'undefined' ? navigator.onLine : true
@@ -118,11 +155,17 @@ function NovelPageWrapper({ novel, userNovel, session, userTemplateList }) {
 
 
     return (
-        <NovelLoadingContext.Provider value={value}>
-            <NovelDetails novel={novel} userNovel={userNovelState} userTemplateList={userTemplateList} downloadControls={downloadControls} setDownloadControls={setDownloadControls} isOnline={isOnline} />
-            <DownloadControls novel={novel} downloadControls={downloadControls} isOnline={isOnline} />
-            <ChapterButtonsList novel={novel} userNovel={userNovelState} isOnline={isOnline} />
-        </NovelLoadingContext.Provider>
+        <>
+            <BodyStyler customizationTemplate={customizationTemplate} />
+            <NavBar customizationTemplate={customizationTemplate} />
+            <main className="relative pt-20">
+                <NovelLoadingContext.Provider value={value}>
+                    <NovelDetails novel={novel} userNovel={userNovelState} userTemplateList={readerTemplateList} downloadControls={downloadControls} setDownloadControls={setDownloadControls} isOnline={isOnline} />
+                    <DownloadControls novel={novel} downloadControls={downloadControls} isOnline={isOnline} />
+                    <ChapterButtonsList novel={novel} userNovel={userNovelState} isOnline={isOnline} />
+                </NovelLoadingContext.Provider>
+            </main>
+        </>
     );
 }
 
