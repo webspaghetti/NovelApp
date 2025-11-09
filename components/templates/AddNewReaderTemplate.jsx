@@ -276,7 +276,7 @@ function AddNewReaderTemplate({ userId, userTemplateList }) {
                         </div>
 
 
-                        <div className={"flex justify-between max-sm:hidden"}>
+                        <div className={"flex justify-between max-sm:hidden select-none"}>
                             <p className="text-xs text-gray-500 text-left mb-3">* Choose a starting preset from your existing templates</p>
                             <p className="text-xs text-gray-500 text-right mb-3">* Empty values will be replaced by their default counterparts</p>
                         </div>
