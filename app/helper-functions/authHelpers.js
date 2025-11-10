@@ -6,7 +6,7 @@ export async function createUser(username, password) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const [result] = await pool.execute(
-        'INSERT INTO users (username, password, normal_general_template_id, small_general_template_id) VALUES (?, ?, 3, 3)',
+        'INSERT INTO users (username, password, created_at, normal_general_template_id, small_general_template_id) VALUES (?, ?, NOW(), 3, 3)',
         [username, hashedPassword]
     );
 
