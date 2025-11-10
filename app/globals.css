@@ -233,12 +233,12 @@ button {
   @apply
   bg-card
   max-sm:shadow-cardBs shadow-cardB
-  max-sm:rounded-b-lg max-sm:rounded-3xl rounded-b-lg rounded-[20px]
+  max-sm:rounded-none rounded-b-lg rounded-[20px]
   relative
   overflow-hidden
   text-center;
   transition: transform 0.5s ease;
-  transform: scale(1)
+  transform: scale(1);
 }
 .card h3 {
   @apply
