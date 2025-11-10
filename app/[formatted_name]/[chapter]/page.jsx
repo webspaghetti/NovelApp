@@ -74,7 +74,7 @@ async function Page({ params, searchParams }) {
 
     if (chapter?.chapterContent) {
         chapter.chapterContent = sanitizeHtml(chapter.chapterContent, {
-            allowedTags: ["p", "img", "strong", "em", "b", "i", "u", "a", "table"],
+            allowedTags: ["p", "img", "strong", "em", "b", "i", "u", "a", "table", "sent"],
             allowedAttributes: {
                 img: ["src", "alt"],
                 a: ["href"],

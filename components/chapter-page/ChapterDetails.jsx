@@ -7,7 +7,7 @@ function ChapterDetails({ chapter, customizationTemplate, inter }) {
                 <div
                     dangerouslySetInnerHTML={{
                         __html: chapter.chapterContent.replace(
-                            /<p\s[^>]*>/g,
+                            /<p\s[^>]*>|<sent>/g,
                             `<p style="margin: ${customizationTemplate.text_spacing.block_spacing} 0; line-height: ${customizationTemplate.text_spacing.line_height}; word-spacing: ${customizationTemplate.text_spacing.word_spacing}; letter-spacing: ${customizationTemplate.text_spacing.letter_spacing};">`
                         ),
                     }}
