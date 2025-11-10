@@ -1,6 +1,6 @@
 import React from "react";
 
-function NovelProfileCard({ novelData, title, icon, subtitle }) {
+function NovelProfileCard({ novelData, title, icon, subtitle, showCaseData }) {
     if (!novelData) {
         return (
             <div className="bg-gradient-to-b from-main_background to-[#070707] rounded-2xl p-6 border border-gray-800">
@@ -21,7 +21,7 @@ function NovelProfileCard({ novelData, title, icon, subtitle }) {
             <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
                     {icon}
-                    <span className="text-sm text-gray-400 font-medium">{title}</span>
+                    <span className="text-sm text-gray-400 font-medium">{title} {showCaseData}</span>
                 </div>
 
                 <h3 className="text-xl font-bold mb-2 line-clamp-1 group-hover:text-primary transition-colors">
