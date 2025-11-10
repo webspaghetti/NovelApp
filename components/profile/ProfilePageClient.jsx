@@ -1,12 +1,13 @@
 "use client"
-import React, { useState, useMemo, useEffect } from 'react';
 import { signOut } from "next-auth/react";
+import { dateFormatter } from "@/app/helper-functions/dateFormatter";
+import React, { useState, useMemo, useEffect } from 'react';
 import NavBar from "@/components/general/layout/NavBar";
 import BodyStyler from "@/components/general/BodyStyler";
 import AlertDialog from "@/components/general/AlertDialog";
 import NovelProfileCard from "@/components/profile/NovelProfileCard";
 
-function ProfilePageClient({ userNovels, novels, templateList, session, inter, userObject }) {
+function ProfilePageClient({ userNovels, novels, templateList, session, inter, createdAt, userObject }) {
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
     const { normal_general_template_id: normalTemplateId, small_general_template_id: smallTemplateId } = userObject[0] || {};
@@ -208,7 +209,7 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
                                 <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                                     {session?.user?.username || 'User'}
                                 </h1>
-                                <div className="flex flex-col sm:flex-row gap-4 text-gray-400">
+                                <div className="flex flex-col sm:flex-row gap-4 text-gray-400 mb-3">
                                     <div className="flex items-center gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                                             <path d="M12 7v14"/>
@@ -224,6 +225,7 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, u
                                         <span className="font-semibold">{totalChaptersRead}</span> Chapters Read
                                     </div>
                                 </div>
+                                <p className={"text-xs text-gray-400"}>Account created: {dateFormatter(createdAt[0].created_at)}</p>
                             </div>
                         </div>
                         <button

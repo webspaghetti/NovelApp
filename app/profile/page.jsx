@@ -1,7 +1,13 @@
 import { Inter } from "next/font/google";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth/next";
-import { fetchAllNovels, fetchAllUserNovels, fetchUserGeneralTemplates, getUserTemplates } from "@/lib/commonQueries";
+import {
+    fetchAllNovels,
+    fetchAllUserNovels,
+    fetchUserCreatedDate,
+    fetchUserGeneralTemplates,
+    getUserTemplates
+} from "@/lib/commonQueries";
 import ProfilePageClient from "@/components/profile/ProfilePageClient";
 
 
@@ -17,10 +23,12 @@ async function ProfilePage() {
 
     const getUserGeneralTemplates = await fetchUserGeneralTemplates(session.user.id);
 
+    const getUserCreatedDate = await fetchUserCreatedDate(session.user.id);
+
 
     return (
         <>
-            <ProfilePageClient session={session} novels={novelList} userNovels={userNovels} templateList={templateList} inter={inter} userObject={getUserGeneralTemplates} />
+            <ProfilePageClient session={session} novels={novelList} userNovels={userNovels} templateList={templateList} inter={inter} createdAt={getUserCreatedDate} userObject={getUserGeneralTemplates} />
         </>
     );
 }
