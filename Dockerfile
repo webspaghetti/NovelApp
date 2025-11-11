@@ -119,6 +119,7 @@ COPY --from=builder /app/package.json ./package.json
 
 # Copy node_modules required for scripts and Playwright
 COPY --from=deps /app/node_modules/dotenv ./node_modules/dotenv
+COPY --from=deps /app/node_modules/mysql2 ./node_modules/mysql2
 COPY --from=deps /app/node_modules/playwright ./node_modules/playwright
 COPY --from=deps /app/node_modules/playwright-core ./node_modules/playwright-core
 
