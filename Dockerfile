@@ -121,6 +121,7 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=deps /app/node_modules/dotenv ./node_modules/dotenv
 COPY --from=deps /app/node_modules/mysql2 ./node_modules/mysql2
 COPY --from=deps /app/node_modules/sqlstring ./node_modules/sqlstring
+COPY --from=deps /app/node_modules/sqlstring ./node_modules/denque
 COPY --from=deps /app/node_modules/playwright ./node_modules/playwright
 COPY --from=deps /app/node_modules/playwright-core ./node_modules/playwright-core
 
