@@ -114,11 +114,13 @@ RUN adduser --system --uid 1001 --home /home/nextjs nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/node_modules/.bin ./node_modules/.bin
-COPY --from=builder /app/node_modules/playwright-core ./node_modules/playwright-core
-COPY --from=builder /app/node_modules/playwright ./node_modules/playwright
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/package.json ./package.json
+
+# Copy node_modules required for scripts and Playwright
+COPY --from=deps /app/node_modules/dotenv ./node_modules/dotenv
+COPY --from=deps /app/node_modules/playwright ./node_modules/playwright
+COPY --from=deps /app/node_modules/playwright-core ./node_modules/playwright-core
 
 # Copy Playwright browsers to nextjs user's home
 RUN mkdir -p /home/nextjs/.cache
