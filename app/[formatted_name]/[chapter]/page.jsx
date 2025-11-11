@@ -86,6 +86,12 @@ async function Page({ params, searchParams }) {
                     if (attribs.src?.includes("pubadx.one")) return { tagName: "span", text: "" };
                     return { tagName, attribs };
                 },
+                a: (tagName, attribs) => {
+                    if (attribs.href?.includes("to9game.com")) {
+                        return { tagName: "span", text: "" };
+                    }
+                    return { tagName, attribs };
+                }
             },
         }).replace(/<p>/g, '<p style="margin: 1rem 0;">');
     }
