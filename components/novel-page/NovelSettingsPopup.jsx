@@ -75,7 +75,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
             setImageUrl(userNovel.image_url_alternative);
         } else setImageUrl(originalUrl);
 
-    }, [novel]);
+    }, [novel, originalName, originalUrl, userNovel.image_url_alternative, userNovel.name_alternative]);
 
     useEffect(() => {
         const templateId = previewDevice === 'normal' ? normalUserTemplate : smallUserTemplate;

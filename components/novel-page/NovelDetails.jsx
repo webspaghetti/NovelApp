@@ -58,7 +58,7 @@ function NovelDetails({ novel, userNovel, userTemplateList, downloadControls, se
         const timeoutId = setTimeout(prefetchChapter, 500);
 
         return () => clearTimeout(timeoutId);
-    }, [chapterToPrefetch, novel.formatted_name, novel.source]);
+    }, [chapterToPrefetch, novel.formatted_name, novel.source, isOnline]);
 
 
     return (

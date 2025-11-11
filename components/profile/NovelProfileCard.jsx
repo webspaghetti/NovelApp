@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 function NovelProfileCard({ novelData, title, icon, subtitle, showCaseData }) {
     if (!novelData) {
@@ -33,10 +34,12 @@ function NovelProfileCard({ novelData, title, icon, subtitle, showCaseData }) {
                 )}
 
                 <div className="relative overflow-hidden">
-                    <img
+                    <Image
                         src={userNovel?.image_url_alternative ?? novel.image_url}
                         alt={novel.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 select-none"
+                        width={301}
+                        height={402}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"/>
                     <div className={`badge ${novel.status} absolute max-sm:top-[6px] top-2 max-sm:right-[6px] right-2`}>

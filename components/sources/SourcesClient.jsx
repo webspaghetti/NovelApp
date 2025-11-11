@@ -1,7 +1,8 @@
 "use client"
-import React, { useEffect, useMemo, useState } from "react";
 import NavBar from "@/components/general/layout/NavBar";
 import BodyStyler from "@/components/general/BodyStyler";
+import React, { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import sourceConfig from "@/config/sourceConfig";
 
 
@@ -67,7 +68,7 @@ function SourcesClient({ templateList, userObject }){
                                 <div className="relative flex flex-col items-center text-center space-y-6">
                                     {/* Logo Container */}
                                     <div className="relative w-full h-32 flex items-center justify-center">
-                                        <img
+                                        <Image
                                             src={source.logo_url}
                                             alt={`${source.name} logo`}
                                             className="relative max-h-24 max-w-full object-contain filter drop-shadow-2xl"
@@ -75,6 +76,8 @@ function SourcesClient({ templateList, userObject }){
                                                 e.target.style.display = 'none';
                                                 e.target.nextElementSibling.style.display = 'flex';
                                             }}
+                                            width={301}
+                                            height={402}
                                         />
                                         {/* Fallback if logo fails to load */}
                                         <div className="hidden flex-col items-center justify-center">

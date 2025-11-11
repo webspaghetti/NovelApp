@@ -137,7 +137,7 @@ function NovelPageWrapper({ novel, userNovel, session, userTemplateList, userObj
             }
         }
         fetchUserNovel();
-    }, [userNovel, session.user.id, novel.id]);
+    }, [userNovel, session.user.id, novel.id, isOnline]);
 
 
     // Load downloaded chapters from IndexedDB on mount
