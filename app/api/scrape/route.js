@@ -85,13 +85,15 @@ export async function POST(req) {
         await page.setViewportSize({ width: 1280, height: 800 });
 
         // Extract the source name from URL
-        const matchNovelSource = url.match(/https:\/\/([a-zA-Z0-9-]+)\./);
+        const urlObj = new URL(url);
+        const hostname = urlObj.hostname;
 
         let result;
         let novelSource;
 
-        if (matchNovelSource) {
-            novelSource = matchNovelSource[1];
+        if (hostname) {
+            // Always remove www. to get consistent config key
+            novelSource = hostname.replace('www.', '').split('.')[0];
 
             const config = sourceConfig[novelSource].link_identifier
 
@@ -100,12 +102,52 @@ export async function POST(req) {
                 return NextResponse.json({ error: 'Unknown source' }, { status: 400 });
             }
 
-            if (url.includes(config.info_identifier) && !url.includes(config.chapter_identifier)) {
+            if (
+                (
+                    (typeof config.info_identifier === 'string' && url.includes(config.info_identifier)) ||
+                    (config.info_identifier instanceof RegExp && config.info_identifier.test(url))
+                )
+                &&
+                !(
+                    (typeof config.chapter_identifier === 'string' && url.includes(config.chapter_identifier)) ||
+                    (config.chapter_identifier instanceof RegExp && config.chapter_identifier.test(url))
+                )
+            ) {
                 result = await scrapeNovelInfo(page, url, novelSource);
                 // Don't cache novel info pages
 
-            } else if (url.includes(config.chapter_identifier)) {
-                result = await scrapeChapter(page, url, novelSource);
+            } else if (
+                (typeof config.chapter_identifier === 'string' && url.includes(config.chapter_identifier)) ||
+                (config.chapter_identifier instanceof RegExp && config.chapter_identifier.test(url))
+            ) {
+                const sourceConfigObj = sourceConfig[novelSource];
+
+                if (sourceConfigObj.requiresChapterLookup) {
+                    // Use the config's function to extract chapter number
+                    const chapterNumber = sourceConfigObj.getChapterNumber(url);
+
+                    if (!chapterNumber) {
+                        return NextResponse.json({ error: 'Invalid chapter URL - could not extract chapter number' }, { status: 400 });
+                    }
+
+                    // Use the config's function to get the novel URL
+                    const novelUrl = sourceConfigObj.getNovelUrlFromChapter(url);
+
+                    // Use the helper function to find the actual chapter URL
+                    const actualChapterUrl = await sourceConfigObj.getChapterUrl(page, novelUrl, chapterNumber);
+
+                    // console.log("Actual Chapter URL: ",actualChapterUrl)
+
+                    if (!actualChapterUrl) {
+                        return NextResponse.json({ error: 'Chapter not found' }, { status: 404 });
+                    }
+
+                    // Now scrape the actual chapter URL
+                    result = await scrapeChapter(page, actualChapterUrl, novelSource);
+                } else {
+                    // Normal chapter scraping
+                    result = await scrapeChapter(page, url, novelSource);
+                }
 
                 // Cache chapter content
                 const responseData = {
