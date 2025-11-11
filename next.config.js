@@ -150,7 +150,7 @@ module.exports = withPWA({
         ]
     },
 })({
-    output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
+    output: 'standalone',
     images: {
         remotePatterns: [
             {
