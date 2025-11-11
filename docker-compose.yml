@@ -54,8 +54,6 @@ services:
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      PMA_USER: ${DB_USER:-nextjs_user}
-      PMA_PASSWORD: ${DB_PASSWORD:-changeme_password}
       UPLOAD_LIMIT: 100M
     depends_on:
       db:
