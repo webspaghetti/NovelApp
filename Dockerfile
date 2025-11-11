@@ -106,12 +106,9 @@ RUN apt-get update && apt-get install -y \
     xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user
+# Create non-root user with proper home directory
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Copy Playwright browsers from deps stage
-COPY --from=deps /root/.cache /root/.cache
+RUN adduser --system --uid 1001 --home /home/nextjs nextjs
 
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
@@ -121,11 +118,13 @@ COPY --from=builder /app/node_modules/.bin ./node_modules/.bin
 COPY --from=builder /app/node_modules/playwright-core ./node_modules/playwright-core
 COPY --from=builder /app/node_modules/playwright ./node_modules/playwright
 
+# Copy Playwright browsers to nextjs user's home
+RUN mkdir -p /home/nextjs/.cache
+COPY --from=deps /root/.cache/ms-playwright /home/nextjs/.cache/ms-playwright
+
 # Set correct permissions
 RUN chown -R nextjs:nodejs /app
-RUN mkdir -p /home/nextjs/.cache && chown -R nextjs:nodejs /home/nextjs/.cache
-RUN cp -r /root/.cache/ms-playwright /home/nextjs/.cache/ 2>/dev/null || true
-RUN chown -R nextjs:nodejs /home/nextjs/.cache
+RUN chown -R nextjs:nodejs /home/nextjs
 
 USER nextjs
 
