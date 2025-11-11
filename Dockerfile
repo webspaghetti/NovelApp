@@ -1,8 +1,8 @@
-# Stage 1: Dependencies
+# Stage 1: Dependencies for build
 FROM node:20-slim AS deps
 WORKDIR /app
 
-# Install essential Playwright dependencies
+# Install essential Playwright dependencies (minimal set)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     && rm -rf /var/lib/apt/lists/*
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY package.json package-lock.json* ./
 RUN npm ci --only=production && npm cache clean --force
 
-# Install Playwright browsers (chromium)
+# Install Playwright browsers (only chromium, no extras)
 RUN npx playwright install --with-deps chromium && \
     rm -rf /var/lib/apt/lists/* && \
     apt-get clean
@@ -33,7 +33,17 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # Build the application
 RUN npm run build
 
-# Stage 3: Runner (Production)
+# Stage 3: Minimal script dependencies
+FROM node:20-slim AS script-deps
+WORKDIR /app
+
+# Create minimal package.json for script dependencies only
+RUN echo '{"dependencies":{"dotenv":"^16.0.0","mysql2":"^3.0.0"}}' > package.json
+
+# Install ONLY script dependencies
+RUN npm install --production && npm cache clean --force
+
+# Stage 4: Runner (Production)
 FROM node:20-slim AS runner
 WORKDIR /app
 
@@ -65,15 +75,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 --home /home/nextjs nextjs
 
-# Copy necessary files from builder
+# Copy what's needed from builder
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
 
-# Copy production node_modules from deps (for scripts and Playwright)
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
+# Copy minimal script dependencies (dotenv + mysql2 with all their deps)
+COPY --from=script-deps --chown=nextjs:nodejs /app/node_modules ./node_modules
+
+# Copy Playwright packages for scraping
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/playwright ./node_modules/playwright
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules/playwright-core ./node_modules/playwright-core
 
 # Copy Playwright browsers directly with correct ownership
 COPY --from=deps --chown=nextjs:nodejs /root/.cache/ms-playwright /home/nextjs/.cache/ms-playwright
