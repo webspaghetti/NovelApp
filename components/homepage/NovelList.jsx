@@ -101,7 +101,7 @@ function NovelList({ novelList, initialUserNovel, session, isOnline }) {
                                     </svg>
                                 )}
                             </span>
-                            <span className={"block text-gray-400 text-sm"}> Last updated: <br className={"sm:hidden"} />
+                            <span className={`block text-gray-400 text-sm ${!novel.latest_update ? 'invisible' : ''}`}> Last updated: <br className={"sm:hidden"} />
                                 <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
                                     dateFormatter(novel.latest_update)
                                 ) : (

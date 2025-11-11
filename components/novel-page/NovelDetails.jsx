@@ -141,7 +141,7 @@ function NovelDetails({ novel, userNovel, userTemplateList, downloadControls, se
                         <span className={"font-bold"}>{dateFormatter(userNovel.last_read)}</span>
                     </span>
                 )}
-                <p className={"block text-gray-400 text-sm"}> Last updated: {' '}
+                <p className={`block text-gray-400 text-sm ${!novel.latest_update ? 'hidden' : ''}`}> Last updated: {' '}
                     <span className={"font-bold"}>{isValidDate(novel.latest_update) ? (
                         dateFormatter(novel.latest_update)
                     ) : (
