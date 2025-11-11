@@ -117,13 +117,8 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/package.json ./package.json
 
-# Copy node_modules required for scripts and Playwright
-COPY --from=deps /app/node_modules/dotenv ./node_modules/dotenv
-COPY --from=deps /app/node_modules/mysql2 ./node_modules/mysql2
-COPY --from=deps /app/node_modules/sqlstring ./node_modules/sqlstring
-COPY --from=deps /app/node_modules/sqlstring ./node_modules/denque
-COPY --from=deps /app/node_modules/playwright ./node_modules/playwright
-COPY --from=deps /app/node_modules/playwright-core ./node_modules/playwright-core
+# Copy node_modules for scripts and Playwright
+COPY --from=deps /app/node_modules ./node_modules
 
 # Copy Playwright browsers to nextjs user's home
 RUN mkdir -p /home/nextjs/.cache
