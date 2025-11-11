@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     image: mariadb:11
-    container_name: nextjs-mariadb
+    container_name: novelapp-mariadb
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-changeme_root}
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: nextjs-app
+    container_name: novel-app
     restart: unless-stopped
     ports:
       - "${APP_PORT:-3000}:3000"
@@ -49,7 +49,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:latest
-    container_name: nextjs-phpmyadmin
+    container_name: novelapp-phpmyadmin
     restart: unless-stopped
     ports:
       - "${PHPMYADMIN_PORT:-8080}:80"
