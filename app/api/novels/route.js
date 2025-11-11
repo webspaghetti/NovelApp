@@ -31,8 +31,8 @@ export async function POST(request) {
 
         // Check for existing novel by formatted name
         const [existingNovel] = await pool.query(
-            'SELECT * FROM novel_table WHERE formatted_name = ?',
-            [formattedName]
+            'SELECT * FROM novel_table WHERE formatted_name = ? AND source = ?',
+            [formattedName, source]
         );
 
         // If the novel already exists, return a duplicate entry message
