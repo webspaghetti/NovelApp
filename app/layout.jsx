@@ -95,7 +95,7 @@ function RootLayout({ children }) {
             <link rel="apple-touch-startup-image" href="/icons/apple-splash-1136-640.jpg"
                   media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"/>
         </head>
-        <body className={inter.className}>
+        <body className={inter.className}  style={{ margin: 0, padding: 0, minHeight: '100vh' }}>
             <AuthProvider>
                 {children}
                 <OfflineSyncProvider />
