@@ -6,6 +6,7 @@ const publicRoutes = [
     '/register',
     '/background_img.png',
     '/logo.png',
+    '/favicon.ico'
 ];
 
 const publicApiRoutes = [
