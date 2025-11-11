@@ -117,6 +117,8 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/node_modules/.bin ./node_modules/.bin
 COPY --from=builder /app/node_modules/playwright-core ./node_modules/playwright-core
 COPY --from=builder /app/node_modules/playwright ./node_modules/playwright
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/package.json ./package.json
 
 # Copy Playwright browsers to nextjs user's home
 RUN mkdir -p /home/nextjs/.cache
