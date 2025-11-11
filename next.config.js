@@ -1,8 +1,8 @@
 const withPWA = require("@ducanh2912/next-pwa").default;
 
 module.exports = withPWA({
-    dest: "public",
-    disable: false,
+    dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
     register: true,
     skipWaiting: true,
     cacheOnFrontEndNav: true,
@@ -150,17 +150,18 @@ module.exports = withPWA({
         ]
     },
 })({
+    output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
     images: {
         remotePatterns: [
             {
-                protocol: "https",
-                hostname: "**",
-                pathname: "/**",
+                protocol: 'https',
+                hostname: '**',
+                pathname: '/**',
             },
             {
-                protocol: "http",
-                hostname: "**",
-                pathname: "/**",
+                protocol: 'http',
+                hostname: '**',
+                pathname: '/**',
             },
         ],
         minimumCacheTTL: 60,
