@@ -52,8 +52,7 @@ function AddNovelPopup({trigger, setTrigger, session}) {
                 const { novelTitle, novelStatus, lastUpdate, chapterCount, imageUrl, formattedName } = data.content;
                 const novelSource = data.source;
 
-                let updatedStatus = novelStatus;
-                let formattedLastUpdate = isValidDate(lastUpdate) ? lastUpdate : formatLastUpdate(lastUpdate);
+                let updatedStatus = novelStatus === 'Ongoing' ? 'OnGoing' : novelStatus;
 
                 let formattedLastUpdate = lastUpdate ? getFormattedLastUpdate(lastUpdate) : null;
 
