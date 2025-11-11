@@ -1,5 +1,6 @@
 import wordsToNumbers from "words-to-numbers";
 
+
 function formatLastUpdate(lastUpdateText) {
     // Remove 'Updated' and surrounding brackets
     let formattedText = lastUpdateText.replace(/Updated |\[|]/g, '').trim();
@@ -13,5 +14,6 @@ function formatLastUpdate(lastUpdateText) {
     // Rebuild the final string with the converted time part
     return formattedText.replace(timePart, numericTimePart);
 }
+
 
 export default formatLastUpdate;
