@@ -1,6 +1,7 @@
 "use client"
 import { signOut } from "next-auth/react";
 import { dateFormatter } from "@/app/helper-functions/dateFormatter";
+import { dateFormatterFull } from "@/app/helper-functions/dateFormatterFull";
 import React, { useState, useMemo, useEffect } from 'react';
 import NavBar from "@/components/general/layout/NavBar";
 import BodyStyler from "@/components/general/BodyStyler";
@@ -412,7 +413,7 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, c
                         <NovelProfileCard
                             novelData={lastReadNovelData}
                             title="Last Read"
-                            showCaseData={`- ${dateFormatter(lastReadNovelData.userNovel.last_read)}`}
+                            showCaseData={`- ${dateFormatterFull(lastReadNovelData.userNovel.last_read)}`}
                             subtitle={lastReadNovelData?.novel?.last_read ? new Date(lastReadNovelData.novel.last_read).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : null}
                             icon={
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
