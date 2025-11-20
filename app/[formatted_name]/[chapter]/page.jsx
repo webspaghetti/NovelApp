@@ -1,6 +1,7 @@
 import sourceConfig from "@/config/sourceConfig"
-import {cookies, headers} from "next/headers";
 import { notFound } from "next/navigation";
+import { authOptions } from "@/lib/auth";
+import { cookies, headers } from "next/headers";
 import { getServerSession } from "next-auth/next";
 import {
     fetchNovelByFormattedNameAndSource,
@@ -8,7 +9,6 @@ import {
     getUserTemplates,
     updateUsersProgress
 } from "@/lib/commonQueries";
-import { authOptions } from "@/lib/auth";
 import sanitizeHtml from "sanitize-html";
 import ChapterPageWrapper from "@/components/chapter-page/ChapterPageWrapper";
 
