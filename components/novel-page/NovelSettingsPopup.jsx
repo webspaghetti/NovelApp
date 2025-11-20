@@ -271,8 +271,7 @@ function NovelSettingsPopup({ trigger, setTrigger, novel, userNovel, userTemplat
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    userId: userNovel.user_id,
-                    novelId: userNovel.novel_id,
+                    novelId: userNovel.novel_id
                 }),
             });
 

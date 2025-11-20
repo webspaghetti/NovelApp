@@ -1,33 +1,42 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 import pool from '@/lib/db';
 
 
 export async function DELETE(request) {
-    const { userId, novelId } = await request.json();
-
-    const connection = await pool.getConnection();
-
-
     try {
-        await connection.beginTransaction();
+        const session = await getServerSession(authOptions);
 
-        await connection.execute(
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: 'Unauthorized' },
+                { status: 401 }
+            );
+        }
+
+        const { novelId } = await request.json();
+
+        if (!novelId) {
+            return NextResponse.json(
+                { error: 'Missing required parameters' },
+                { status: 400 }
+            );
+        }
+
+        await pool.query(
             'DELETE FROM user_novel WHERE user_id = ? AND novel_id = ?',
-            [userId, novelId]
+            [session.user.id, novelId]
         );
 
-        await connection.execute(
-            'DELETE FROM novel_table WHERE id = ?',
-            [novelId]
-        );
 
-        await connection.commit();
-        return new Response(null, { status: 200 });
+        return NextResponse.json({ success: true });
+
     } catch (error) {
-        await connection.rollback();
-        return new Response(JSON.stringify({ error: error.message }), {
-            status: 500
-        });
-    } finally {
-        connection.release();
+        console.error('Error removing novel from library:', error);
+        return NextResponse.json(
+            { error: 'Failed to remove novel from library' },
+            { status: 500 }
+        );
     }
 }
