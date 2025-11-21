@@ -399,7 +399,11 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, c
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <NovelProfileCard
                             novelData={mostReadNovelData}
-                            showCaseData={`- ${mostReadNovelData.readCount} Chapters`}
+                            showCaseData={
+                                mostReadNovelData != null
+                                    ? `- ${mostReadNovelData.readCount} Chapters`
+                                    : ''
+                            }
                             title="Most Read"
                             icon={
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
@@ -413,7 +417,11 @@ function ProfilePageClient({ userNovels, novels, templateList, session, inter, c
                         <NovelProfileCard
                             novelData={lastReadNovelData}
                             title="Last Read"
-                            showCaseData={`- ${dateFormatterFull(lastReadNovelData.userNovel.last_read)}`}
+                            showCaseData={
+                                lastReadNovelData != null
+                                    ? `- ${dateFormatterFull(lastReadNovelData.userNovel.last_read)}`
+                                    : ''
+                        }
                             subtitle={lastReadNovelData?.novel?.last_read ? new Date(lastReadNovelData.novel.last_read).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : null}
                             icon={
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
