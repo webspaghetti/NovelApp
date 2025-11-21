@@ -45,7 +45,7 @@ function NavBar({ customizationTemplate, chapterPage = false }) {
                     </div>
                 </Link>
                 <div className={"flex items-center max-sm:gap-6 max-md:gap-6 gap-14"}>
-                    <Link href={"/"}>
+                    <Link href={"/"} aria-label={"Home"}>
                         <p
                             className="max-sm:hidden navbar_outline_base"
                             style={{'--outline-color': outlineColor}}
@@ -53,7 +53,7 @@ function NavBar({ customizationTemplate, chapterPage = false }) {
                             Home
                         </p>
                     </Link>
-                    <Link href={"/sources"}>
+                    <Link href={"/sources"} aria-label={"Sources"}>
                         <p
                             className="navbar_outline_base"
                             style={{'--outline-color': outlineColor}}
@@ -61,7 +61,7 @@ function NavBar({ customizationTemplate, chapterPage = false }) {
                             Sources
                         </p>
                     </Link>
-                    <Link href={"/templates"}>
+                    <Link href={"/templates"} aria-label={"Templates"}>
                         <p
                             className="navbar_outline_base"
                             style={{'--outline-color': outlineColor}}
