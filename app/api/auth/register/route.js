@@ -18,6 +18,22 @@ export async function POST(request) {
             );
         }
 
+        // Check for at least one number
+        if (!/\d/.test(password)) {
+            return Response.json(
+                { error: 'Password must contain at least one number' },
+                { status: 400 }
+            );
+        }
+
+        // Check for at least one special character
+        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
+            return Response.json(
+                { error: 'Password must contain at least one special character' },
+                { status: 400 }
+            );
+        }
+
         // Check if user already exists
         const existingUser = await getUserByUsername(username);
         if (existingUser) {
