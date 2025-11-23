@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/yourusername/novelapp">
+  <a href="public/logo.png">
     <img src="public/logo.png" alt="Logo" width="120" height="120">
   </a>
 
