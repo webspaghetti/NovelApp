@@ -347,10 +347,6 @@ function ChapterPageWrapper({ novelData, chapter: initialChapter, currentChapter
 
             if (response.ok) {
                 console.log(`Successfully prefetched chapter ${nextChapter}`);
-
-                // Also prefetch the Next.js route for instant navigation
-                const nextChapterRoute = `/${novelData.formatted_name}/${nextChapter}?${novelData.source}`;
-                router.prefetch(nextChapterRoute);
             } else {
                 console.warn(`Failed to prefetch chapter ${nextChapter}:`, response.status);
             }
